@@ -14,21 +14,58 @@
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "framer-motion": "^4.0.0",
+    "husky": "^7.0.1",
+    "lint-staged": "^11.0.0",
+    "prettier": "^2.3.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^3.0.0",
     "react-scripts": "4.0.3",
-    "typescript": "^3.9.5",
     "web-vitals": "^0.2.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "format:check": "prettier --check src/**/*.{js,jsx,ts,tsx,json,css,scss,md}",
+    "format": "prettier --write src/**/*.{js,jsx,ts,tsx,json,css,scss,md}",
+    "lint:check": "eslint . --ext .ts,.tsx",
+    "lint": "eslint .  --ext .ts,.tsx --fix",
+    "tsc": "tsc --noEmit",
+    "check": "npm run format:check && npm run tsc && npm run lint:check" 
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "airbnb-typescript",
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended",
+      "prettier"
+    ],
+    "parserOptions": {
+      "project": "./tsconfig.json"
+    },
+    "rules": {},
+    "overrides": [
+      {
+        "files": [
+          "**/*.ts?(x)"
+        ],
+        "rules": {}
+      }
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ]
   },
   "browserslist": {
     "production": [
@@ -41,5 +78,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.28.2",
+    "@typescript-eslint/parser": "^4.28.2",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-config-prettier": "^8.3.0",
+    "typescript": "^4.3.5"
   }
 }
