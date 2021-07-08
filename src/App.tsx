@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { ChakraProvider, Box, Text, Link, VStack, Code, Grid, theme } from '@chakra-ui/react';
 import ColorModeSwitcher from './components/ColorModeSwitcher';
-import { Logo } from './Logo';
+import Logo from './Logo';
 
-export const App = () => (
+const App: React.FC = () => (
   <ChakraProvider theme={theme}>
     <Box textAlign="center" fontSize="xl">
       <Grid minH="100vh" p={3}>
@@ -27,3 +27,5 @@ export const App = () => (
     </Box>
   </ChakraProvider>
 );
+
+export default App;

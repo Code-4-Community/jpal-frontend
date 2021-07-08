@@ -13,10 +13,13 @@ const spin = keyframes`
   to { transform: rotate(360deg); }
 `;
 
-export const Logo = forwardRef<ImageProps, 'img'>((props, ref) => {
+const Logo = forwardRef<ImageProps, 'img'>((props, ref) => {
   const prefersReducedMotion = usePrefersReducedMotion();
 
   const animation = prefersReducedMotion ? undefined : `${spin} infinite 20s linear`;
 
+  // eslint-disable-next-line react/jsx-props-no-spreading
   return <chakra.img animation={animation} src={logo} ref={ref} {...props} />;
 });
+
+export default Logo;
