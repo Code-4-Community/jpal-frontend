@@ -1,0 +1,43 @@
+I, [2021-07-16T01:24:43.009106 #484]  INFO -- : Registered expected interaction GET /
+D, [2021-07-16T01:24:43.010104 #484] DEBUG -- : {
+  "description": "A request for hello world",
+  "request": {
+    "method": "GET",
+    "path": "/"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+    },
+    "body": "Hello World?"
+  },
+  "metadata": null
+}
+I, [2021-07-16T01:24:43.025142 #484]  INFO -- : Received request GET /
+D, [2021-07-16T01:24:43.026177 #484] DEBUG -- : {
+  "path": "/",
+  "query": "",
+  "method": "get",
+  "headers": {
+    "Accept": "application/json, text/plain, */*",
+    "User-Agent": "axios/0.21.1",
+    "Host": "127.0.0.1:51497",
+    "Connection": "close",
+    "Version": "HTTP/1.1"
+  }
+}
+I, [2021-07-16T01:24:43.026177 #484]  INFO -- : Found matching response for GET /
+D, [2021-07-16T01:24:43.026177 #484] DEBUG -- : {
+  "status": 200,
+  "headers": {
+  },
+  "body": "Hello World?"
+}
+I, [2021-07-16T01:24:43.041532 #484]  INFO -- : Verifying - interactions matched
+I, [2021-07-16T01:24:43.056533 #484]  INFO -- : Cleared interactions
+I, [2021-07-16T01:24:43.073574 #484]  INFO -- : Updating pact for jpal-backend at C:/Users/forry/Code/c4c/jpal-frontend/pact/pacts/jpal-frontend-jpal-backend.json
+I, [2021-07-16T01:24:43.074574 #484]  INFO -- : *****************************************************************************
+I, [2021-07-16T01:24:43.074574 #484]  INFO -- : Updating existing file .C:/Users/forry/Code/c4c/jpal-frontend/pact/pacts/jpal-frontend-jpal-backend.json as pactfile_write_mode is :update
+I, [2021-07-16T01:24:43.074574 #484]  INFO -- : Only interactions defined in this test run will be updated.
+I, [2021-07-16T01:24:43.074574 #484]  INFO -- : As interactions are identified by description and provider state, pleased note that if either of these have changed, the old interactions won't be removed from the pact file until the specs are next run with :pactfile_write_mode => :overwrite.
+I, [2021-07-16T01:24:43.074574 #484]  INFO -- : *****************************************************************************

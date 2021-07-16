@@ -1,0 +1,28 @@
+{
+  "consumer": {
+    "name": "jpal-frontend"
+  },
+  "provider": {
+    "name": "jpal-backend"
+  },
+  "interactions": [
+    {
+      "description": "A request for hello world",
+      "request": {
+        "method": "GET",
+        "path": "/"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+        },
+        "body": "Hello World?"
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  }
+}

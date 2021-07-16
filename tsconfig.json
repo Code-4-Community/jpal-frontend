@@ -21,7 +21,7 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src",
+    "src", "pact/pact.spec.ts",
   ],
   "exclude": [],
   "types": ["cypress"]
