@@ -33,7 +33,7 @@ jobs:
       - run: npm run cy:ci
       - run: docker pull pactfoundation/pact-cli:latest
       - name: Publish pact tagged with branch name
-        run: npm publish:pact
+        run: npm run publish:pact
 
   can-i-deploy:
     runs-on: ubuntu-latest
