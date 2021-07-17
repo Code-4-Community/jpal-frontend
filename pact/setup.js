@@ -9,11 +9,10 @@ global.port = 8080;
 global.provider = new Pact({
     cors: true,
     port: global.port,
-    log: path.resolve(process.cwd(), 'logs', 'pact.log'),
+    log: path.resolve(process.cwd(), 'pact/logs', 'pact.log'),
     loglevel: 'debug',
     dir: path.resolve(process.cwd(), 'pact/pacts'),
     spec: 2,
-    pactfileWriteMode: 'update',
     consumer: 'jpal-frontend',
     provider: 'jpal-backend',
     host: '127.0.0.1'
