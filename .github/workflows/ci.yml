@@ -15,6 +15,7 @@ env:
   PACT_PACTICIPANT: jpal-frontend
   GIT_COMMIT: ${{ github.sha }}
   GITHUB_REF: ${{ github.ref }}
+  GIT_BRANCH: ${GITHUB_REF:11}
 
 jobs:
   test:
