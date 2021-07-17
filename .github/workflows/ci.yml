@@ -32,17 +32,8 @@ jobs:
       - run: npm run test:pact
       - run: npm run cy:ci
       - run: docker pull pactfoundation/pact-cli:latest
-      - name: Publish pact
-        run: |
-          docker run --rm \
-              pactfoundation/pact-cli:latest \
-              broker publish \
-              ./pact/pacts \
-              --consumer-app-version=$GIT_COMMIT \
-              --broker-base-url=${PACT_BROKER_BASE_URL} \
-              --broker-token ${PACT_BROKER_TOKEN} \
-              --pacticipant ${PACT_PACTICIPANT} \
-              --tag ${GITHUB_REF:11} 
+      - name: Publish pact tagged with branch name
+        run: npm publish:pact
 
   can-i-deploy:
     runs-on: ubuntu-latest
