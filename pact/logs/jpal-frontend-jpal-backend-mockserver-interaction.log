@@ -1,5 +1,5 @@
-I, [2021-07-16T01:24:43.009106 #484]  INFO -- : Registered expected interaction GET /
-D, [2021-07-16T01:24:43.010104 #484] DEBUG -- : {
+I, [2021-07-16T19:32:47.319455 #39596]  INFO -- : Registered expected interaction GET /
+D, [2021-07-16T19:32:47.319455 #39596] DEBUG -- : {
   "description": "A request for hello world",
   "request": {
     "method": "GET",
@@ -13,31 +13,134 @@ D, [2021-07-16T01:24:43.010104 #484] DEBUG -- : {
   },
   "metadata": null
 }
-I, [2021-07-16T01:24:43.025142 #484]  INFO -- : Received request GET /
-D, [2021-07-16T01:24:43.026177 #484] DEBUG -- : {
+I, [2021-07-16T19:32:47.334236 #39596]  INFO -- : Received request GET /
+D, [2021-07-16T19:32:47.334236 #39596] DEBUG -- : {
   "path": "/",
   "query": "",
   "method": "get",
   "headers": {
     "Accept": "application/json, text/plain, */*",
     "User-Agent": "axios/0.21.1",
-    "Host": "127.0.0.1:51497",
+    "Host": "127.0.0.1:60149",
     "Connection": "close",
     "Version": "HTTP/1.1"
   }
 }
-I, [2021-07-16T01:24:43.026177 #484]  INFO -- : Found matching response for GET /
-D, [2021-07-16T01:24:43.026177 #484] DEBUG -- : {
+I, [2021-07-16T19:32:47.334236 #39596]  INFO -- : Found matching response for GET /
+D, [2021-07-16T19:32:47.334236 #39596] DEBUG -- : {
   "status": 200,
   "headers": {
   },
   "body": "Hello World?"
 }
-I, [2021-07-16T01:24:43.041532 #484]  INFO -- : Verifying - interactions matched
-I, [2021-07-16T01:24:43.056533 #484]  INFO -- : Cleared interactions
-I, [2021-07-16T01:24:43.073574 #484]  INFO -- : Updating pact for jpal-backend at C:/Users/forry/Code/c4c/jpal-frontend/pact/pacts/jpal-frontend-jpal-backend.json
-I, [2021-07-16T01:24:43.074574 #484]  INFO -- : *****************************************************************************
-I, [2021-07-16T01:24:43.074574 #484]  INFO -- : Updating existing file .C:/Users/forry/Code/c4c/jpal-frontend/pact/pacts/jpal-frontend-jpal-backend.json as pactfile_write_mode is :update
-I, [2021-07-16T01:24:43.074574 #484]  INFO -- : Only interactions defined in this test run will be updated.
-I, [2021-07-16T01:24:43.074574 #484]  INFO -- : As interactions are identified by description and provider state, pleased note that if either of these have changed, the old interactions won't be removed from the pact file until the specs are next run with :pactfile_write_mode => :overwrite.
-I, [2021-07-16T01:24:43.074574 #484]  INFO -- : *****************************************************************************
+I, [2021-07-16T19:32:47.349199 #39596]  INFO -- : Verifying - interactions matched
+I, [2021-07-16T19:32:47.365351 #39596]  INFO -- : Cleared interactions
+I, [2021-07-16T19:32:47.381351 #39596]  INFO -- : Registered expected interaction GET /auth/me
+D, [2021-07-16T19:32:47.381351 #39596] DEBUG -- : {
+  "description": "A request for my user profile",
+  "providerState": "I am an authenticated user",
+  "request": {
+    "method": "GET",
+    "path": "/auth/me",
+    "headers": {
+      "Authorization": "Bearer {token}"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+    },
+    "body": {
+      "json_class": "Pact::SomethingLike",
+      "contents": {
+        "id": 0,
+        "email": "jung.ry@northeastern.edu",
+        "role": "researcher",
+        "password": "password"
+      }
+    }
+  },
+  "metadata": null
+}
+I, [2021-07-16T19:32:47.397352 #39596]  INFO -- : Received request GET /auth/me
+D, [2021-07-16T19:32:47.397352 #39596] DEBUG -- : {
+  "path": "/auth/me",
+  "query": "",
+  "method": "get",
+  "headers": {
+    "Accept": "application/json, text/plain, */*",
+    "User-Agent": "axios/0.21.1",
+    "Host": "127.0.0.1:60149",
+    "Connection": "close",
+    "Version": "HTTP/1.1"
+  }
+}
+E, [2021-07-16T19:32:47.397352 #39596] ERROR -- : No matching interaction found for GET /auth/me
+E, [2021-07-16T19:32:47.397352 #39596] ERROR -- : Interaction diffs for that route:
+E, [2021-07-16T19:32:47.398350 #39596] ERROR -- : Diff with interaction: "A request for my user profile" given "I am an authenticated user"
+Diff
+--------------------------------------
+Key: - is expected 
+     + is actual 
+Matching keys and values are not shown
+
+ {
+   "headers": {
+-    "Authorization": "Bearer {token}"
+   }
+ }
+
+Description of differences
+--------------------------------------
+* Could not find key "Authorization" (keys present are: Accept, User-Agent, Host, Connection, Version) at $.headers
+
+W, [2021-07-16T19:32:47.412666 #39596]  WARN -- : Verifying - actual interactions do not match expected interactions. 
+Incorrect requests:
+	GET /auth/me (request headers did not match)
+
+Diff with interaction: "A request for my user profile" given "I am an authenticated user"
+Diff
+--------------------------------------
+Key: - is expected 
+     + is actual 
+Matching keys and values are not shown
+
+ {
+   "headers": {
+-    "Authorization": "Bearer {token}"
+   }
+ }
+
+Description of differences
+--------------------------------------
+* Could not find key "Authorization" (keys present are: Accept, User-Agent, Host, Connection, Version) at $.headers
+
+
+W, [2021-07-16T19:32:47.412666 #39596]  WARN -- : Incorrect requests:
+	GET /auth/me (request headers did not match)
+
+Diff with interaction: "A request for my user profile" given "I am an authenticated user"
+Diff
+--------------------------------------
+Key: - is expected 
+     + is actual 
+Matching keys and values are not shown
+
+ {
+   "headers": {
+-    "Authorization": "Bearer {token}"
+   }
+ }
+
+Description of differences
+--------------------------------------
+* Could not find key "Authorization" (keys present are: Accept, User-Agent, Host, Connection, Version) at $.headers
+
+
+I, [2021-07-16T19:32:47.444710 #39596]  INFO -- : Cleared interactions
+I, [2021-07-16T19:32:47.459668 #39596]  INFO -- : Updating pact for jpal-backend at C:/Users/forry/Code/c4c/jpal-frontend/pact/pacts/jpal-frontend-jpal-backend.json
+I, [2021-07-16T19:32:47.461666 #39596]  INFO -- : *****************************************************************************
+I, [2021-07-16T19:32:47.461666 #39596]  INFO -- : Updating existing file .C:/Users/forry/Code/c4c/jpal-frontend/pact/pacts/jpal-frontend-jpal-backend.json as pactfile_write_mode is :update
+I, [2021-07-16T19:32:47.461666 #39596]  INFO -- : Only interactions defined in this test run will be updated.
+I, [2021-07-16T19:32:47.461666 #39596]  INFO -- : As interactions are identified by description and provider state, pleased note that if either of these have changed, the old interactions won't be removed from the pact file until the specs are next run with :pactfile_write_mode => :overwrite.
+I, [2021-07-16T19:32:47.461666 #39596]  INFO -- : *****************************************************************************

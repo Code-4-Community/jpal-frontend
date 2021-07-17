@@ -1,13 +1,11 @@
 {
-  "name": "jpal-frontend",
+  "name": "my-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@chakra-ui/react": "^1.0.0",
     "@emotion/react": "^11.0.0",
     "@emotion/styled": "^11.0.0",
-    "@pact-foundation/absolute-version": "^0.0.2",
-    "@pact-foundation/pact": "^9.16.0",
     "@testing-library/jest-dom": "^5.9.0",
     "@testing-library/react": "^10.2.1",
     "@testing-library/user-event": "^12.0.2",
@@ -16,38 +14,31 @@
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "axios": "^0.21.1",
-    "class-validator-formik": "^1.0.0",
-    "formik": "^2.2.9",
     "framer-motion": "^4.0.0",
-    "husky": "^7.0.1",
-    "lint-staged": "^11.0.0",
-    "prettier": "^2.3.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^3.0.0",
-    "react-query": "^3.18.1",
     "react-scripts": "4.0.3",
-    "web-vitals": "^0.2.2",
-    "yup": "^0.32.9"
+    "web-vitals": "^0.2.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest src --runInBand",
+    "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format:check": "prettier --check src/**/*.{js,jsx,ts,tsx,json,css,scss,md}",
     "format": "prettier --write src/**/*.{js,jsx,ts,tsx,json,css,scss,md}",
     "lint:check": "eslint . --ext .ts,.tsx",
     "lint": "eslint .  --ext .ts,.tsx --fix",
-    "tsc": "tsc --noEmit",
+    "tsc": "tsc --project tsconfig.json",
     "check": "npm run format:check && npm run tsc && npm run lint:check",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "cy:ci": "start-server-and-test start http://localhost:3000 cy:run",
     "test:pact": "jest pact --runInBand --config ./pact/jest-pact.json",
     "publish:pact": "pact-broker publish ./pact/pacts --consumer-app-version=$GIT_COMMIT --broker-base-url=$PACT_BROKER_URL --broker-token=$PACT_BROKER_TOKEN"
-  },  
-"eslintConfig": {
+  },
+  "eslintConfig": {
     "extends": [
       "react-app",
       "airbnb-typescript",
@@ -107,6 +98,7 @@
     ]
   },
   "devDependencies": {
+    "@pact-foundation/pact": "^9.16.0",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",
     "cypress": "^7.7.0",
@@ -114,12 +106,13 @@
     "eslint-config-airbnb-typescript": "^12.3.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-cypress": "^2.11.3",
+    "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^7.0.1",
     "jest-pact": "^0.9.1",
+    "lint-staged": "^11.0.1",
+    "prettier": "^2.3.2",
     "start-server-and-test": "^1.12.6",
     "ts-jest": "^27.0.3",
     "typescript": "^4.3.5"
-  },
-  "optionalDependencies": {
-    "fsevents": "^2.3.2"
   }
 }

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ChakraProvider, Box, Text, Link, VStack, Code, Grid, theme } from '@chakra-ui/react';
-import ColorModeSwitcher from './components/ColorModeSwitcher';
+import ColorModeSwitcher from './ColorModeSwitcher';
 import Logo from './Logo';
 
 const App: React.FC = () => (
@@ -27,5 +27,4 @@ const App: React.FC = () => (
     </Box>
   </ChakraProvider>
 );
-
 export default App;

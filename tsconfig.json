@@ -18,11 +18,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react"
   },
   "include": [
-    "src", "pact/pact.spec.ts",
-  ],
-  "exclude": [],
-  "types": ["cypress"]
+    "src",
+    "cypress",
+    "pact"
+  ]
 }
