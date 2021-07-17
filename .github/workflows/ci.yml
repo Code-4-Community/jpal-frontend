@@ -15,7 +15,6 @@ env:
   PACT_PACTICIPANT: jpal-frontend
   GIT_COMMIT: ${{ github.sha }}
   GITHUB_REF: ${{ github.ref }}
-  GIT_BRANCH: ${GITHUB_REF:11}
 
 jobs:
   test:
@@ -34,7 +33,11 @@ jobs:
       - run: npm run cy:ci
       - run: docker pull pactfoundation/pact-cli:latest
       - name: Publish pact tagged with branch name
-        run: npm run publish:pact
+        run: pact-broker publish ./pact/pacts \ 
+                 --consumer-app-version=${GIT_COMMIT} \
+                 --broker-base-url=${PACT_BROKER_BASE_URL} \
+                 --broker-token=${PACT_BROKER_TOKEN} \
+                 --tag ${GITHUB_REF:11}
 
   can-i-deploy:
     runs-on: ubuntu-latest
