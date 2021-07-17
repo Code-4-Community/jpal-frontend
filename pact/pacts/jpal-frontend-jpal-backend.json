@@ -7,7 +7,8 @@
   },
   "interactions": [
     {
-      "description": "A request for hello world",
+      "description": "a GET request at /",
+      "providerState": "nothing",
       "request": {
         "method": "GET",
         "path": "/"
@@ -16,28 +17,7 @@
         "status": 200,
         "headers": {
         },
-        "body": "Hello World?"
-      }
-    },
-    {
-      "description": "A request for my user profile",
-      "providerState": "I am an authenticated user",
-      "request": {
-        "method": "GET",
-        "path": "/auth/me",
-        "headers": {
-        }
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-        },
-        "body": {
-          "id": 0,
-          "email": "jung.ry@northeastern.edu",
-          "role": "researcher",
-          "password": "password"
-        },
+        "body": "Hello, World!",
         "matchingRules": {
           "$.body": {
             "match": "type"

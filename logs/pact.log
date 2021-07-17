@@ -1,0 +1,54 @@
+I, [2021-07-17T16:22:55.612700 #30124]  INFO -- : Registered expected interaction GET /
+D, [2021-07-17T16:22:55.613655 #30124] DEBUG -- : {
+  "description": "a GET request at /",
+  "providerState": "nothing",
+  "request": {
+    "method": "GET",
+    "path": "/"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+    },
+    "body": {
+      "json_class": "Pact::SomethingLike",
+      "contents": "Hello, World!"
+    }
+  },
+  "metadata": null
+}
+I, [2021-07-17T16:22:55.628695 #30124]  INFO -- : Received request GET /
+D, [2021-07-17T16:22:55.628695 #30124] DEBUG -- : {
+  "path": "/",
+  "query": "",
+  "method": "get",
+  "headers": {
+    "Accept": "application/json, text/plain, */*",
+    "Referer": "http://localhost/",
+    "User-Agent": "Mozilla/5.0 (win32) AppleWebKit/537.36 (KHTML, like Gecko) jsdom/16.6.0",
+    "Accept-Language": "en",
+    "Origin": "http://localhost",
+    "Accept-Encoding": "gzip, deflate",
+    "Host": "localhost:8080",
+    "Connection": "keep-alive",
+    "Version": "HTTP/1.1"
+  }
+}
+I, [2021-07-17T16:22:55.629694 #30124]  INFO -- : Found matching response for GET /
+D, [2021-07-17T16:22:55.629694 #30124] DEBUG -- : {
+  "status": 200,
+  "headers": {
+  },
+  "body": {
+    "json_class": "Pact::SomethingLike",
+    "contents": "Hello, World!"
+  }
+}
+I, [2021-07-17T16:22:55.645694 #30124]  INFO -- : Verifying - interactions matched
+I, [2021-07-17T16:22:55.659886 #30124]  INFO -- : Cleared interactions
+I, [2021-07-17T16:22:55.675892 #30124]  INFO -- : Updating pact for jpal-backend at C:/Users/forry/Code/c4c/jpal-frontend/pact/pacts/jpal-frontend-jpal-backend.json
+I, [2021-07-17T16:22:55.677891 #30124]  INFO -- : *****************************************************************************
+I, [2021-07-17T16:22:55.678874 #30124]  INFO -- : Updating existing file .C:/Users/forry/Code/c4c/jpal-frontend/pact/pacts/jpal-frontend-jpal-backend.json as pactfile_write_mode is :update
+I, [2021-07-17T16:22:55.678874 #30124]  INFO -- : Only interactions defined in this test run will be updated.
+I, [2021-07-17T16:22:55.678874 #30124]  INFO -- : As interactions are identified by description and provider state, pleased note that if either of these have changed, the old interactions won't be removed from the pact file until the specs are next run with :pactfile_write_mode => :overwrite.
+I, [2021-07-17T16:22:55.678874 #30124]  INFO -- : *****************************************************************************

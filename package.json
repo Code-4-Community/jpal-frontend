@@ -35,7 +35,7 @@
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "cy:ci": "start-server-and-test start http://localhost:3000 cy:run",
-    "test:pact": "jest pact --runInBand --config ./pact/jest-pact.json",
+    "test:pact": "cross-env CI=true react-scripts test --runInBand --setupFiles='./pact/setup.js' --setupFilesAfterEnv='./pact/jest-wrapper.js' --testMatch \"**/*.test.pact.js\"",
     "publish:pact": "pact-broker publish ./pact/pacts --consumer-app-version=$GIT_COMMIT --broker-base-url=$PACT_BROKER_URL --broker-token=$PACT_BROKER_TOKEN"
   },
   "eslintConfig": {
@@ -99,8 +99,10 @@
   },
   "devDependencies": {
     "@pact-foundation/pact": "^9.16.0",
+    "@pact-foundation/pact-node": "^10.12.2",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",
+    "cross-env": "^7.0.3",
     "cypress": "^7.7.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-airbnb-typescript": "^12.3.1",
