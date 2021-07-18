@@ -2,6 +2,7 @@
 
 # pacts
 pact/pacts
+pact/logs
 
 # dependencies
 /node_modules
