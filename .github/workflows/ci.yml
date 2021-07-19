@@ -20,15 +20,20 @@ jobs:
   cypress-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js 14.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14.x
-      - run: npm ci
-      - run: npm run test:unit
-      - run: npm run test:e2e
+      - name: Check out code 🛎
+        uses: actions/checkout@v2
 
+      - name: Run E2E tests 🧪
+        uses: cypress-io/github-action@v2
+
+      - name: Run Component tests 🧪
+        uses: cypress-io/github-action@v2
+        with:
+          # we have already installed everything
+          install: false
+          # to run component tests we need to use "cypress run-ct"
+          command: yarn cypress run-ct
+          
   pact-consumer-test:
     runs-on: ubuntu-latest
     steps:
