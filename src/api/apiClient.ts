@@ -1,8 +1,9 @@
 import axios from 'axios';
 
 const defaultBaseUrl = process.env.API_BASE_URL ?? 'http://localhost:5000';
+axios.defaults.adapter = require('axios/lib/adapters/http');
 
-class ApiClient {
+export default class ApiClient {
   private baseUrl: string;
 
   constructor(baseUrl: string = defaultBaseUrl) {
@@ -21,5 +22,3 @@ class ApiClient {
     return axios.get(`${this.baseUrl}${path}`).then((response) => response.data);
   }
 }
-
-export default ApiClient;
