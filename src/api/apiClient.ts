@@ -14,10 +14,6 @@ export default class ApiClient {
     return this.get('/') as Promise<string>;
   }
 
-  public async getProfile(): Promise<any> {
-    return this.get('/auth/me');
-  }
-
   private get(path: string): Promise<unknown> {
     return axios.get(`${this.baseUrl}${path}`).then((response) => response.data);
   }
