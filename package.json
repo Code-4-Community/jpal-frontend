@@ -26,9 +26,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --quiet",
+    "test": "react-scripts test --silent",
     "test:debug": "react-scripts test",
-    "test:unit": "react-scripts test --quiet",
+    "test:unit": "react-scripts test --silent",
     "test:e2e": "cypress run",
     "eject": "react-scripts eject",
     "format:check": "prettier --check src/**/*.{js,jsx,ts,tsx,json,css,scss,md}",
