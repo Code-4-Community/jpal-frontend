@@ -15,7 +15,7 @@ describe('App', () => {
   });
 
   it('should display error message if request is unsuccessful', () => {
-    cy.intercept('/', { times: 100 }, { forceNetworkError: true });
+    cy.intercept('/', { times: 1 }, { forceNetworkError: true });
     mount(
       <TestWrapper>
         <Landing />
