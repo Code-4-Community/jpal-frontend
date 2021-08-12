@@ -38,7 +38,8 @@
     "lint:check": "eslint . --ext .ts,.tsx",
     "lint": "eslint .  --ext .ts,.tsx --fix",
     "tsc": "tsc --project tsconfig.json",
-    "check": "npm run format:check && npm run tsc && npm run lint:check",
+    "prepush": "npm run format:check && npm run tsc && npm run lint:check",
+    "prepush:fix": "npm run format && npm run tsc && npm run lint",
     "open:e2e": "cypress open",
     "open:unit": "cypress open-ct",
     "cy:run": "cypress run",
@@ -85,7 +86,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "pre-push": "npm run check"
+      "pre-push": "npm run prepush"
     }
   },
   "lint-staged": {

@@ -10,20 +10,17 @@ const queryClient = new QueryClient();
 
 Amplify.configure(awsconfig);
 
-const App: React.FC = () => 
+const App: React.FC = () => (
   // Auth.currentSession().then((res) => {
   //   const accessToken = res.getIdToken();
   //   const jwt = accessToken.getJwtToken();
   // });
 
-   (
-    <QueryClientProvider client={queryClient}>
-      <ChakraProvider theme={theme}>
-        <Landing />
-        <AmplifySignOut />
-      </ChakraProvider>
-    </QueryClientProvider>
-  )
-;
-
+  <QueryClientProvider client={queryClient}>
+    <ChakraProvider theme={theme}>
+      <Landing />
+      <AmplifySignOut />
+    </ChakraProvider>
+  </QueryClientProvider>
+);
 export default withAuthenticator(App);
