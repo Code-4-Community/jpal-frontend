@@ -15,6 +15,8 @@ env:
   PACT_PACTICIPANT: jpal-frontend
   GIT_COMMIT: ${{ github.sha }}
   GITHUB_REF: ${{ github.ref }}
+  AWS_COGNITO_USERNAME: ${{ secrets.AWS_COGNITO_USERNAME }}
+  AWS_COGNITO_PASSWORD: ${{ secrets.AWS_COGNITO_PASSWORD }}
 
 jobs:
   cypress-test:
