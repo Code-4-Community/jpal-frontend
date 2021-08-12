@@ -25,7 +25,6 @@ jobs:
       - name: Check out code 🛎
         uses: actions/checkout@v2
         # need this to avoid chokidar file watcher spamming the console
-      - run: echo 256 > /proc/sys/fs/inotify/max_user_instances
       - run: npm ci
       
       - name: Run E2E tests 🧪
