@@ -10,3 +10,5 @@ describe('Cognito Login', () => {
     cy.contains('Learn Chakra').should('be.visible');
   });
 });
+
+export { }

@@ -11,7 +11,7 @@ const queryClient = new QueryClient();
 Amplify.configure(awsconfig);
 
 const App: React.FC = () => {
-  console.log('making request...')
+  console.log('making request...');
   Auth.currentSession().then((res) => {
     console.log(res);
     const accessToken = res.getIdToken();

@@ -30,6 +30,8 @@ jobs:
         with:
           # we have already installed everything
           install: false
+          start: npm start
+          wait-on: 'http://localhost:3000'
 
   unit-and-pact-test:
     runs-on: ubuntu-latest
