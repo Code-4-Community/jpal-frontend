@@ -23,3 +23,58 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+import Amplify, { Auth } from 'aws-amplify';
+
+Amplify.configure(Cypress.env('awsConfig'));
+
+// Amazon Cognito
+Cypress.Commands.add('loginByCognitoApi', (username, password) => {
+  const log = Cypress.log({
+    displayName: 'COGNITO LOGIN',
+    message: [`🔐 Authenticating | ${username}`],
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    autoEnd: false,
+  });
+
+  log.snapshot('before');
+
+  const signIn = Auth.signIn({ username, password });
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  cy.wrap(signIn, { log: false, timeout: 10000 }).then((cognitoResponse) => {
+    const keyPrefixWithUsername = `${cognitoResponse.keyPrefix}.${cognitoResponse.username}`;
+
+    window.localStorage.setItem(
+      `${keyPrefixWithUsername}.idToken`,
+      cognitoResponse.signInUserSession.idToken.jwtToken,
+    );
+
+    window.localStorage.setItem(
+      `${keyPrefixWithUsername}.accessToken`,
+      cognitoResponse.signInUserSession.accessToken.jwtToken,
+    );
+
+    window.localStorage.setItem(
+      `${keyPrefixWithUsername}.refreshToken`,
+      cognitoResponse.signInUserSession.refreshToken.token,
+    );
+
+    window.localStorage.setItem(
+      `${keyPrefixWithUsername}.clockDrift`,
+      cognitoResponse.signInUserSession.clockDrift,
+    );
+
+    window.localStorage.setItem(
+      `${cognitoResponse.keyPrefix}.LastAuthUser`,
+      cognitoResponse.username,
+    );
+
+    window.localStorage.setItem('amplify-authenticator-authState', 'signedIn');
+    log.snapshot('after');
+    log.end();
+  });
+
+  cy.visit('/');
+});

@@ -1,14 +1,12 @@
 {
   "auth": {
-    "jpalfrontende9244f95": {
+    "jpalfrontendb675ce11": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
       "customAuth": false,
       "frontendAuthConfig": {
-        "loginMechanism": [
-          "EMAIL"
-        ],
+        "loginMechanism": [],
         "signupAttributes": [
           "EMAIL"
         ],
