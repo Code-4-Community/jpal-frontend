@@ -27,6 +27,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:ci": "CHOKIDAR_USEPOLLING=1 npm start",
     "build": "react-scripts build",
     "test": "react-scripts test --silent",
     "test:debug": "react-scripts test",
