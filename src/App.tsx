@@ -5,7 +5,8 @@ import Amplify from 'aws-amplify';
 import * as React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import awsconfig from './aws-exports';
-import Landing from './Landing';
+import ExampleForm from './components/ExampleForm';
+import Landing from './pages/Landing';
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ const App: React.FC = () => {
           <div className="App">
             <Landing />
             <AmplifySignOut />
+            <ExampleForm />
           </div>
         ) : (
           <AmplifyAuthenticator usernameAlias="email">

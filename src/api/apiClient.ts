@@ -1,20 +1,46 @@
-import axios from 'axios';
+import { Auth } from 'aws-amplify';
+import axios, { AxiosInstance } from 'axios';
 
 const defaultBaseUrl = process.env.API_BASE_URL ?? 'http://localhost:5000';
+// Required to use nock with axios
 axios.defaults.adapter = require('axios/lib/adapters/http');
 
-export default class ApiClient {
-  private baseUrl: string;
+interface ApiClientOptions {
+  /**
+   * Skips Cognito authentication.
+   */
+  skipAuth?: boolean;
+}
+export class ApiClient {
+  private axiosInstance: AxiosInstance;
 
-  constructor(baseUrl: string = defaultBaseUrl) {
-    this.baseUrl = baseUrl;
+  constructor(baseURL: string = defaultBaseUrl, options: ApiClientOptions = {}) {
+    this.axiosInstance = axios.create({
+      baseURL,
+    });
+
+    if (!options.skipAuth) {
+      this.axiosInstance.interceptors.request.use(async (config) => {
+        try {
+          const modifiedConfig = config;
+          const session = await Auth.currentSession();
+          const jwt = session.getIdToken().getJwtToken();
+          modifiedConfig.headers.Authorization = `Bearer ${jwt}`;
+          return modifiedConfig;
+        } catch (error) {
+          return config;
+        }
+      });
+    }
+  }
+
+  private get(path: string): Promise<unknown> {
+    return this.axiosInstance.get(path).then((response) => response.data);
   }
 
   public async getHello(): Promise<string> {
     return this.get('/') as Promise<string>;
   }
-
-  private get(path: string): Promise<unknown> {
-    return axios.get(`${this.baseUrl}${path}`).then((response) => response.data);
-  }
 }
+
+export default new ApiClient();

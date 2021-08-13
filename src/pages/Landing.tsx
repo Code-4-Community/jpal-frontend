@@ -1,13 +1,13 @@
 import { Box, Code, Grid, Link, Text, VStack } from '@chakra-ui/react';
 import * as React from 'react';
 import { useQuery } from 'react-query';
-import ApiClient from './api/apiClient';
-import ColorModeSwitcher from './ColorModeSwitcher';
-import Logo from './Logo';
+import apiClient from '../api/apiClient';
+import ColorModeSwitcher from '../components/ColorModeSwitcher';
+import Logo from '../components/Logo';
 
 const Landing: React.FC = () => {
   const { isLoading, error, data } = useQuery<string, Error>('helloWorld', () =>
-    new ApiClient().getHello(),
+    apiClient.getHello(),
   );
 
   return (

@@ -1,8 +1,8 @@
 import { screen } from '@testing-library/react';
 import nock from 'nock';
 import React from 'react';
+import { render } from '../test-utils';
 import Landing from './Landing';
-import { render } from './test-utils';
 
 test('renders learn react link', () => {
   render(<Landing />);
@@ -10,7 +10,7 @@ test('renders learn react link', () => {
   expect(linkElement).toBeInTheDocument();
 });
 
-test('renders backend response', async () => {
+test('renders backend response with nock', async () => {
   nock('http://localhost:5000').get('/').reply(200, 'Hello from Jest!');
   render(<Landing />);
   const linkElement = await screen.findByText(/Hello from Jest!/i);

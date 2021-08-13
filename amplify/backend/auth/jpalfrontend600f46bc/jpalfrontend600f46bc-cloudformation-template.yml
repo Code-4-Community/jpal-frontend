@@ -118,10 +118,6 @@ Parameters:
     Type: String
   
             
-  triggers:
-    Type: String
-  
-            
         
   userPoolGroupList:
     Type: CommaDelimitedList
@@ -135,18 +131,6 @@ Parameters:
   usernameCaseSensitive:
     Type: String
             
-      
-  parentStack:
-    Type: String
-        
-  
-  breakCircularDependency:
-    Type: String
-            
-        
-  permissions:
-    Type: CommaDelimitedList
-      
         
   dependsOn:
     Type: CommaDelimitedList
@@ -165,7 +149,7 @@ Resources:
   # Created to allow the UserPool SMS Config to publish via the Simple Notification Service during MFA Process
     Type: AWS::IAM::Role
     Properties:
-      RoleName: !If [ShouldNotCreateEnvResources, 'jpalfrb675ce11_sns-role', !Join ['',[ 'sns', 'b675ce11', !Select [3, !Split ['-', !Ref 'AWS::StackName']], '-', !Ref env]]]
+      RoleName: !If [ShouldNotCreateEnvResources, 'jpalfr600f46bc_sns-role', !Join ['',[ 'sns', '600f46bc', !Select [3, !Split ['-', !Ref 'AWS::StackName']], '-', !Ref env]]]
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -177,10 +161,10 @@ Resources:
               - "sts:AssumeRole"
             Condition:
               StringEquals:
-                sts:ExternalId: jpalfrb675ce11_role_external_id
+                sts:ExternalId: jpalfr600f46bc_role_external_id
       Policies:
         -
-          PolicyName: jpalfrb675ce11-sns-policy
+          PolicyName: jpalfr600f46bc-sns-policy
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
@@ -235,7 +219,7 @@ Resources:
       SmsAuthenticationMessage: !Ref smsAuthenticationMessage
       SmsConfiguration:
         SnsCallerArn: !GetAtt SNSRole.Arn
-        ExternalId: jpalfrb675ce11_role_external_id
+        ExternalId: jpalfr600f46bc_role_external_id
     
   
   UserPoolClientWeb:
@@ -243,7 +227,7 @@ Resources:
   # Depends on UserPool for ID reference
     Type: "AWS::Cognito::UserPoolClient"
     Properties:
-      ClientName: jpalfrb675ce11_app_clientWeb
+      ClientName: jpalfr600f46bc_app_clientWeb
       
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
       UserPoolId: !Ref UserPool
@@ -253,7 +237,7 @@ Resources:
   # Depends on UserPool for ID reference
     Type: "AWS::Cognito::UserPoolClient"
     Properties:
-      ClientName: jpalfrb675ce11_app_client
+      ClientName: jpalfr600f46bc_app_client
       
       GenerateSecret: !Ref userpoolClientGenerateSecret
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
@@ -264,7 +248,7 @@ Resources:
   # Created to execute Lambda which gets userpool app client config values
     Type: 'AWS::IAM::Role'
     Properties:
-      RoleName: !If [ShouldNotCreateEnvResources, !Ref userpoolClientLambdaRole, !Join ['',['upClientLambdaRole', 'b675ce11', !Select [3, !Split ['-', !Ref 'AWS::StackName']], '-', !Ref env]]]
+      RoleName: !If [ShouldNotCreateEnvResources, !Ref userpoolClientLambdaRole, !Join ['',['upClientLambdaRole', '600f46bc', !Select [3, !Split ['-', !Ref 'AWS::StackName']], '-', !Ref env]]]
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -318,7 +302,7 @@ Resources:
   # Marked as depending on UserPoolClientRole for easier to understand CFN sequencing
     Type: 'AWS::IAM::Policy'
     Properties:
-      PolicyName: jpalfrb675ce11_userpoolclient_lambda_iam_policy
+      PolicyName: jpalfr600f46bc_userpoolclient_lambda_iam_policy
       Roles:
         - !Ref UserPoolClientRole
       PolicyDocument:
@@ -335,7 +319,7 @@ Resources:
   # Marked as depending on UserPoolClientLambdaPolicy for easier to understand CFN sequencing
     Type: 'AWS::IAM::Policy'
     Properties:
-      PolicyName: jpalfrb675ce11_userpoolclient_lambda_log_policy
+      PolicyName: jpalfr600f46bc_userpoolclient_lambda_log_policy
       Roles:
         - !Ref UserPoolClientRole
       PolicyDocument:
@@ -375,7 +359,7 @@ Resources:
   # Always created
     Type: AWS::Cognito::IdentityPool
     Properties:
-      IdentityPoolName: !If [ShouldNotCreateEnvResources, 'jpalfrontendb675ce11_identitypool_b675ce11', !Join ['',['jpalfrontendb675ce11_identitypool_b675ce11', '__', !Ref env]]]
+      IdentityPoolName: !If [ShouldNotCreateEnvResources, 'jpalfrontend600f46bc_identitypool_600f46bc', !Join ['',['jpalfrontend600f46bc_identitypool_600f46bc', '__', !Ref env]]]
       
       CognitoIdentityProviders:
         - ClientId:  !Ref UserPoolClient

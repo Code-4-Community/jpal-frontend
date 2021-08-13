@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "jpalfrontendb675ce11_identitypool_b675ce11",
+    "identityPoolName": "jpalfrontend600f46bc_identitypool_600f46bc",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "jpalfrb675ce11",
-    "userPoolName": "jpalfrontendb675ce11_userpool_b675ce11",
+    "resourceNameTruncated": "jpalfr600f46bc",
+    "userPoolName": "jpalfrontend600f46bc_userpool_600f46bc",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -29,10 +29,10 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "jpalfrb675ce11_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "jpalfr600f46bc_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "b675ce11",
-    "resourceName": "jpalfrontendb675ce11",
+    "sharedId": "600f46bc",
+    "resourceName": "jpalfrontend600f46bc",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
@@ -47,14 +47,8 @@
         ]
     },
     "useDefault": "default",
-    "triggers": "{}",
     "userPoolGroupList": [],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
-    "parentStack": {
-        "Ref": "AWS::StackId"
-    },
-    "breakCircularDependency": true,
-    "permissions": [],
     "dependsOn": []
 }

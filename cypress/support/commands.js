@@ -76,5 +76,7 @@ Cypress.Commands.add('loginByCognitoApi', (username, password) => {
     log.end();
   });
 
+  // TODO: mock request to fetch user profile
+
   cy.visit('/');
 });
