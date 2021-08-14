@@ -86,6 +86,9 @@
     "bracketSpacing": true,
     "semi": true
   },
+  "jest": {
+    "clearMocks": true
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",

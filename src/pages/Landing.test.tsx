@@ -1,25 +1,39 @@
 import { screen } from '@testing-library/react';
-import nock from 'nock';
 import React from 'react';
+import apiClient from '../api/apiClient';
 import { render } from '../test-utils';
 import Landing from './Landing';
 
-test('renders learn react link', () => {
-  render(<Landing />);
-  const linkElement = screen.getByText(/learn chakra/i);
-  expect(linkElement).toBeInTheDocument();
-});
+jest.mock('../api/apiClient');
 
-test('renders backend response with nock', async () => {
-  nock('http://localhost:5000').get('/').reply(200, 'Hello from Jest!');
-  render(<Landing />);
-  const linkElement = await screen.findByText(/Hello from Jest!/i);
-  expect(linkElement).toBeInTheDocument();
-});
+describe('Landing', () => {
+  test('renders learn react link', () => {
+    render(<Landing />);
+    const linkElement = screen.getByText(/learn chakra/i);
+    expect(linkElement).toBeInTheDocument();
+  });
 
-test('renders backend error', async () => {
-  nock('http://localhost:5000').get('/').replyWithError('Error from Jest!');
-  render(<Landing />);
-  const linkElement = await screen.findByText(/Error: Error from Jest!/i);
-  expect(linkElement).toBeInTheDocument();
+  test('renders backend response', async () => {
+    const mockedGetHello = apiClient.getHello as jest.Mock;
+    mockedGetHello.mockReturnValue(Promise.resolve('Hello from Jest!'));
+    render(<Landing />);
+    const linkElement = await screen.findByText(/Hello from Jest!/i);
+    expect(linkElement).toBeInTheDocument();
+  });
+
+  test('renders a different backend response (mocks automatically cleared after every test)', async () => {
+    const mockedGetHello = apiClient.getHello as jest.Mock;
+    mockedGetHello.mockReturnValue(Promise.resolve('你好 from Jest!'));
+    render(<Landing />);
+    const linkElement = await screen.findByText(/你好 from Jest!/i);
+    expect(linkElement).toBeInTheDocument();
+  });
+
+  test('renders backend error', async () => {
+    const mockedGetHello = apiClient.getHello as jest.Mock;
+    mockedGetHello.mockRejectedValue(new Error('Error from Jest!'));
+    render(<Landing />);
+    const linkElement = await screen.findByText(/Error: Error from Jest!/i);
+    expect(linkElement).toBeInTheDocument();
+  });
 });

@@ -2,7 +2,7 @@ import { Auth } from 'aws-amplify';
 import axios, { AxiosInstance } from 'axios';
 
 const defaultBaseUrl = process.env.API_BASE_URL ?? 'http://localhost:5000';
-// Required to use nock with axios
+// Required to use nock with axios (note: do not use nock, just use jest to mock the apiClient)
 axios.defaults.adapter = require('axios/lib/adapters/http');
 
 interface ApiClientOptions {
