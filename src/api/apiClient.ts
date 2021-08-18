@@ -34,7 +34,7 @@ export class ApiClient {
     }
   }
 
-  private get(path: string): Promise<unknown> {
+  private async get(path: string): Promise<unknown> {
     return this.axiosInstance.get(path).then((response) => response.data);
   }
 

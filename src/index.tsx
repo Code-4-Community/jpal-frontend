@@ -14,6 +14,13 @@ Sentry.init({
       : undefined,
   integrations: [new Integrations.BrowserTracing()],
   tracesSampleRate: 1.0,
+  beforeSend(event) {
+    // Check if it is an exception, and if so, show the report dialog
+    if (event.exception) {
+      Sentry.showReportDialog({ eventId: event.event_id });
+    }
+    return event;
+  },
 });
 
 ReactDOM.render(
