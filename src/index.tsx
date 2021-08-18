@@ -1,9 +1,17 @@
 import { ColorModeScript } from '@chakra-ui/react';
 import * as React from 'react';
 import ReactDOM from 'react-dom';
+import * as Sentry from '@sentry/react';
+import { Integrations } from '@sentry/tracing';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
+
+Sentry.init({
+  dsn: process.env.NODE_ENV === 'production' ? 'https://be94f5bbe81244b6bed93cf7f0dda961@o433473.ingest.sentry.io/5911570': undefined,
+  integrations: [new Integrations.BrowserTracing()],
+  tracesSampleRate: 1.0,
+});
 
 ReactDOM.render(
   <React.StrictMode>
