@@ -31,7 +31,7 @@ describe('ExampleForm', () => {
       render(<ExampleForm onSubmit={onSubmitMock} />);
     });
 
-    it('should be be filled out and submitted', async () => {
+    it('should be able to be filled out and submitted', async () => {
       const favoriteColorInput = screen.getByLabelText(/favorite color/i);
       const formButton = screen.getByRole('button', { name: /submit/i });
       userEvent.clear(favoriteColorInput);

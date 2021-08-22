@@ -1,5 +1,6 @@
 import { Auth } from 'aws-amplify';
 import axios, { AxiosInstance } from 'axios';
+import Post, { CreatePostRequest } from '../models/Post';
 
 const defaultBaseUrl = process.env.API_BASE_URL ?? 'http://localhost:5000';
 // Required to use nock with axios (note: do not use nock, just use jest to mock the apiClient)
@@ -40,6 +41,19 @@ export class ApiClient {
 
   public async getHello(): Promise<string> {
     return this.get('/') as Promise<string>;
+  }
+
+  public async getPosts(): Promise<Post[]> {
+    return this.axiosInstance
+      .get('https://jsonplaceholder.typicode.com/posts')
+      .then((response) => response.data) as Promise<Post[]>;
+  }
+
+  public async createPost(newPost: CreatePostRequest): Promise<void> {
+    return this.axiosInstance.post(
+      'https://jsonplaceholder.typicode.com/posts',
+      newPost,
+    ) as Promise<void>;
   }
 }
 

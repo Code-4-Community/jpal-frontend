@@ -10,6 +10,7 @@ import { Route, Router, Switch } from 'react-router-dom';
 import awsconfig from './aws-exports';
 import ExampleFormPage from './pages/ExampleFormPage';
 import LandingPage from './pages/LandingPage';
+import PostsPage from './pages/PostsPage';
 
 const queryClient = new QueryClient();
 
@@ -47,6 +48,8 @@ const App: React.FC<AppProps> = ({ history }) => {
             <Switch>
               <Route path="/" exact component={() => <LandingPage />} />
               <Route path="/example-form" exact component={() => <ExampleFormPage />} />
+              <Route path="/posts" exact component={() => <PostsPage />} />
+
               <Route
                 path="*"
                 component={() => <div> Page not found (TODO: write a 404 page) </div>}
