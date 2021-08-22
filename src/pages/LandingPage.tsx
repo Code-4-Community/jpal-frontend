@@ -1,11 +1,12 @@
 import { Box, Code, Grid, Link, Text, VStack } from '@chakra-ui/react';
 import * as React from 'react';
 import { useQuery } from 'react-query';
+import { Link as RouterLink } from 'react-router-dom';
 import apiClient from '../api/apiClient';
 import ColorModeSwitcher from '../components/ColorModeSwitcher';
 import Logo from '../components/Logo';
 
-const Landing: React.FC = () => {
+const LandingPage: React.FC = () => {
   const { isLoading, error, data } = useQuery<string, Error>('helloWorld', () =>
     apiClient.getHello(),
   );
@@ -35,10 +36,13 @@ const Landing: React.FC = () => {
           >
             Learn Chakra
           </Link>
+          <Link color="teal.500" fontSize="xl" as={RouterLink} to="/example-form">
+            Go to Example Form page
+          </Link>
         </VStack>
       </Grid>
     </Box>
   );
 };
 
-export default Landing;
+export default LandingPage;

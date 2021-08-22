@@ -22,10 +22,12 @@
     "class-validator": "^0.13.1",
     "formik": "^2.2.9",
     "framer-motion": "^4.0.0",
+    "history": "^4.10.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^3.0.0",
     "react-query": "^3.19.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "web-vitals": "^0.2.2"
   },
@@ -64,8 +66,7 @@
     "parserOptions": {
       "project": [
         "./tsconfig.json",
-        "./cypress/tsconfig.json",
-        "./pact/tsconfig.json"
+        "./cypress/tsconfig.json"
       ]
     },
     "rules": {
@@ -117,6 +118,8 @@
   "devDependencies": {
     "@pact-foundation/pact": "^9.16.0",
     "@pact-foundation/pact-node": "^10.12.2",
+    "@types/history": "^4.7.9",
+    "@types/react-router-dom": "^5.1.8",
     "@types/testing-library__jest-dom": "^5.14.0",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",

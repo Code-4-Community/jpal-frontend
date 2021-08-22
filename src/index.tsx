@@ -1,18 +1,25 @@
 import { ColorModeScript } from '@chakra-ui/react';
-import * as React from 'react';
-import ReactDOM from 'react-dom';
 import * as Sentry from '@sentry/react';
 import { Integrations } from '@sentry/tracing';
+import { createBrowserHistory } from 'history';
+import * as React from 'react';
+import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
+
+const history = createBrowserHistory();
 
 Sentry.init({
   dsn:
     process.env.NODE_ENV === 'production'
       ? 'https://be94f5bbe81244b6bed93cf7f0dda961@o433473.ingest.sentry.io/5911570'
       : undefined,
-  integrations: [new Integrations.BrowserTracing()],
+  integrations: [
+    new Integrations.BrowserTracing({
+      routingInstrumentation: Sentry.reactRouterV5Instrumentation(history),
+    }),
+  ],
   tracesSampleRate: 1.0,
   beforeSend(event) {
     // Check if it is an exception, and if so, show the report dialog
@@ -26,7 +33,7 @@ Sentry.init({
 ReactDOM.render(
   <React.StrictMode>
     <ColorModeScript />
-    <App />
+    <App history={history} />
   </React.StrictMode>,
   document.getElementById('root'),
 );

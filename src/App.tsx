@@ -3,17 +3,23 @@ import { AmplifyAuthenticator, AmplifySignIn, AmplifySignOut } from '@aws-amplif
 import { ChakraProvider, theme } from '@chakra-ui/react';
 import * as Sentry from '@sentry/react';
 import Amplify from 'aws-amplify';
+import { History } from 'history';
 import * as React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { Route, Router, Switch } from 'react-router-dom';
 import awsconfig from './aws-exports';
-import ExampleForm from './components/ExampleForm';
-import Landing from './pages/Landing';
+import ExampleFormPage from './pages/ExampleFormPage';
+import LandingPage from './pages/LandingPage';
 
 const queryClient = new QueryClient();
 
 Amplify.configure(awsconfig);
 
-const App: React.FC = () => {
+interface AppProps {
+  history: History<unknown>;
+}
+
+const App: React.FC<AppProps> = ({ history }) => {
   const [authState, setAuthState] = React.useState<AuthState>();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [user, setUser] = React.useState<any>();
@@ -37,11 +43,17 @@ const App: React.FC = () => {
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>
         {authState === AuthState.SignedIn && user ? (
-          <div className="App">
-            <Landing />
+          <Router history={history}>
+            <Switch>
+              <Route path="/" exact component={() => <LandingPage />} />
+              <Route path="/example-form" exact component={() => <ExampleFormPage />} />
+              <Route
+                path="*"
+                component={() => <div> Page not found (TODO: write a 404 page) </div>}
+              />
+            </Switch>
             <AmplifySignOut />
-            <ExampleForm />
-          </div>
+          </Router>
         ) : (
           <AmplifyAuthenticator usernameAlias="email">
             <AmplifySignIn usernameAlias="email" hideSignUp slot="sign-in" />
