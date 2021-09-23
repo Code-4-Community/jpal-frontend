@@ -41,6 +41,10 @@ export class ApiClient {
   public async getHello(): Promise<string> {
     return this.get('/') as Promise<string>;
   }
+
+  public async getMe(): Promise<unknown> {
+    return this.get('/auth/me');
+  }
 }
 
 export default new ApiClient();

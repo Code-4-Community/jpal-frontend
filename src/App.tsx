@@ -1,12 +1,14 @@
 import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
 import { AmplifyAuthenticator, AmplifySignIn, AmplifySignOut } from '@aws-amplify/ui-react';
-import { ChakraProvider, theme } from '@chakra-ui/react';
+import { Alert, ChakraProvider, Spinner, theme } from '@chakra-ui/react';
 import * as Sentry from '@sentry/react';
 import Amplify from 'aws-amplify';
 import { History } from 'history';
 import * as React from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { Route, Router, Switch } from 'react-router-dom';
+import apiClient from './api/apiClient';
 import awsconfig from './aws-exports';
 import ExampleFormPage from './pages/ExampleFormPage';
 import LandingPage from './pages/LandingPage';
@@ -19,7 +21,7 @@ interface AppProps {
   history: History<unknown>;
 }
 
-const App: React.FC<AppProps> = ({ history }) => {
+const AdminOnlyApp: React.FC = () => {
   const [authState, setAuthState] = React.useState<AuthState>();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [user, setUser] = React.useState<any>();
@@ -39,28 +41,51 @@ const App: React.FC<AppProps> = ({ history }) => {
     [],
   );
 
+  const { isLoading, error, data } = useQuery('auth', () => apiClient.getMe(), {
+    // The query will not execute until the user is signed in
+    enabled: authState === AuthState.SignedIn && !!user,
+  });
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <ChakraProvider theme={theme}>
-        {authState === AuthState.SignedIn && user ? (
-          <Router history={history}>
+    <>
+      <ReactQueryDevtools initialIsOpen={false} />
+      {authState === AuthState.SignedIn && user ? (
+        <>
+          {error && (
+            <Alert status="error">
+              An error occurred while fetching your user information. Please sign out and try again.
+            </Alert>
+          )}
+          {isLoading && <Spinner />}
+          {data && (
             <Switch>
-              <Route path="/" exact component={() => <LandingPage />} />
-              <Route path="/example-form" exact component={() => <ExampleFormPage />} />
-              <Route
-                path="*"
-                component={() => <div> Page not found (TODO: write a 404 page) </div>}
-              />
+              <Route path="/admin" exact component={() => <LandingPage />} />
+              <Route path="/admin/example-form" exact component={() => <ExampleFormPage />} />
             </Switch>
-            <AmplifySignOut />
-          </Router>
-        ) : (
-          <AmplifyAuthenticator usernameAlias="email">
-            <AmplifySignIn usernameAlias="email" hideSignUp slot="sign-in" />
-          </AmplifyAuthenticator>
-        )}
-      </ChakraProvider>
-    </QueryClientProvider>
+          )}
+          <AmplifySignOut />
+        </>
+      ) : (
+        <AmplifyAuthenticator usernameAlias="email">
+          <AmplifySignIn usernameAlias="email" hideSignUp slot="sign-in" />
+        </AmplifyAuthenticator>
+      )}
+    </>
   );
 };
+
+const App: React.FC<AppProps> = ({ history }) => (
+  <QueryClientProvider client={queryClient}>
+    <ChakraProvider theme={theme}>
+      <Router history={history}>
+        <Switch>
+          <Route path="/admin" component={AdminOnlyApp} />
+          <Route path="/survey" component={() => <p>todo: write survey page</p>} />
+          <Route path="*" component={() => <div> Page not found (TODO: write a 404 page) </div>} />
+        </Switch>
+      </Router>
+    </ChakraProvider>
+  </QueryClientProvider>
+);
+
 export default App;
