@@ -22,6 +22,15 @@ env:
   AWS_COGNITO_PASSWORD: ${{ secrets.AWS_COGNITO_PASSWORD }}
 
 jobs:
+  size-label:
+    name: Add Size Label to PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add Size Label to PR
+        uses: WizardOhio24/label-pr-size-action@master
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
   cypress-test:
     runs-on: ubuntu-latest
     if: |
