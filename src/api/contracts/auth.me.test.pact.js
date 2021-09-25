@@ -27,15 +27,18 @@ describe('GET /auth/me contract with API', () => {
         .then(() => done());
     });
 
-    it('sends a request according to contract', (done) => {
-      api.getMe().then(() => {
-        global.provider.verify().then(
-          () => done(),
-          (error) => {
-            done.fail(error);
-          },
-        );
-      });
+    it('sends a request according to contract', async () => {
+      expect.assertions(1);
+      const res = await api.getMe();
+      expect(res).toEqual(
+        expect.objectContaining({
+          id: expect.any(Number),
+          email: expect.any(String),
+          role: 'researcher',
+        }),
+      );
+
+      return global.provider.verify();
     });
   });
 
@@ -61,15 +64,18 @@ describe('GET /auth/me contract with API', () => {
         .then(() => done());
     });
 
-    it('sends a request according to contract', (done) => {
-      api.getMe().then(() => {
-        global.provider.verify().then(
-          () => done(),
-          (error) => {
-            done.fail(error);
-          },
-        );
-      });
+    it('sends a request according to contract', async () => {
+      expect.assertions(1);
+      const res = await api.getMe();
+      expect(res).toEqual(
+        expect.objectContaining({
+          id: expect.any(Number),
+          email: expect.any(String),
+          role: 'admin',
+        }),
+      );
+
+      return global.provider.verify();
     });
   });
 
@@ -90,15 +96,12 @@ describe('GET /auth/me contract with API', () => {
         .then(() => done());
     });
 
-    it('sends a request according to contract', (done) => {
-      api.getMe().then(() => {
-        global.provider.verify().then(
-          () => done(),
-          (error) => {
-            done.fail(error);
-          },
-        );
+    it('sends a request according to contract', async () => {
+      expect.assertions(1);
+      await api.getMe().catch((err) => {
+        expect(err.response.status).toEqual(403);
       });
+      return global.provider.verify();
     });
   });
 });
