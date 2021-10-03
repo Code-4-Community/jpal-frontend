@@ -10,6 +10,8 @@ import { Route, Router, Switch } from 'react-router-dom';
 import awsconfig from './aws-exports';
 import ExampleFormPage from './pages/ExampleFormPage';
 import LandingPage from './pages/LandingPage';
+import AddAdminPage from './pages/AddAdminPage';
+import EditAdminPage from './pages/EditAdminPage';
 
 const queryClient = new QueryClient();
 
@@ -47,13 +49,15 @@ const App: React.FC<AppProps> = ({ history }) => {
             <Switch>
               <Route path="/" exact component={() => <LandingPage />} />
               <Route path="/example-form" exact component={() => <ExampleFormPage />} />
+              <Route path="/add-new-admin" exact component={() => <AddAdminPage/>}/>
+              <Route path="/edit-admin" exact component={() => <EditAdminPage/>}/>
               <Route
                 path="*"
                 component={() => <div> Page not found (TODO: write a 404 page) </div>}
               />
             </Switch>
             <AmplifySignOut />
-          </Router>
+          </Router> 
         ) : (
           <AmplifyAuthenticator usernameAlias="email">
             <AmplifySignIn usernameAlias="email" hideSignUp slot="sign-in" />

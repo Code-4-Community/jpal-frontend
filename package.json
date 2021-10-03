@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@aws-amplify/ui": "^2.0.3",
     "@aws-amplify/ui-components": "^1.7.1",
     "@aws-amplify/ui-react": "^1.2.16",
     "@chakra-ui/react": "^1.6.8",
