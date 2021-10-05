@@ -119,6 +119,7 @@
     "@typescript-eslint/parser": "^4.28.2",
     "cross-env": "^7.0.3",
     "cypress": "^8.4.1",
+    "cz-conventional-changelog": "^3.3.0",
     "dotenv": "^10.0.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-airbnb-typescript": "^12.3.1",
@@ -134,5 +135,10 @@
   },
   "optionalDependencies": {
     "fsevents": "^2.3.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
