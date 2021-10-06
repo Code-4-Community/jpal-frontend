@@ -1,5 +1,6 @@
 import { Auth } from 'aws-amplify';
 import axios, { AxiosInstance } from 'axios';
+import User from './dtos/user.dto';
 
 const defaultBaseUrl = process.env.API_BASE_URL ?? 'http://localhost:5000';
 // Required to use nock with axios (note: do not use nock, just use jest to mock the apiClient)
@@ -40,6 +41,10 @@ export class ApiClient {
 
   public async getHello(): Promise<string> {
     return this.get('/') as Promise<string>;
+  }
+
+  public async getMe(): Promise<User> {
+    return this.get('/auth/me') as Promise<User>;
   }
 }
 
