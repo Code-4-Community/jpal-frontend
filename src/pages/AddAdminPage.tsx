@@ -10,12 +10,10 @@ const AddAdminPage: React.FC = () => (
     <Heading size="lg" textAlign="start">
       Add New Admin
     </Heading>
-    <AddAdminForm/>
+    <AddAdminForm email = ''/>
   </Container>
 </Grid>
 </Box>
 );
 
-    
-    
 export default AddAdminPage;

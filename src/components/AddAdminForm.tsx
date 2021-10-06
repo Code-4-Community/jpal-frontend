@@ -1,37 +1,30 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { sceneActions } from '@aws-amplify/ui';
 import { Button, FormControl, FormErrorMessage, FormLabel, Input } from '@chakra-ui/react';
 import { Field, FieldProps, Form, Formik, FormikHelpers } from 'formik';
 import React from 'react';
+import apiClient from '../api/apiClient';
 
 interface AdminValues {
-  email: string;
-}
-interface ExampleFormProps {
-  onSubmit?: (values: AdminValues) => void;
+  email: string, 
 }
 
-const alertOnSubmit = (values: AdminValues, actions: FormikHelpers<AdminValues>) => {
-  // import and call method on api
-  setTimeout(() => {
-    // eslint-disable-next-line no-alert
-    alert(JSON.stringify(values, null, 2));
-    actions.setSubmitting(false);
-  }, 1000);
-};
 
-const onSubmit1 = (values : AdminValues, actions: FormikHelpers<AdminValues> ) => {
-  alert(JSON.stringify(values) );
-  alert("yoooo");
-
+const submitUser = (values: AdminValues, actions: FormikHelpers<AdminValues> ) => {
+  const data = {...values, role: "admin"}
+  const token = localStorage.getItem("token");
+  console.log("token ", token);
+  apiClient.post("/user", data).then((res) => {
+    alert(res);
+  }).catch((err) => {
+    console.log(data);
+  })
+  
   actions.setSubmitting(false);
 }
 
 
-
-
-export const AddAdminForm: React.FC<ExampleFormProps> = ({ onSubmit }) => (
-  <Formik initialValues={{ email: '' }} onSubmit={onSubmit ?? onSubmit1}>
+export const AddAdminForm: React.FC<AdminValues> = ({email} : AdminValues) => (
+  <Formik initialValues={{email}} onSubmit={submitUser}>
     {(props) => (
       <Form>
         <Field name="email" >
@@ -49,6 +42,7 @@ export const AddAdminForm: React.FC<ExampleFormProps> = ({ onSubmit }) => (
       </Form>
     )}
   </Formik>
-);
+  );
+
 
 export default AddAdminForm;

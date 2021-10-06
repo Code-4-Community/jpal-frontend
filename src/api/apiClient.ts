@@ -38,8 +38,10 @@ export class ApiClient {
     return this.axiosInstance.get(path).then((response) => response.data);
   }
 
-  public async post(path : string, body: never) : Promise<unknown> {
-    return this.axiosInstance.post(path, body).then((response) => response.data);
+  public async post(path: string, body: unknown) : Promise<unknown> {
+    console.log("body", body)
+    const res =  await this.axiosInstance.post(path, body);
+    return res.data;
   }
 
   public async getHello(): Promise<string> {
