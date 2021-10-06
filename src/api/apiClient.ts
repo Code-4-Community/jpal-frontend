@@ -39,7 +39,6 @@ export class ApiClient {
   }
 
   public async post(path: string, body: unknown) : Promise<unknown> {
-    console.log("body", body)
     const res =  await this.axiosInstance.post(path, body);
     return res.data;
   }
