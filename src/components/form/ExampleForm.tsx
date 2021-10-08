@@ -1,7 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import createForm from './form/Form';
-import InputField from './form/InputField';
+import createForm from './Form';
+import InputField from './InputField';
+import NumberInputField from './NumberInputField';
 
 interface ExampleFormValues {
   favoriteColor: string;
@@ -40,6 +41,11 @@ const ExampleForm: React.FC<ExampleFormProps> = ({ onSubmit }) => {
         displayName="Favorite Color"
         fieldName="favoriteColor"
         validate={validateFavoriteColor}
+      />
+      <NumberInputField
+        displayName="Favorite Number"
+        fieldName="favoriteNumber"
+        validate={(value) => (value < 0 ? 'Must be positive' : undefined)}
       />
     </Form>
   );

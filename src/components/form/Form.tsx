@@ -22,11 +22,21 @@ type FormComponent<GenericFormValues> = React.FC<FormProps<GenericFormValues>>;
 function createForm<X>(): FormComponent<X> {
   const CustomForm: FormComponent<X> = ({ children, initialValues, onSubmit, submitText }) => (
     // eslint-disable-next-line react/jsx-props-no-spreading
-    <Formik initialValues={initialValues || {}} onSubmit={async (values) => onSubmit(values)}>
+    <Formik
+      initialValues={initialValues || {}}
+      onSubmit={async (values, actions) => {
+        actions.setSubmitting(true);
+        try {
+          await onSubmit(values);
+        } finally {
+          actions.setSubmitting(false);
+        }
+      }}
+    >
       {(props) => (
         <Form>
           {children}
-
+          {props.isSubmitting}
           <Button mt={4} colorScheme="teal" isLoading={props.isSubmitting} type="submit">
             {submitText ?? 'Submit'}
           </Button>
