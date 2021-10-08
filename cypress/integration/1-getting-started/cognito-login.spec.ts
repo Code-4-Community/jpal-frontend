@@ -1,14 +1,29 @@
 /// <reference types="cypress" />
 
 describe('Cognito Login', () => {
-  beforeEach(() => {
-    // Programmatically login via Amazon Cognito API
-    cy.loginByCognitoApi(Cypress.env('cognito_username'), Cypress.env('cognito_password'));
+  describe('Login as researcher', () => {
+    beforeEach(() => {
+      // Programmatically login via Amazon Cognito API
+      cy.loginAsResearcher();
+      cy.visit('/admin');
+    });
+
+    it('shows onboarding', () => {
+      cy.contains('Learn Chakra').should('be.visible');
+    });
   });
 
-  it('shows onboarding', () => {
-    cy.contains('Learn Chakra').should('be.visible');
+  describe('Login as admin', () => {
+    beforeEach(() => {
+      // Programmatically login via Amazon Cognito API
+      cy.loginAsAdmin();
+      cy.visit('/admin');
+    });
+
+    it('shows onboarding', () => {
+      cy.contains('Learn Chakra').should('be.visible');
+    });
   });
 });
 
-export { }
+export {};

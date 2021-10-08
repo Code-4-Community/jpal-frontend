@@ -43,7 +43,7 @@ Cypress.Commands.add('loginByCognitoApi', (username, password) => {
   const signIn = Auth.signIn({ username, password });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  cy.wrap(signIn, { log: false, timeout: 10000 }).then((cognitoResponse) => {
+  cy.wrap(signIn, { log: false, timeout: 30000 }).then((cognitoResponse) => {
     const keyPrefixWithUsername = `${cognitoResponse.keyPrefix}.${cognitoResponse.username}`;
 
     window.localStorage.setItem(
@@ -75,8 +75,26 @@ Cypress.Commands.add('loginByCognitoApi', (username, password) => {
     log.snapshot('after');
     log.end();
   });
+});
 
-  // TODO: mock request to fetch user profile
+// Sign in as Admin
+Cypress.Commands.add('loginAsAdmin', () => {
+  cy.intercept('GET', '/auth/me', {
+    id: 1,
+    email: Cypress.env('cognito_username'),
+    role: 'admin',
+  });
 
-  cy.visit('/');
+  cy.loginByCognitoApi(Cypress.env('cognito_username'), Cypress.env('cognito_password'));
+});
+
+// Sign in as Researcher
+Cypress.Commands.add('loginAsResearcher', () => {
+  cy.intercept('GET', '/auth/me', {
+    id: 1,
+    email: Cypress.env('cognito_username'),
+    role: 'researcher',
+  });
+
+  cy.loginByCognitoApi(Cypress.env('cognito_username'), Cypress.env('cognito_password'));
 });

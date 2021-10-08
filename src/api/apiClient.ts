@@ -1,5 +1,7 @@
 import { Auth } from 'aws-amplify';
 import axios, { AxiosInstance } from 'axios';
+import Role from './dtos/role';
+import User from './dtos/user.dto';
 
 const defaultBaseUrl = process.env.API_BASE_URL ?? 'http://localhost:5000';
 // Required to use nock with axios (note: do not use nock, just use jest to mock the apiClient)
@@ -38,8 +40,8 @@ export class ApiClient {
     return this.axiosInstance.get(path).then((response) => response.data);
   }
 
-  public async post(path: string, body: unknown) : Promise<unknown> {
-    const res =  await this.axiosInstance.post(path, body);
+  private async post(path: string, body: unknown): Promise<unknown> {
+    const res = await this.axiosInstance.post(path, body);
     return res.data;
   }
 
@@ -47,6 +49,13 @@ export class ApiClient {
     return this.get('/') as Promise<string>;
   }
 
+  public async getMe(): Promise<User> {
+    return this.get('/auth/me') as Promise<User>;
+  }
+
+  public async createUser(email: string, role: Role): Promise<User> {
+    return this.post('/user', { email, role }) as Promise<User>;
+  }
 }
 
 export default new ApiClient();
