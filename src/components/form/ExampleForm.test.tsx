@@ -49,7 +49,7 @@ describe('ExampleForm', () => {
         expect(onSubmitMock).toHaveBeenCalled();
         // Get the 1st argument from the mock function call
         const onSubmitMockValues = onSubmitMock.mock.calls[0][0];
-        expect(onSubmitMockValues).toEqual({ favoriteColor: 'blue', favoriteNumber: 42 });
+        expect(onSubmitMockValues).toEqual({ favoriteColor: 'blue', favoriteNumber: '42' });
       });
     });
 
@@ -79,6 +79,17 @@ describe('ExampleForm', () => {
           /Thats a bad opinion. Choose something else./i,
         );
         expect(badFavoriteColorErrorMessage).toBeInTheDocument();
+      });
+    });
+
+    it('should fail when favorite number is not positive', async () => {
+      const favoriteNumberInput = screen.getByLabelText(/favorite number/i);
+      const formButton = screen.getByRole('button', { name: /submit/i });
+      userEvent.type(favoriteNumberInput, '-15');
+      userEvent.click(formButton);
+      await waitFor(() => {
+        const badFavoriteNumberErrorMessage = screen.getByText(/Must be positive/i);
+        expect(badFavoriteNumberErrorMessage).toBeInTheDocument();
       });
     });
   });

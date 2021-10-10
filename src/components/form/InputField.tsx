@@ -14,10 +14,17 @@ const InputField: React.FC<InputFieldProps> = ({
   idPrefix,
   placeholder,
   displayName,
+  isRequired,
 }) => (
-  <Field name={fieldName} validate={validate}>
+  <Field
+    name={fieldName}
+    validate={(val: string) => (!val ? `${displayName ?? fieldName} is required.` : validate(val))}
+  >
     {({ field, form }: FieldProps) => (
-      <FormControl isInvalid={Boolean(form.errors[fieldName] && form.touched)}>
+      <FormControl
+        isRequired={isRequired}
+        isInvalid={Boolean(form.errors[fieldName] && form.touched)}
+      >
         <FormLabel htmlFor={fieldName}>{displayName ?? fieldName}</FormLabel>
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         <Input {...field} id={`${idPrefix ?? ''}${fieldName}`} placeholder={placeholder} />

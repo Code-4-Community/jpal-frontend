@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import {
   FormControl,
   FormErrorMessage,
@@ -17,16 +18,24 @@ const NumberInputField: React.FC<NumberFieldProps> = ({
   placeholder,
   idPrefix,
   displayName,
+  isRequired,
 }) => (
-  <Field name={fieldName} validate={validate}>
+  <Field name={fieldName} validate={(val: string) => validate(Number(val))}>
     {({ field, form }: FieldProps) => (
-      <FormControl isInvalid={Boolean(form.errors.userId && form.touched)}>
+      <FormControl
+        isRequired={isRequired}
+        isInvalid={Boolean(form.errors[fieldName] && form.touched)}
+      >
         <FormLabel htmlFor={fieldName}>{displayName ?? fieldName}</FormLabel>
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        <NumberInput {...field} onChange={(val) => form.setFieldValue(field.name, Number(val))}>
+        <NumberInput
+          {...field}
+          onChange={(val) => {
+            form.setFieldValue(fieldName, val);
+          }}
+        >
           <ChakraNumberInputField id={`${idPrefix ?? ''}${fieldName}`} placeholder={placeholder} />
         </NumberInput>
-        <FormErrorMessage>{form.errors.userId}</FormErrorMessage>
+        <FormErrorMessage>{form.errors[fieldName]}</FormErrorMessage>
       </FormControl>
     )}
   </Field>

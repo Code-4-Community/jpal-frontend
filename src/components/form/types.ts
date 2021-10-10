@@ -1,3 +1,6 @@
+/**
+ * Props for field components.
+ */
 export interface GenericFieldProps<ValueType> {
   /**
    * Given the value of the input field, determines if the field is valid or not,
@@ -27,4 +30,9 @@ export interface GenericFieldProps<ValueType> {
    * The placeholder text for the input field.
    */
   placeholder?: string;
+
+  /**
+   * Determines if this field is required.
+   */
+  isRequired?: boolean;
 }
