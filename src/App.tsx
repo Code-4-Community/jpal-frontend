@@ -12,6 +12,7 @@ import apiClient from './api/apiClient';
 import awsconfig from './aws-exports';
 import ExampleFormPage from './pages/ExampleFormPage';
 import LandingPage from './pages/LandingPage';
+import AdminDashboard from "./pages/admin/AdminDashboard";
 
 const queryClient = new QueryClient();
 
@@ -60,6 +61,7 @@ const AdminOnlyApp: React.FC = () => {
           {data && (
             <Switch>
               <Route path="/admin" exact component={() => <LandingPage />} />
+              <Route path="/admin/dashboard" exact component={() => <AdminDashboard />} />
               <Route path="/admin/example-form" exact component={() => <ExampleFormPage />} />
             </Switch>
           )}
