@@ -5,7 +5,7 @@ import { render } from '../../test-utils';
 import AdminDashboard from "./AdminDashboard";
 import User from "../../api/dtos/user.dto";
 
-jest.mock('../api/apiClient');
+jest.mock('../../api/apiClient');
 
 describe('Landing', () => {
   test('renders learn react link', () => {
