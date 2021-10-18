@@ -1,6 +1,5 @@
 import { Grid, Box, Container, Heading, GridItem } from '@chakra-ui/react';
 import * as React from 'react';
-import { AddAdminForm } from '../components/form/AddAdminForm';
 
 const EditAdminPage: React.FC = () => (
   <Box>
