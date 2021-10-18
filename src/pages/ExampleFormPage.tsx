@@ -1,7 +1,7 @@
 import { Box, Container, Grid, Heading } from '@chakra-ui/react';
 import * as React from 'react';
 import ColorModeSwitcher from '../components/ColorModeSwitcher';
-import ExampleForm from '../components/ExampleForm';
+import ExampleForm from '../components/form/ExampleForm';
 
 const ExampleFormPage: React.FC = () => (
   <Box>
