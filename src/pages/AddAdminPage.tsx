@@ -3,7 +3,7 @@ import { FormikHelpers } from 'formik';
 import * as React from 'react';
 import apiClient from '../api/apiClient';
 import Role from '../api/dtos/role';
-import { AddAdminForm, AdminFormValues } from '../components/AddAdminForm';
+import { AddAdminForm, AdminFormValues } from '../components/form/AddAdminForm';
 
 const AddAdminPage: React.FC = () => {
   const toast = useToast();
