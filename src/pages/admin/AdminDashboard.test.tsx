@@ -12,7 +12,7 @@ describe('Landing', () => {
     apiClient.getAdmins = (jest.fn(()=>
         Promise.resolve([{id : 1, email : 'test@test.com', role : 'admin'}]))) as () => Promise<User[]>
     render(<AdminDashboard />);
-    const testEmail = screen.getByText('test@test.com');
+    const testEmail = await screen.getByText('test@test.com');
     expect(testEmail).toBeInTheDocument();
   });
 });

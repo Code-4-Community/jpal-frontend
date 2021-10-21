@@ -5,7 +5,7 @@ import apiClient from '../../api/apiClient';
 import User from '../../api/dtos/user.dto';
 
 const AdminDashboard: React.FC = () => {
-  const { isLoading, error, data } = useQuery<User[], Error>('helloWorld', () =>
+  const { isLoading, error, data } = useQuery<User[], Error>('adminList', () =>
     apiClient.getAdmins(),
   );
 
