@@ -63,8 +63,8 @@ const AdminOnlyApp: React.FC = () => {
             <Switch>
               <Route path="/admin" exact component={() => <LandingPage />} />
               <Route path="/admin/example-form" exact component={() => <ExampleFormPage />} />
-              <Route path="/admin/add-new-admin" exact component={() => <AddAdminPage/>}/>
-              <Route path="/admin/edit-admin" exact component={() => <EditAdminPage/>}/>
+              <Route path="/admin/add-new-admin" exact component={() => <AddAdminPage />} />
+              <Route path="/admin/edit-admin" exact component={() => <EditAdminPage />} />
             </Switch>
           )}
           <AmplifySignOut />
