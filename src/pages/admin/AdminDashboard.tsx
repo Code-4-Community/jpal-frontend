@@ -1,6 +1,6 @@
-import {Spinner, Table, Tbody, Td, Th, Thead, Tr} from '@chakra-ui/react';
+import { Spinner, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import * as React from 'react';
-import {useQuery} from 'react-query';
+import { useQuery } from 'react-query';
 import apiClient from '../../api/apiClient';
 import User from '../../api/dtos/user.dto';
 
@@ -10,18 +10,17 @@ const AdminDashboard: React.FC = () => {
   );
 
   const getTableRows = (): React.ReactNode => (
-      <>
-        {data && data.map((admin) => (
+    <>
+      {data &&
+        data.map((admin) => (
           <Tr>
-            <Td>
-              Placeholder name
-            </Td>
+            <Td>Placeholder name</Td>
             <Td>{admin.email}</Td>
             <Td>Placeholder date</Td>
           </Tr>
         ))}
-      </>
-)
+    </>
+  );
 
   return (
     <>
@@ -37,8 +36,8 @@ const AdminDashboard: React.FC = () => {
           <Tbody>{getTableRows()}</Tbody>
         </Table>
       )}
-      {isLoading && (<Spinner/>)}
-      {error && (<p>error loading</p>)}
+      {isLoading && <Spinner />}
+      {error && <p>error loading</p>}
     </>
   );
 };

@@ -48,7 +48,7 @@ export class ApiClient {
   }
 
   public async getAdmins(): Promise<User[]> {
-    return this.get('/user') as Promise<User[]>
+    return this.get('/user') as Promise<User[]>;
   }
 }
 

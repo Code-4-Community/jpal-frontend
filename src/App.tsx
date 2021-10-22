@@ -12,7 +12,7 @@ import apiClient from './api/apiClient';
 import awsconfig from './aws-exports';
 import ExampleFormPage from './pages/ExampleFormPage';
 import LandingPage from './pages/LandingPage';
-import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminDashboard from './pages/admin/AdminDashboard';
 
 const queryClient = new QueryClient();
 
