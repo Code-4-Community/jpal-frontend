@@ -35,14 +35,14 @@ describe('GET /user contract with API', () => {
 
     it('sends a request according to contract', async () => {
       expect.assertions(1);
-      const res = await api.getAdmins();
-      expect(res).toEqual(
+      const res = api.getAdmins();
+      await expect(res).resolves.toEqual(
           expect.arrayContaining(
-          expect.objectContaining({
-            id: expect.any(Number),
-            email: expect.any(String),
-            role: 'admin',
-          })),
+              expect.objectContaining({
+                id: expect.any(Number),
+                email: expect.any(String),
+                role: 'admin',
+              })),
       );
 
       return global.provider.verify();
