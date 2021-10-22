@@ -35,7 +35,7 @@ describe('GET /user contract with API', () => {
 
     it('sends a request according to contract', async () => {
       expect.assertions(1);
-      const res = api.getAdmins();
+      const res = await api.getAdmins();
       await expect(res).resolves.toEqual(
           expect.arrayContaining(
               expect.objectContaining({
