@@ -1,6 +1,10 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import * as Pact from '@pact-foundation/pact';
 import { ApiClient } from '../apiClient';
+import {
+  eachLike,
+  like,
+  somethingLike
+} from "@pact-foundation/pact/src/dsl/matchers";
 
 describe('GET /user contract with API', () => {
   const api = new ApiClient(`http://localhost:${global.port}`,
@@ -18,9 +22,9 @@ describe('GET /user contract with API', () => {
         },
         willRespondWith: {
           status: 200,
-          body: Pact.eachlike( Pact.Matchers.like({
-            id: Pact.Matchers.somethingLike(1),
-            email: Pact.Matchers.somethingLike(
+          body: eachLike( like({
+            id: somethingLike(1),
+            email: somethingLike(
                 'c4cneu.jpal+admin@gmail.com'),
             role: 'admin',
           })),
