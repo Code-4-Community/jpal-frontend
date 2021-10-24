@@ -1,7 +1,7 @@
-import { screen} from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import React from 'react';
 import { render } from '../../test-utils';
-import SurveyConfirmation from "./SurveyConfirmation";
+import SurveyConfirmation from './SurveyConfirmation';
 
 describe('SurveyThankYou', () => {
   beforeEach(() => {
