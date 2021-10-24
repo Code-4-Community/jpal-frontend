@@ -41,8 +41,7 @@ export class ApiClient {
   }
 
   private async post(path: string, body: unknown): Promise<unknown> {
-    const res = await this.axiosInstance.post(path, body);
-    return res.data;
+    return this.axiosInstance.post(path, body).then((response) => response.data);
   }
 
   public async getHello(): Promise<string> {

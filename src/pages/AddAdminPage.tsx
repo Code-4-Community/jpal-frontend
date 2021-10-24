@@ -5,6 +5,8 @@ import apiClient from '../api/apiClient';
 import Role from '../api/dtos/role';
 import { AddAdminForm, AdminFormValues } from '../components/form/AddAdminForm';
 
+const TOAST_POPUP_DURATION = 4000;
+
 const AddAdminPage: React.FC = () => {
   const toast = useToast();
   async function submitUser(
@@ -17,16 +19,15 @@ const AddAdminPage: React.FC = () => {
         title: 'Post created.',
         description: `Added the admin with the email ${values.email}.`,
         status: 'success',
-        duration: 4000,
+        duration: TOAST_POPUP_DURATION,
         isClosable: true,
       });
     } catch (err) {
-      // todo: add alert pop up
       toast({
         title: 'Post created.',
         description: `Failed to create the admin with the email ${values.email}.`,
         status: 'error',
-        duration: 4000,
+        duration: TOAST_POPUP_DURATION,
         isClosable: true,
       });
     } finally {

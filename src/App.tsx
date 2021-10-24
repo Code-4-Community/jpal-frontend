@@ -13,7 +13,6 @@ import awsconfig from './aws-exports';
 import ExampleFormPage from './pages/ExampleFormPage';
 import LandingPage from './pages/LandingPage';
 import AddAdminPage from './pages/AddAdminPage';
-import EditAdminPage from './pages/EditAdminPage';
 
 const queryClient = new QueryClient();
 
@@ -64,7 +63,6 @@ const AdminOnlyApp: React.FC = () => {
               <Route path="/admin" exact component={() => <LandingPage />} />
               <Route path="/admin/example-form" exact component={() => <ExampleFormPage />} />
               <Route path="/admin/add-new-admin" exact component={() => <AddAdminPage />} />
-              <Route path="/admin/edit-admin" exact component={() => <EditAdminPage />} />
             </Switch>
           )}
           <AmplifySignOut />
