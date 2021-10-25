@@ -1,9 +1,9 @@
 import { FormControl, FormErrorMessage, FormLabel, Input } from '@chakra-ui/react';
 import { Field, FieldProps } from 'formik';
 import React from 'react';
-import { GenericFieldProps } from './types';
+import { GenericInputFieldProps } from './types';
 
-type InputFieldProps = GenericFieldProps<string>;
+type InputFieldProps = GenericInputFieldProps<string>;
 
 /**
  * A form input field for short text input to be composed with Form.
