@@ -20,6 +20,7 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({ initialAssi
   // Otherwise, display a thank you screen
 
   // See state machine visualization for the entire state machine flow
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [state, send] = useMachine(createSurveyViewMachine(initialAssignments));
 
   return (
