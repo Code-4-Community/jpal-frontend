@@ -25,13 +25,20 @@ const MultipleChoiceField: React.FC<MultipleChoiceFieldProps> = ({
   isRequired,
   options,
 }) => (
-  <Field name={fieldName}>
+  <Field
+    name={fieldName}
+    validate={isRequired && ((value: string) => (value ? undefined : 'Required'))}
+  >
     {({ field, form }: FieldProps) => (
       <FormControl
-        isRequired={isRequired}
-        isInvalid={Boolean(form.errors[fieldName] && form.touched)}
+        // isRequired={isRequired}
+        isInvalid={Boolean(
+          form.errors[fieldName] && (form.touched[fieldName] || form.submitCount > 0),
+        )}
       >
-        <FormLabel htmlFor={fieldName}>{displayName ?? fieldName}</FormLabel>
+        <FormLabel htmlFor={fieldName} aria-label={displayName ?? fieldName}>
+          {displayName ?? fieldName}
+        </FormLabel>
 
         <Divider marginBottom="4" />
 
@@ -39,10 +46,16 @@ const MultipleChoiceField: React.FC<MultipleChoiceFieldProps> = ({
           {...field}
           id={`${idPrefix ?? ''}${fieldName}`}
           onChange={(val) => form.setFieldValue(fieldName, val)}
+          aria-required
         >
           <Stack direction="row" justify="space-between" wrap="wrap">
             {options.map(({ label, value }) => (
-              <Radio key={value} value={value}>
+              <Radio
+                key={value}
+                value={value}
+                data-testid={`${fieldName}-${value}`}
+                data-cy={`${fieldName}-${value}`}
+              >
                 <Text fontSize={{ base: 'xs', sm: 'sm', md: 'md' }}>{label}</Text>
               </Radio>
             ))}

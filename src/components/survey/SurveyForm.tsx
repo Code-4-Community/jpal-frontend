@@ -1,12 +1,14 @@
-import { Box, Divider, Text, VStack } from '@chakra-ui/react';
+import { ArrowBackIcon } from '@chakra-ui/icons';
+import { Box, Divider, IconButton, Stack, Text, VStack } from '@chakra-ui/react';
 import React from 'react';
-import Form from '../form/Form';
+import Form, { FormValues } from '../form/Form';
 import MultipleChoiceField from '../form/MultipleChoiceField';
 
 export interface SurveyFormProps {
-  setSurveyResponses: (responses: any) => void;
-  questions: Question[];
   youthName: string;
+  questions: Question[];
+  continueAndSaveResponses: (values: FormValues) => void;
+  goBack: () => void;
 }
 
 export type Question = {
@@ -22,48 +24,69 @@ const FIVE_SENTIMENT_OPTIONS = [
   { value: 'Always', label: 'Always' },
 ];
 
-const SurveyForm: React.FC<SurveyFormProps> = ({ setSurveyResponses, questions, youthName }) => (
-  <Form
-    onSubmit={async (values) => {
-      console.log(values);
-      setSurveyResponses(values);
-    }}
-  >
-    <VStack spacing="6">
-      <Box
-        backgroundColor="#417671"
-        borderRadius="2xl"
-        overflow="hidden"
-        boxShadow="sm"
-        padding="8"
-        width="full"
-      >
-        <Text fontSize="3xl" color="white">
-          Survey: {youthName}
-        </Text>
-        <Divider marginBottom="2" />
-        <Text color="white">Please fill out all questions.</Text>
-      </Box>
+const SurveyForm: React.FC<SurveyFormProps> = ({
+  continueAndSaveResponses,
+  goBack,
+  questions,
+  youthName,
+}) => (
+  <Stack direction={{ base: 'column', md: 'row' }} justify="left">
+    <IconButton
+      marginTop="10"
+      color="gray.600"
+      backgroundColor="white"
+      borderRadius="50%"
+      aria-label="Go back"
+      w="max-content"
+      icon={<ArrowBackIcon w="8" h="8" />}
+      onClick={goBack}
+      data-testid="go-back-button"
+      data-cy="go-back-button"
+    />
 
-      {questions.map((question) => (
-        <Box
-          borderWidth="1px"
-          borderRadius="2xl"
-          overflow="hidden"
-          boxShadow="sm"
-          padding="8"
-          width="full"
-          key={question.fieldName}
-        >
-          <MultipleChoiceField
-            displayName={question.question}
-            fieldName={question.fieldName}
-            options={FIVE_SENTIMENT_OPTIONS}
-          />
-        </Box>
-      ))}
-    </VStack>
-  </Form>
+    <Box w="full">
+      <Form
+        onSubmit={async (values: FormValues) => continueAndSaveResponses(values)}
+        submitText="Continue"
+      >
+        <VStack spacing="6">
+          <Box
+            backgroundColor="#417671"
+            borderRadius="2xl"
+            overflow="hidden"
+            boxShadow="sm"
+            padding="8"
+            width="full"
+          >
+            <Text fontSize="3xl" color="white">
+              Survey: {youthName}
+            </Text>
+            <Divider marginBottom="2" />
+            <Text color="white">Please fill out all questions.</Text>
+          </Box>
+
+          {questions.map((question) => (
+            <Box
+              borderWidth="1px"
+              borderRadius="2xl"
+              overflow="hidden"
+              boxShadow="sm"
+              padding="8"
+              width="full"
+              key={question.fieldName}
+            >
+              <MultipleChoiceField
+                displayName={question.question}
+                fieldName={question.fieldName}
+                options={FIVE_SENTIMENT_OPTIONS}
+                isRequired
+              />
+            </Box>
+          ))}
+        </VStack>
+      </Form>
+    </Box>
+  </Stack>
 );
 
 export default SurveyForm;

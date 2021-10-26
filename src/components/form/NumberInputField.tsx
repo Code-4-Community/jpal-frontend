@@ -24,7 +24,7 @@ const NumberInputField: React.FC<NumberFieldProps> = ({
     {({ field, form }: FieldProps) => (
       <FormControl
         isRequired={isRequired}
-        isInvalid={Boolean(form.errors[fieldName] && form.touched)}
+        isInvalid={Boolean(form.errors[fieldName] && form.touched[fieldName])}
       >
         <FormLabel htmlFor={fieldName}>{displayName ?? fieldName}</FormLabel>
         <NumberInput

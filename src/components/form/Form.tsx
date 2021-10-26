@@ -29,6 +29,7 @@ const Form: React.FC<FormProps> = ({ children, initialValues, onSubmit, submitTe
     onSubmit={async (values, actions) => {
       actions.setSubmitting(true);
       try {
+        console.log('submitted');
         await onSubmit(values);
       } finally {
         actions.setSubmitting(false);
