@@ -1,6 +1,6 @@
 import { screen, waitFor } from '@testing-library/react';
 import React from 'react';
-import defaultQuestions from '../../pages/survey/defaultQuestions';
+import defaultQuestions from './defaultQuestions';
 import { render } from '../../test-utils';
 import SurveyForm from './SurveyForm';
 
@@ -19,11 +19,15 @@ describe('ExampleForm', () => {
     );
   });
 
+  it('should contain the youth name', () => {
+    expect(screen.getByText(YOUTH_NAME, { exact: false })).toBeInTheDocument();
+  });
+
   it('should contain every multiple choice field', () => {
     defaultQuestions.forEach((value) => {
-      const { question } = value;
-      const multiipleChoiceField = screen.getByLabelText(question, { exact: false });
-      expect(multiipleChoiceField).toBeInTheDocument();
+      const { text } = value;
+      const multipleChoiceField = screen.getByLabelText(text, { exact: false });
+      expect(multipleChoiceField).toBeInTheDocument();
     });
   });
   it('should contain a submit button', () => {
@@ -33,7 +37,7 @@ describe('ExampleForm', () => {
 
   it('should call continueAndSaveResponses when the form is submitted with proper selections', async () => {
     defaultQuestions.forEach((value) => {
-      const { question, fieldName } = value;
+      const { fieldName } = value;
       screen.getByTestId(`${fieldName}-Always`).click();
     });
 
@@ -50,7 +54,7 @@ describe('ExampleForm', () => {
 
   it('should not call continueAndSaveResponses when any of the fields are missing a selection', async () => {
     defaultQuestions.forEach((value, i) => {
-      const { question, fieldName } = value;
+      const { fieldName } = value;
       // skip the first multiple choice question
       if (i > 0) screen.getByTestId(`${fieldName}-Always`).click();
     });

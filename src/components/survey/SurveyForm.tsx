@@ -13,7 +13,7 @@ export interface SurveyFormProps {
 
 export type Question = {
   fieldName: string;
-  question: string;
+  text: string;
 };
 
 const FIVE_SENTIMENT_OPTIONS = [
@@ -25,10 +25,10 @@ const FIVE_SENTIMENT_OPTIONS = [
 ];
 
 const SurveyForm: React.FC<SurveyFormProps> = ({
+  youthName,
+  questions,
   continueAndSaveResponses,
   goBack,
-  questions,
-  youthName,
 }) => (
   <Stack direction={{ base: 'column', md: 'row' }} justify="left">
     <IconButton
@@ -76,7 +76,7 @@ const SurveyForm: React.FC<SurveyFormProps> = ({
               key={question.fieldName}
             >
               <MultipleChoiceField
-                displayName={question.question}
+                displayName={question.text}
                 fieldName={question.fieldName}
                 options={FIVE_SENTIMENT_OPTIONS}
                 isRequired
