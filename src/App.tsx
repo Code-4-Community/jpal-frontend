@@ -84,7 +84,11 @@ const App: React.FC<AppProps> = ({ history }) => (
         <Logo w="12" h="12" marginTop="4" marginLeft="8" />
         <Switch>
           <Route path="/admin" component={AdminOnlyApp} />
-          <Route path="/survey/:survey_uuid/:reviewer_uuid" component={() => <SurveyPage />} />
+          <Route
+            path="/survey/:survey_uuid/:reviewer_uuid"
+            exact
+            component={() => <SurveyPage />}
+          />
           <Route path="*" component={() => <div> Page not found (TODO: write a 404 page) </div>} />
         </Switch>
       </Router>

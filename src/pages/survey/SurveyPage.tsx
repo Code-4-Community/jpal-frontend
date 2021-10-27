@@ -10,14 +10,18 @@ const SurveyPage: React.FC = () => {
     reviewer_uuid: string;
   }>();
 
-  // Fetch survey assignements, refetches data after 24 hours or on page reload.
+  // Fetch survey assignments, refetch data after 24 hours or on page reload.
   const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000; // in ms
-  const { isLoading, error, data } = useQuery(['survey', surveyUUID, reviewerUUID], () => {}, {
-    staleTime: TWENTY_FOUR_HOURS,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
-  });
+  const { isLoading, error, data } = useQuery(
+    ['survey', surveyUUID, reviewerUUID],
+    () => ['not important, will be replaced when the backend is ready'],
+    {
+      staleTime: TWENTY_FOUR_HOURS,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+    },
+  );
 
   return (
     <Container maxW="3xl" marginY="4">
