@@ -11,13 +11,33 @@ import {
 } from 'xstate';
 import { FormValues } from '../form/Form';
 
+/**
+ * The internal data saved in the state machine.
+ */
 interface Context {
+  /**
+   * Represents the remaining assignments that the user has to fill out a survey for.
+   * The current assignment is the one at the top of the stack (the last element).
+   */
   assignmentsLeft: string[]; // string for illustration, should be an Assignment
+
+  /**
+   * Represents the responses that were saved in the last step of the survey.
+   * Only relevant for passing responses data from the `fillOutSurvey` state to the `confirmLetter` state.
+   */
   lastSavedResponses?: FormValues;
 }
+
+// Link to visualization:
 // https://stately.ai/viz/234d1c59-9f13-4c1c-97f1-6eb03081e446
 
 /**
+ * Represents a state machine that keeps track of the current state of the survey flow.
+ * Each state in the machine represents a view in the survey flow.
+ * Transitions represents moving between pages (e.g. Go back to the previous page).
+ * Relevant data is stored in the "context" of the machine.
+ * At any step in the machine the "current" assignment is the one at the top of the stack (the last element).
+ *
  * @param initialAssignments the initial assignments that the state machine will use
  * @returns a state machine that models the views of the survey flow, starting with some initial assignments
  */

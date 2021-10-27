@@ -10,7 +10,7 @@ const SurveyPage: React.FC = () => {
     reviewer_uuid: string;
   }>();
 
-  // Fetch survey assignements:
+  // Fetch survey assignements, refetches data after 24 hours or on page reload.
   const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000; // in ms
   const { isLoading, error, data } = useQuery(['survey', surveyUUID, reviewerUUID], () => {}, {
     staleTime: TWENTY_FOUR_HOURS,

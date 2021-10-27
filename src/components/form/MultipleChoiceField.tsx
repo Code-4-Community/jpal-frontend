@@ -31,7 +31,6 @@ const MultipleChoiceField: React.FC<MultipleChoiceFieldProps> = ({
   >
     {({ field, form }: FieldProps) => (
       <FormControl
-        // isRequired={isRequired}
         isInvalid={Boolean(
           form.errors[fieldName] && (form.touched[fieldName] || form.submitCount > 0),
         )}
