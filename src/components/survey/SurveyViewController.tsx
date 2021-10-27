@@ -9,17 +9,16 @@ interface SurveyViewControllerProps {
   initialAssignments: string[];
 }
 
+/**
+ * Responsible for rendering the current survey view depending on the state of the survey view state machine.
+ * Every state in the state machine is mapped to a component that will render a different view in the survey flow.
+ *
+ * e.g. fillOutSurvey -> SurveyForm, confirmLetter -> ConfirmLetter, ...
+ *
+ * Every time the state of the survey view machine changes, this component will re-render and display the corresponding view.
+ */
 const SurveyViewController: React.FC<SurveyViewControllerProps> = ({ initialAssignments }) => {
-  // fetch all assignments, add all to stack
-  // confirm filter all students by having reviewer select all students to review
-  // for each assignment in the filtered stack:
-  //  1. display a confirmation screen with the youth name
-  //  2. render a form with the questions
-  //  3. display the generated letter for confirmation, on submit, send the letter to the youth
-  // Loop back to 1. if there are more assignments to review
-  // Otherwise, display a thank you screen
-
-  // See state machine visualization for the entire state machine flow
+  // See state machine visualization in `stateMachine.ts` for the entire state machine flow.
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [state, send] = useMachine(createSurveyViewMachine(initialAssignments));
 
