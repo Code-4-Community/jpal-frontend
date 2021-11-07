@@ -15,6 +15,7 @@ import ExampleFormPage from './pages/ExampleFormPage';
 import LandingPage from './pages/LandingPage';
 import SurveyPage from './pages/survey/SurveyPage';
 import theme from './theme';
+import AdminLandingPage from './pages/AdminLandingPage';
 
 const queryClient = new QueryClient();
 
@@ -62,7 +63,7 @@ const AdminOnlyApp: React.FC = () => {
           {isLoading && <Spinner />}
           {data && (
             <Switch>
-              <Route path="/admin" exact component={() => <LandingPage />} />
+              <Route path="/admin" exact component={() => <AdminLandingPage />} />
               <Route path="/admin/example-form" exact component={() => <ExampleFormPage />} />
             </Switch>
           )}
