@@ -14,6 +14,7 @@ import Logo from './components/Logo';
 import ExampleFormPage from './pages/ExampleFormPage';
 import LandingPage from './pages/LandingPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
+import SurveyConfirmation from './components/survey/SurveyConfirmation';
 import SurveyPage from './pages/survey/SurveyPage';
 import theme from './theme';
 
@@ -91,6 +92,7 @@ const App: React.FC<AppProps> = ({ history }) => (
             exact
             component={() => <SurveyPage />}
           />
+          <Route path="/survey/confirmation" component={() => <SurveyConfirmation />} />
           <Route path="*" component={() => <div> Page not found (TODO: write a 404 page) </div>} />
         </Switch>
       </Router>
