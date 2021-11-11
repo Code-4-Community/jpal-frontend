@@ -1,14 +1,7 @@
 /**
- * Props for field components.
+ * Common props for all form field components.
  */
-export interface GenericFieldProps<ValueType> {
-  /**
-   * Given the value of the input field, determines if the field is valid or not,
-   * and if it is not valid returns a string to be displayed as an error message.
-   * Otherwise if valid, returns undefined.
-   */
-  validate: (value: ValueType) => string | undefined;
-
+export interface GenericFormFieldProps {
   /**
    * The label for the input field. By default this is also the id of the input field.
    */
@@ -25,14 +18,25 @@ export interface GenericFieldProps<ValueType> {
    * This is primarily used to ensure that the input field is unique.
    */
   idPrefix?: string;
+  /**
+   * Determines if this field is required.
+   */
+  isRequired?: boolean;
+}
+
+/**
+ * Props for input field components.
+ */
+export interface GenericInputFieldProps<ValueType> extends GenericFormFieldProps {
+  /**
+   * Given the value of the input field, determines if the field is valid or not,
+   * and if it is not valid returns a string to be displayed as an error message.
+   * Otherwise if valid, returns undefined.
+   */
+  validate: (value: ValueType) => string | undefined;
 
   /**
    * The placeholder text for the input field.
    */
   placeholder?: string;
-
-  /**
-   * Determines if this field is required.
-   */
-  isRequired?: boolean;
 }

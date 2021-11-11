@@ -1,4 +1,4 @@
-import { Button } from '@chakra-ui/react';
+import { Button, Center } from '@chakra-ui/react';
 import { Form as FormBody, Formik, FormikProps } from 'formik';
 import React, { PropsWithoutRef, ReactNode } from 'react';
 
@@ -38,9 +38,11 @@ const Form: React.FC<FormProps> = ({ children, initialValues, onSubmit, submitTe
     {(props) => (
       <FormBody>
         {children}
-        <Button mt={4} colorScheme="teal" isLoading={props.isSubmitting} type="submit">
-          {submitText ?? 'Submit'}
-        </Button>
+        <Center>
+          <Button mt={4} colorScheme="teal" Loading={props.isSubmitting} type="submit">
+            {submitText ?? 'Submit'}
+          </Button>
+        </Center>
       </FormBody>
     )}
   </Formik>
