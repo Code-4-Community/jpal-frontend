@@ -46,6 +46,10 @@ export class ApiClient {
   public async getMe(): Promise<User> {
     return this.get('/auth/me') as Promise<User>;
   }
+
+  public async getAdmins(): Promise<User[]> {
+    return this.get('/user') as Promise<User[]>;
+  }
 }
 
 export default new ApiClient();

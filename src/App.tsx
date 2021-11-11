@@ -13,6 +13,7 @@ import awsconfig from './aws-exports';
 import Logo from './components/Logo';
 import ExampleFormPage from './pages/ExampleFormPage';
 import LandingPage from './pages/LandingPage';
+import AdminDashboard from './pages/admin/AdminDashboard';
 import SurveyConfirmation from './components/survey/SurveyConfirmation';
 import SurveyPage from './pages/survey/SurveyPage';
 import theme from './theme';
@@ -64,6 +65,7 @@ const AdminOnlyApp: React.FC = () => {
           {data && (
             <Switch>
               <Route path="/admin" exact component={() => <LandingPage />} />
+              <Route path="/admin/dashboard" exact component={() => <AdminDashboard />} />
               <Route path="/admin/example-form" exact component={() => <ExampleFormPage />} />
             </Switch>
           )}
