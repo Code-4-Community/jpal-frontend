@@ -37,7 +37,6 @@ describe('GET /auth/me contract with API', () => {
           role: 'researcher',
         }),
       );
-
       return global.provider.verify();
     });
   });
