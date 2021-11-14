@@ -8,9 +8,9 @@ import {
 } from '@chakra-ui/react';
 import { Field, FieldProps } from 'formik';
 import React from 'react';
-import { GenericFieldProps } from './types';
+import { GenericInputFieldProps } from './types';
 
-type NumberFieldProps = GenericFieldProps<number>;
+type NumberFieldProps = GenericInputFieldProps<number>;
 
 const NumberInputField: React.FC<NumberFieldProps> = ({
   validate,
@@ -24,7 +24,7 @@ const NumberInputField: React.FC<NumberFieldProps> = ({
     {({ field, form }: FieldProps) => (
       <FormControl
         isRequired={isRequired}
-        isInvalid={Boolean(form.errors[fieldName] && form.touched)}
+        isInvalid={Boolean(form.errors[fieldName] && form.touched[fieldName])}
       >
         <FormLabel htmlFor={fieldName}>{displayName ?? fieldName}</FormLabel>
         <NumberInput
