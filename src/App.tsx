@@ -19,7 +19,6 @@ import SurveyConfirmation from './components/survey/SurveyConfirmation';
 import SurveyPage from './pages/survey/SurveyPage';
 import theme from './theme';
 
-
 const queryClient = new QueryClient();
 
 Amplify.configure(awsconfig);
