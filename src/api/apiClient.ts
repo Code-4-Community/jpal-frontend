@@ -1,5 +1,6 @@
 import { Auth } from 'aws-amplify';
 import axios, { AxiosInstance } from 'axios';
+import Role from './dtos/role';
 import User from './dtos/user.dto';
 
 const defaultBaseUrl = process.env.API_BASE_URL ?? 'http://localhost:5000';
@@ -39,12 +40,24 @@ export class ApiClient {
     return this.axiosInstance.get(path).then((response) => response.data);
   }
 
+  private async post(path: string, body: unknown): Promise<unknown> {
+    return this.axiosInstance.post(path, body).then((response) => response.data);
+  }
+
   public async getHello(): Promise<string> {
     return this.get('/') as Promise<string>;
   }
 
   public async getMe(): Promise<User> {
     return this.get('/auth/me') as Promise<User>;
+  }
+
+  public async createUser(email: string, role: Role): Promise<User> {
+    return this.post('/user', { email, role }) as Promise<User>;
+  }
+
+  public async getAdmins(): Promise<User[]> {
+    return this.get('/user') as Promise<User[]>;
   }
 }
 
