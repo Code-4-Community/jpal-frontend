@@ -12,7 +12,6 @@ import apiClient from './api/apiClient';
 import awsconfig from './aws-exports';
 import Logo from './components/Logo';
 import ExampleFormPage from './pages/ExampleFormPage';
-import LandingPage from './pages/LandingPage';
 import SurveyPage from './pages/survey/SurveyPage';
 import theme from './theme';
 import AdminLandingPage from './pages/AdminLandingPage';
