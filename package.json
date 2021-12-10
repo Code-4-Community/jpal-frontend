@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@aws-amplify/ui": "^2.0.3",
     "@aws-amplify/ui-components": "^1.7.1",
     "@aws-amplify/ui-react": "^1.2.16",
     "@chakra-ui/icons": "^1.0.16",
@@ -43,8 +44,8 @@
     "test:unit": "react-scripts test --silent",
     "test:e2e": "cypress run",
     "eject": "react-scripts eject",
-    "format:check": "prettier --check src/**/*.{js,jsx,ts,tsx,json,css,scss,md}",
-    "format": "prettier --write src/**/*.{js,jsx,ts,tsx,json,css,scss,md}",
+    "format:check": "prettier --check src/**/*.{js,ts,tsx}",
+    "format": "prettier --write src/**/*.{js,ts,tsx}",
     "lint:check": "eslint . --ext .ts,.tsx",
     "lint": "eslint .  --ext .ts,.tsx --fix",
     "tsc": "tsc --project tsconfig.json",
