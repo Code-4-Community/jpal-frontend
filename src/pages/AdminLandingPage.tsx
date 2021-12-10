@@ -12,6 +12,13 @@ import {
 import * as React from 'react';
 import SurveyTable from '../components/adminLandingPage/SurveyTable';
 
+// TODO : get this from an API call :)
+const data = [
+  { surveyName: 'Survey #1', date: new Date() },
+  { surveyName: 'Survey #2', date: new Date() },
+  { surveyName: 'Survey #3', date: new Date() },
+];
+
 const AdminLandingPage: React.FC = () => (
   <Container maxW="7xl" mt={12}>
     <Flex>
@@ -30,7 +37,7 @@ const AdminLandingPage: React.FC = () => (
         </InputGroup>
       </Box>
     </Flex>
-    <SurveyTable />
+    <SurveyTable data={data} />
   </Container>
 );
 

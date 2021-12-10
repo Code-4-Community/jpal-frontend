@@ -8,8 +8,8 @@ describe('Cognito Login', () => {
       cy.visit('/admin');
     });
 
-    it('shows onboarding', () => {
-      cy.contains('Learn Chakra').should('be.visible');
+    it('Contains create survey button', () => {
+      cy.contains('Create Survey').should('be.visible');
     });
   });
 
@@ -20,8 +20,8 @@ describe('Cognito Login', () => {
       cy.visit('/admin');
     });
 
-    it('shows onboarding', () => {
-      cy.contains('Learn Chakra').should('be.visible');
+    it('Contains create survey button', () => {
+      cy.contains('Create Survey').should('be.visible');
     });
   });
 });

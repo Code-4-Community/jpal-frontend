@@ -1,14 +1,12 @@
 import { Box, Table, Tbody, Th, Thead, Tr } from '@chakra-ui/react';
 import React from 'react';
-import SurveyTableRow from './SurveyTableRow';
+import SurveyTableRow, { SurveyTableRowProps } from './SurveyTableRow';
 
-const data = [
-  { surveyName: 'Survey #1', date: new Date() },
-  { surveyName: 'Survey #2', date: new Date() },
-  { surveyName: 'Survey #3', date: new Date() },
-];
+interface SurveyTableProps {
+  data: SurveyTableRowProps[];
+}
 
-const SurveyTable: React.FC = () => (
+const SurveyTable: React.FC<SurveyTableProps> = ({ data }) => (
   <Box mt={5} borderWidth={1} borderRadius="lg">
     <Table variant="simple">
       <Thead>
