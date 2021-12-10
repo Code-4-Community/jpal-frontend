@@ -12,12 +12,9 @@ import apiClient from './api/apiClient';
 import awsconfig from './aws-exports';
 import Logo from './components/Logo';
 import ExampleFormPage from './pages/ExampleFormPage';
-
-import LandingPage from './pages/LandingPage';
 import AddAdminPage from './pages/AddAdminPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import SurveyConfirmation from './components/survey/SurveyConfirmation';
-
 import SurveyPage from './pages/survey/SurveyPage';
 import theme from './theme';
 import AdminLandingPage from './pages/AdminLandingPage';
@@ -69,9 +66,7 @@ const AdminOnlyApp: React.FC = () => {
           {data && (
             <Switch>
               <Route path="/admin" exact component={() => <AdminLandingPage />} />
-
               <Route path="/admin/dashboard" exact component={() => <AdminDashboard />} />
-
               <Route path="/admin/example-form" exact component={() => <ExampleFormPage />} />
               <Route path="/admin/add-new-admin" exact component={() => <AddAdminPage />} />
             </Switch>
