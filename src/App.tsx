@@ -68,9 +68,7 @@ const AdminOnlyApp: React.FC = () => {
           {isLoading && <Spinner />}
           {data && (
             <Switch>
-
               <Route path="/admin" exact component={() => <AdminLandingPage />} />
-
 
               <Route path="/admin/dashboard" exact component={() => <AdminDashboard />} />
 
