@@ -40,9 +40,7 @@ describe('ReviewerConfirmation', () => {
   it('should call confirm when the confirm button is clicked', async () => {
     const confirmButton = screen.getByRole('button', { name: /confirm/i });
     confirmButton.click();
-    await waitFor(() => {
-      expect(confirm).toHaveBeenCalled();
-    });
+    expect(confirm).toHaveBeenCalled();
   });
 
   it("should call the this isn't me callback when the this isn't me button is pressed", () => {
