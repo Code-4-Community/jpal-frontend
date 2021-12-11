@@ -17,6 +17,7 @@ import AddAdminPage from './pages/AddAdminPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import SurveyConfirmation from './components/survey/SurveyConfirmation';
 import SurveyPage from './pages/survey/SurveyPage';
+import ReviewerConfirmationPage from './pages/survey/ReviewerConfirmationPage';
 import theme from './theme';
 
 const queryClient = new QueryClient();
@@ -95,6 +96,11 @@ const App: React.FC<AppProps> = ({ history }) => (
             component={() => <SurveyPage />}
           />
           <Route path="/survey/confirmation" component={() => <SurveyConfirmation />} />
+          <Route
+            path="/survey/confirm-reviewer"
+            exact
+            component={() => <ReviewerConfirmationPage />}
+          />
           <Route path="*" component={() => <div> Page not found (TODO: write a 404 page) </div>} />
         </Switch>
       </Router>
