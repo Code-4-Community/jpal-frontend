@@ -17,6 +17,7 @@ import AddAdminPage from './pages/AddAdminPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import ExampleFormPage from './pages/ExampleFormPage';
 import LandingPage from './pages/LandingPage';
+import ConfirmAssignmentsPage from './pages/survey/ConfirmAssignmentsPage';
 import ReviewerConfirmationPage from './pages/survey/ReviewerConfirmationPage';
 import SurveyPage from './pages/survey/SurveyPage';
 import theme from './theme';
@@ -97,6 +98,7 @@ const App: React.FC<AppProps> = ({ history }) => (
       <Router history={history}>
         <Logo w="12" h="12" marginTop="4" marginLeft="8" />
         <Switch>
+          <Route path="/test" component={ConfirmAssignmentsPage} />
           <Route path="/private" component={AdminOnlyApp} />
           <Route
             path="/survey/:survey_uuid/:reviewer_uuid"

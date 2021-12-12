@@ -4,7 +4,7 @@ import defaultQuestions from './defaultQuestions';
 import { render } from '../../test-utils';
 import SurveyForm from './SurveyForm';
 
-describe('ExampleForm', () => {
+describe('SurveyForm', () => {
   const YOUTH_NAME = 'Nash Ville';
   const mockContinueAndSaveResponses = jest.fn();
   const mockGoBack = jest.fn();
