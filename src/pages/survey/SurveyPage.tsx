@@ -27,7 +27,7 @@ const SurveyPage: React.FC = () => {
     <Container maxW="3xl" marginY="4">
       {isLoading && <div>Loading...</div>}
       {error && <div>Error</div>}
-      {data && <SurveyViewController initialAssignments={data} />}
+      {/* {data && <SurveyViewController initialAssignments={data} />} */}
     </Container>
   );
 };
