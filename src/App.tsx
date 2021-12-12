@@ -9,17 +9,17 @@ import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Route, Router, Switch } from 'react-router-dom';
 import apiClient from './api/apiClient';
+import Role from './api/dtos/role';
 import awsconfig from './aws-exports';
 import Logo from './components/Logo';
-import ExampleFormPage from './pages/ExampleFormPage';
-import LandingPage from './pages/LandingPage';
+import SurveyConfirmation from './components/survey/SurveyConfirmation';
 import AddAdminPage from './pages/AddAdminPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
-import SurveyConfirmation from './components/survey/SurveyConfirmation';
-import SurveyPage from './pages/survey/SurveyPage';
+import ExampleFormPage from './pages/ExampleFormPage';
+import LandingPage from './pages/LandingPage';
 import ReviewerConfirmationPage from './pages/survey/ReviewerConfirmationPage';
+import SurveyPage from './pages/survey/SurveyPage';
 import theme from './theme';
-import Role from './api/dtos/role';
 
 const queryClient = new QueryClient();
 
@@ -69,13 +69,13 @@ const AdminOnlyApp: React.FC = () => {
           {isLoading && <Spinner />}
           {data && (
             <Switch>
-              <Route path="/admin" exact component={() => <LandingPage />} />
+              <Route path="/private" exact component={() => <LandingPage />} />
 
-              <Route path="/admin/example-form" exact component={() => <ExampleFormPage />} />
+              <Route path="/private/example-form" exact component={() => <ExampleFormPage />} />
               {isResearcher && (
                 <>
-                  <Route path="/admin/dashboard" exact component={() => <AdminDashboard />} />
-                  <Route path="/admin/add-new-admin" exact component={() => <AddAdminPage />} />
+                  <Route path="/private/dashboard" exact component={() => <AdminDashboard />} />
+                  <Route path="/private/add-new-admin" exact component={() => <AddAdminPage />} />
                 </>
               )}
             </Switch>
@@ -97,7 +97,7 @@ const App: React.FC<AppProps> = ({ history }) => (
       <Router history={history}>
         <Logo w="12" h="12" marginTop="4" marginLeft="8" />
         <Switch>
-          <Route path="/admin" component={AdminOnlyApp} />
+          <Route path="/private" component={AdminOnlyApp} />
           <Route
             path="/survey/:survey_uuid/:reviewer_uuid"
             exact
