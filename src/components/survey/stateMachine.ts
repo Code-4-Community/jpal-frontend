@@ -9,6 +9,7 @@ import {
   StateMachine,
   StateSchema,
 } from 'xstate';
+import { Youth } from '../../api/dtos/assignment.dto';
 import { FormValues } from '../form/Form';
 
 /**
@@ -19,7 +20,7 @@ interface Context {
    * Represents the remaining assignments that the user has to fill out a survey for.
    * The current assignment is the one at the top of the stack (the last element).
    */
-  assignmentsLeft: string[]; // string for illustration, should be an Assignment
+  assignmentsLeft: Youth[]; // string for illustration, should be an Assignment
 
   /**
    * Represents the responses that were saved in the last step of the survey.
@@ -42,33 +43,29 @@ interface Context {
  * @returns a state machine that models the views of the survey flow, starting with some initial assignments
  */
 const createSurveyViewMachine = (
-  initialAssignments: string[],
+  treatmentYouth: Youth[],
+  controlYouth: Youth[],
 ): StateMachine<Context, StateSchema<unknown>, AnyEventObject> =>
   createMachine<Context>(
     {
       id: 'survey-state-machine',
       initial: 'confirmReviewerIdentity',
       context: {
-        assignmentsLeft: initialAssignments,
+        assignmentsLeft: [...treatmentYouth],
         lastSavedResponses: undefined,
       },
       states: {
         confirmReviewerIdentity: {
           on: {
             CONFIRM: 'confirmAssignments',
-            REJECT: 'wrongReviewer',
+            REJECT: 'finishedSurvey',
           },
-        },
-        wrongReviewer: {
-          type: 'final',
         },
         confirmAssignments: {
           on: {
             CONFIRM: {
               target: 'confirmYouth',
-              actions: assign({
-                assignmentsLeft: ['Alice', 'Bob', 'Charlie'],
-              }),
+              actions: 'selectYouth',
             },
           },
         },
@@ -80,7 +77,10 @@ const createSurveyViewMachine = (
               actions: 'removeYouth',
             },
           },
-          always: [{ target: 'finishedSurvey', cond: 'noMoreAssignments' }],
+          always: [
+            { target: 'repeatWithControl', cond: 'hasControlYouth' },
+            { target: 'finishedSurvey', cond: 'noMoreAssignments' },
+          ],
         },
         fillOutSurvey: {
           on: {
@@ -100,6 +100,16 @@ const createSurveyViewMachine = (
             REJECT: 'fillOutSurvey',
           },
         },
+
+        repeatWithControl: {
+          on: {
+            CONFIRM: {
+              target: 'confirmAssignments',
+              actions: ['resetWithControl'],
+            },
+          },
+        },
+
         finishedSurvey: {
           type: 'final',
         },
@@ -107,18 +117,27 @@ const createSurveyViewMachine = (
     },
     {
       guards: {
-        noMoreAssignments: (context) => context.assignmentsLeft.length === 0,
+        hasControlYouth: (context) =>
+          context.assignmentsLeft.length === 0 && controlYouth.length > 0,
+        noMoreAssignments: (context) =>
+          context.assignmentsLeft.length === 0 && controlYouth.length === 0,
       },
       actions: {
         removeYouth: assign({
           assignmentsLeft: (context) => context.assignmentsLeft.slice(1),
         }),
         saveResponses: assign({
-          lastSavedResponses: (_context, event) => event.responses,
+          lastSavedResponses: (_context, event: AnyEventObject) => event.responses,
         }),
         clearResponses: assign({
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           lastSavedResponses: (_context) => undefined,
+        }),
+        resetWithControl: assign({
+          assignmentsLeft: controlYouth,
+        }),
+        selectYouth: assign({
+          assignmentsLeft: (_context, event: AnyEventObject) => event.selectedYouth,
         }),
       },
     },

@@ -1,4 +1,13 @@
-import { Box, Button, Center, Checkbox, CheckboxGroup, Stack, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Center,
+  Checkbox,
+  CheckboxGroup,
+  Container,
+  Stack,
+  Text,
+} from '@chakra-ui/react';
 import React from 'react';
 import { Youth } from '../../api/dtos/assignment.dto';
 
@@ -15,7 +24,7 @@ const SurveyConfirmAssignments: React.FC<SurveyConfirmAssignmentsProps> = ({ you
   };
 
   return (
-    <>
+    <Container>
       <Text fontWeight={600} fontSize="lg">
         Please confirm the youth you have supervised.
       </Text>
@@ -36,7 +45,7 @@ const SurveyConfirmAssignments: React.FC<SurveyConfirmAssignmentsProps> = ({ you
           Confirm
         </Button>
       </Center>
-    </>
+    </Container>
   );
 };
 
