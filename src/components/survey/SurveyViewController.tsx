@@ -12,6 +12,10 @@ import SurveyConfirmAssignments from './SurveyConfirmAssignments';
 import SurveyConfirmation from './SurveyConfirmation';
 import SurveyForm from './SurveyForm';
 
+interface SurveyViewControllerProps extends SurveyData {
+  completeAssignment: (assignmentId: number, responses: FormValues) => Promise<void>;
+}
+
 /**
  * Responsible for rendering the current survey view depending on the state of the survey view state machine.
  * Every state in the state machine is mapped to a component that will render a different view in the survey flow.
@@ -20,7 +24,12 @@ import SurveyForm from './SurveyForm';
  *
  * Every time the state of the survey view machine changes, this component will re-render and display the corresponding view.
  */
-const SurveyViewController: React.FC<SurveyData> = ({ uuid, treatmentYouth, controlYouth }) => {
+const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
+  uuid,
+  treatmentYouth,
+  controlYouth,
+  completeAssignment,
+}) => {
   // See state machine visualization in `stateMachine.ts` for the entire state machine flow.
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [state, send] = useMachine(createSurveyViewMachine(treatmentYouth, controlYouth));
@@ -74,7 +83,16 @@ const SurveyViewController: React.FC<SurveyData> = ({ uuid, treatmentYouth, cont
 
       {state.matches('confirmLetter') && (
         <PreviewLetter
-          confirmAndSaveResponses={() => send('CONFIRM')}
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          savedSurveyResponses={state.context.lastSavedResponses!}
+          confirmAndSaveResponses={async () => {
+            await completeAssignment(
+              getCurrentYouth().assignmentId,
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              state.context.lastSavedResponses!,
+            );
+            send('CONFIRM');
+          }}
           goBack={() => send('REJECT')}
         />
       )}

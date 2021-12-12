@@ -9,4 +9,5 @@ export interface Youth {
   email: string;
   firstName: string;
   lastName: string;
+  assignmentId: number;
 }
