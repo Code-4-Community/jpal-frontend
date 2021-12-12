@@ -12,6 +12,8 @@ import apiClient from './api/apiClient';
 import Role from './api/dtos/role';
 import awsconfig from './aws-exports';
 import Logo from './components/Logo';
+import ConfirmYouth from './components/survey/ConfirmYouth';
+import PreviewLetter from './components/survey/PreviewLetter';
 import SurveyConfirmation from './components/survey/SurveyConfirmation';
 import AddAdminPage from './pages/AddAdminPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -98,7 +100,7 @@ const App: React.FC<AppProps> = ({ history }) => (
       <Router history={history}>
         <Logo w="12" h="12" marginTop="4" marginLeft="8" />
         <Switch>
-          <Route path="/test" component={ConfirmAssignmentsPage} />
+          {/* <Route path="/test" component={PreviewLetter} /> */}
           <Route path="/private" component={AdminOnlyApp} />
           <Route
             path="/survey/:survey_uuid/:reviewer_uuid"
