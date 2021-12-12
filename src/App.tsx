@@ -19,6 +19,7 @@ import SurveyConfirmation from './components/survey/SurveyConfirmation';
 import SurveyPage from './pages/survey/SurveyPage';
 import ReviewerConfirmationPage from './pages/survey/ReviewerConfirmationPage';
 import theme from './theme';
+import Role from './api/dtos/role';
 
 const queryClient = new QueryClient();
 
@@ -53,6 +54,8 @@ const AdminOnlyApp: React.FC = () => {
     enabled: authState === AuthState.SignedIn && !!user,
   });
 
+  const isResearcher = data?.role === Role.RESEARCHER;
+
   return (
     <>
       <ReactQueryDevtools initialIsOpen={false} />
@@ -67,9 +70,14 @@ const AdminOnlyApp: React.FC = () => {
           {data && (
             <Switch>
               <Route path="/admin" exact component={() => <LandingPage />} />
-              <Route path="/admin/dashboard" exact component={() => <AdminDashboard />} />
+
               <Route path="/admin/example-form" exact component={() => <ExampleFormPage />} />
-              <Route path="/admin/add-new-admin" exact component={() => <AddAdminPage />} />
+              {isResearcher && (
+                <>
+                  <Route path="/admin/dashboard" exact component={() => <AdminDashboard />} />
+                  <Route path="/admin/add-new-admin" exact component={() => <AddAdminPage />} />
+                </>
+              )}
             </Switch>
           )}
           <AmplifySignOut />
