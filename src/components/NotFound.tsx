@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Button, Text, Box} from '@chakra-ui/react';
+import { Button, Text, Box } from '@chakra-ui/react';
 import Logo from './Logo';
 
 interface NotFoundProps {
@@ -7,7 +7,7 @@ interface NotFoundProps {
 }
 
 const NotFound: React.FC<NotFoundProps> = ({ goBack }) => (
-    <Box align='center' mt={20}>
+  <Box align="center" mt={20}>
     <Logo w="200" h="200" mb={6} />
     <Text fontSize="3xl" color="#D46136" fontWeight={600}>
       404 Page not found
@@ -16,7 +16,7 @@ const NotFound: React.FC<NotFoundProps> = ({ goBack }) => (
     <Button mt={20} colorScheme="teal" onClick={goBack}>
       Go Back
     </Button>
-    </Box>
+  </Box>
 );
 
 export default NotFound;
