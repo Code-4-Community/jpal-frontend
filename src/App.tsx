@@ -19,6 +19,7 @@ import SurveyConfirmation from './components/survey/SurveyConfirmation';
 import SurveyPage from './pages/survey/SurveyPage';
 import ReviewerConfirmationPage from './pages/survey/ReviewerConfirmationPage';
 import theme from './theme';
+import NotFoundPage from './pages/NotFoundPage';
 
 const queryClient = new QueryClient();
 
@@ -101,7 +102,7 @@ const App: React.FC<AppProps> = ({ history }) => (
             exact
             component={() => <ReviewerConfirmationPage />}
           />
-          <Route path="*" component={() => <div> Page not found (TODO: write a 404 page) </div>} />
+          <Route path="*" component={() => <NotFoundPage />} />
         </Switch>
       </Router>
     </ChakraProvider>
