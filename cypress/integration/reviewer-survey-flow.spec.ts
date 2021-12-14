@@ -74,7 +74,7 @@ describe('Reviewer Survey Flow', () => {
     reviewAllYouth(SURVEY_DATA_SMALL.treatmentYouth);
     continueToReviewControlYouth();
     reviewAllYouth(SURVEY_DATA_SMALL.controlYouth);
-    cy.contains('Thank you for completing our survey(s)!').should('be.visible');
+    testFinishedSurveyPage();
   });
 
   it('can complete a small survey by filling skipping every student individually', () => {
@@ -84,7 +84,7 @@ describe('Reviewer Survey Flow', () => {
     skipReviewingAllYouth(SURVEY_DATA_SMALL.treatmentYouth);
     continueToReviewControlYouth();
     skipReviewingAllYouth(SURVEY_DATA_SMALL.controlYouth);
-    cy.contains('Thank you for completing our survey(s)!').should('be.visible');
+    testFinishedSurveyPage();
   });
 
   it('can complete a small survey by unchecking every student on the confirmation page', () => {
@@ -94,7 +94,7 @@ describe('Reviewer Survey Flow', () => {
     uncheckAllAssignments(SURVEY_DATA_SMALL.treatmentYouth);
     continueToReviewControlYouth();
     uncheckAllAssignments(SURVEY_DATA_SMALL.controlYouth);
-    cy.contains('Thank you for completing our survey(s)!').should('be.visible');
+    testFinishedSurveyPage();
   });
 
   it('should only show treatment youth if there are no control youth', () => {
@@ -103,7 +103,7 @@ describe('Reviewer Survey Flow', () => {
     cy.visit(`/survey/${fakeSurveyUuid}/${fakeReviewerUuid}`);
     testReviewerConfirmationPage();
     reviewAllYouth(SURVEY_DATA_SMALL.treatmentYouth);
-    cy.contains('Thank you for completing our survey(s)!').should('be.visible');
+    testFinishedSurveyPage();
   });
 
   /**
@@ -119,9 +119,20 @@ describe('Reviewer Survey Flow', () => {
     reviewSomeAndSkipSome(SURVEY_DATA_LARGE.treatmentYouth);
     continueToReviewControlYouth();
     reviewSomeAndSkipSome(SURVEY_DATA_LARGE.controlYouth);
-    cy.contains('Thank you for completing our survey(s)!').should('be.visible');
+    testFinishedSurveyPage();
   });
+
+  it('can immediately end the survey', () => {
+    interceptAPICalls(SURVEY_DATA_SMALL);
+    cy.visit(`/survey/${fakeSurveyUuid}/${fakeReviewerUuid}`);
+    selectThisIsntMe()
+    testFinishedSurveyPage();
+  })
 });
+
+function testFinishedSurveyPage() {
+  cy.contains('Thank you for completing our survey(s)!').should('be.visible');
+}
 
 function interceptAPICalls(surveyData: SurveyData) {
   cy.intercept(
@@ -276,4 +287,15 @@ function testReviewerConfirmationPage() {
 
   cy.get('button').contains('Confirm').click();
 }
+
+function selectThisIsntMe() {
+  cy.wait('@getSurvey');
+  cy.contains(
+    `${SURVEY_DATA_SMALL.reviewer.firstName} ${SURVEY_DATA_SMALL.reviewer.lastName}`,
+  ).should('be.visible');
+  cy.contains(SURVEY_DATA_SMALL.reviewer.email).should('be.visible');
+
+  cy.get('button').contains(`This isn't me.`).click();
+}
+
 export {};
