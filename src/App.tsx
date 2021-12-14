@@ -15,8 +15,8 @@ import Logo from './components/Logo';
 import SurveyConfirmation from './components/survey/SurveyConfirmation';
 import AddAdminPage from './pages/AddAdminPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminLandingPage from './pages/AdminLandingPage';
 import ExampleFormPage from './pages/ExampleFormPage';
-import LandingPage from './pages/LandingPage';
 import ReviewerConfirmationPage from './pages/survey/ReviewerConfirmationPage';
 import SurveyPage from './pages/survey/SurveyPage';
 import theme from './theme';
@@ -69,8 +69,7 @@ const AdminOnlyApp: React.FC = () => {
           {isLoading && <Spinner />}
           {data && (
             <Switch>
-              <Route path="/private" exact component={() => <LandingPage />} />
-
+              <Route path="/private" exact component={() => <AdminLandingPage />} />
               <Route path="/private/example-form" exact component={() => <ExampleFormPage />} />
               {isResearcher && (
                 <>
