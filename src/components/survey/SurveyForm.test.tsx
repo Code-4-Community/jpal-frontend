@@ -1,18 +1,22 @@
 import { screen, waitFor } from '@testing-library/react';
 import React from 'react';
-import defaultQuestions from './defaultQuestions';
 import { render } from '../../test-utils';
+import DEFAULT_QUESTIONS from './defaultQuestions';
 import SurveyForm from './SurveyForm';
 
 describe('SurveyForm', () => {
   const YOUTH_NAME = 'Nash Ville';
   const mockContinueAndSaveResponses = jest.fn();
   const mockGoBack = jest.fn();
+  const defaultResponses = DEFAULT_QUESTIONS.map(({ question, options }) => ({
+    question,
+    selectedOption: options[4],
+  }));
   beforeEach(() => {
     render(
       <SurveyForm
         youthName={YOUTH_NAME}
-        questions={defaultQuestions}
+        questions={DEFAULT_QUESTIONS}
         continueAndSaveResponses={mockContinueAndSaveResponses}
         goBack={mockGoBack}
       />,
@@ -24,9 +28,9 @@ describe('SurveyForm', () => {
   });
 
   it('should contain every multiple choice field', () => {
-    defaultQuestions.forEach((value) => {
-      const { text } = value;
-      const multipleChoiceField = screen.getByLabelText(text, { exact: false });
+    DEFAULT_QUESTIONS.forEach((value) => {
+      const { question } = value;
+      const multipleChoiceField = screen.getByLabelText(question, { exact: false });
       expect(multipleChoiceField).toBeInTheDocument();
     });
   });
@@ -36,27 +40,23 @@ describe('SurveyForm', () => {
   });
 
   it('should call continueAndSaveResponses when the form is submitted with proper selections', async () => {
-    defaultQuestions.forEach((value) => {
-      const { fieldName } = value;
-      screen.getByTestId(`${fieldName}-Always`).click();
+    DEFAULT_QUESTIONS.forEach((value) => {
+      const { question } = value;
+      screen.getByTestId(`${question}-Always`).click();
     });
 
     const formButton = screen.getByRole('button', { name: /continue/i });
     formButton.click();
     await waitFor(() => {
-      expect(mockContinueAndSaveResponses).toHaveBeenCalledWith({
-        initiative: 'Always',
-        leadership: 'Always',
-        responsibility: 'Always',
-      });
+      expect(mockContinueAndSaveResponses).toHaveBeenCalledWith(defaultResponses);
     });
   });
 
   it('should not call continueAndSaveResponses when any of the fields are missing a selection', async () => {
-    defaultQuestions.forEach((value, i) => {
-      const { fieldName } = value;
+    DEFAULT_QUESTIONS.forEach((value, i) => {
+      const { question } = value;
       // skip the first multiple choice question
-      if (i > 0) screen.getByTestId(`${fieldName}-Always`).click();
+      if (i > 0) screen.getByTestId(`${question}-Always`).click();
     });
 
     const formButton = screen.getByRole('button', { name: /continue/i });

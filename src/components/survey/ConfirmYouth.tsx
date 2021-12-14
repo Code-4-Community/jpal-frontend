@@ -1,6 +1,6 @@
 import { Box, Button, Container, HStack, Text } from '@chakra-ui/react';
 import React from 'react';
-import { Youth } from '../../api/dtos/assignment.dto';
+import { Youth } from '../../api/dtos/survey-assignment.dto';
 
 interface ConfirmYouthProps {
   youth: Youth;

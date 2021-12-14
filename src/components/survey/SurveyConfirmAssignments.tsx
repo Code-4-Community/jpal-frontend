@@ -9,7 +9,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import React from 'react';
-import { Youth } from '../../api/dtos/assignment.dto';
+import { Youth } from '../../api/dtos/survey-assignment.dto';
 
 export interface SurveyConfirmAssignmentsProps {
   youth: Youth[];
@@ -32,8 +32,8 @@ const SurveyConfirmAssignments: React.FC<SurveyConfirmAssignmentsProps> = ({ you
       <Box mx={6} my={8}>
         <CheckboxGroup colorScheme="teal" defaultValue={youthIdentifiers} onChange={handleChange}>
           <Stack>
-            {youth.map(({ firstName, lastName }, index) => (
-              <Checkbox value={`${index}`} data-testid={`${index}`}>
+            {youth.map(({ firstName, lastName, assignmentUuid }, index) => (
+              <Checkbox value={`${index}`} data-testid={`${index}`} key={`${assignmentUuid}`}>
                 {firstName} {lastName}
               </Checkbox>
             ))}

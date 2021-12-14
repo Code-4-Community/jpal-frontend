@@ -1,10 +1,9 @@
 import { useMachine } from '@xstate/react';
 import React from 'react';
-import { SurveyData, Youth } from '../../api/dtos/assignment.dto';
-import { FormValues } from '../form/Form';
+import { Response, SurveyData, Youth } from '../../api/dtos/survey-assignment.dto';
 import ConfirmYouth from './ConfirmYouth';
 import ControlExplanation from './ControlExplanation';
-import defaultQuestions from './defaultQuestions';
+import DEFAULT_QUESTIONS from './defaultQuestions';
 import PreviewLetter from './PreviewLetter';
 import ReviewerConfirmation from './ReviewerConfirmation';
 import createSurveyViewMachine from './stateMachine';
@@ -13,7 +12,7 @@ import SurveyConfirmation from './SurveyConfirmation';
 import SurveyForm from './SurveyForm';
 
 interface SurveyViewControllerProps extends SurveyData {
-  completeAssignment: (assignmentId: number, responses: FormValues) => Promise<void>;
+  completeAssignment: (assignmentUuid: string, responses: Response[]) => Promise<void>;
 }
 
 /**
@@ -25,19 +24,16 @@ interface SurveyViewControllerProps extends SurveyData {
  * Every time the state of the survey view machine changes, this component will re-render and display the corresponding view.
  */
 const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
-  uuid,
   treatmentYouth,
   controlYouth,
   completeAssignment,
+  reviewer,
 }) => {
   // See state machine visualization in `stateMachine.ts` for the entire state machine flow.
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [state, send] = useMachine(createSurveyViewMachine(treatmentYouth, controlYouth));
-  const reviewerName = 'Jack Blanc';
-  const reviewerEmail = 'Jack.Blanc@hey.com';
   // Only call this when you know there are assignments left
-  const getCurrentYouth: () => Youth = () =>
-    state.context.assignmentsLeft[state.context.assignmentsLeft.length - 1];
+  const getCurrentYouth: () => Youth = () => state.context.assignmentsLeft[0];
 
   return (
     <>
@@ -45,8 +41,8 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
 
       {state.matches('confirmReviewerIdentity') && (
         <ReviewerConfirmation
-          name={reviewerName}
-          email={reviewerEmail}
+          name={`${reviewer.firstName} ${reviewer.lastName}`}
+          email={reviewer.email}
           confirm={() => send('CONFIRM')}
           thisIsntMe={() => send('REJECT')}
         />
@@ -71,10 +67,10 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
       {state.matches('fillOutSurvey') && (
         <SurveyForm
           youthName={`${getCurrentYouth().firstName} ${getCurrentYouth().lastName}`}
-          questions={defaultQuestions}
-          continueAndSaveResponses={(values: FormValues) =>
+          questions={DEFAULT_QUESTIONS}
+          continueAndSaveResponses={(responses: Response[]) =>
             send('CONFIRM', {
-              responses: values,
+              responses,
             })
           }
           goBack={() => send('REJECT')}
@@ -87,7 +83,7 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
           savedSurveyResponses={state.context.lastSavedResponses!}
           confirmAndSaveResponses={async () => {
             await completeAssignment(
-              getCurrentYouth().assignmentId,
+              getCurrentYouth().assignmentUuid,
               // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               state.context.lastSavedResponses!,
             );

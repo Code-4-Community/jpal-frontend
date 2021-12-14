@@ -1,16 +1,5 @@
-import {
-  AnyEventObject,
-  assign,
-  createMachine,
-  Event,
-  EventData,
-  SCXML,
-  SingleOrArray,
-  StateMachine,
-  StateSchema,
-} from 'xstate';
-import { Youth } from '../../api/dtos/assignment.dto';
-import { FormValues } from '../form/Form';
+import { AnyEventObject, assign, createMachine, StateMachine, StateSchema } from 'xstate';
+import { Response, Youth } from '../../api/dtos/survey-assignment.dto';
 
 /**
  * The internal data saved in the state machine.
@@ -18,15 +7,21 @@ import { FormValues } from '../form/Form';
 interface Context {
   /**
    * Represents the remaining assignments that the user has to fill out a survey for.
-   * The current assignment is the one at the top of the stack (the last element).
+   * The current assignment is the one at the top of the stack (the first element).
    */
-  assignmentsLeft: Youth[]; // string for illustration, should be an Assignment
+  assignmentsLeft: Youth[];
 
   /**
    * Represents the responses that were saved in the last step of the survey.
    * Only relevant for passing responses data from the `fillOutSurvey` state to the `confirmLetter` state.
    */
-  lastSavedResponses?: FormValues;
+  lastSavedResponses?: Response[];
+
+  /**
+   * Boolean flag reperesenting whether the user is reviewing the control youth.
+   * (Second round of reviews).
+   */
+  isReviewingControlYouth: boolean;
 }
 
 // Link to visualization:
@@ -37,7 +32,7 @@ interface Context {
  * Each state in the machine represents a view in the survey flow.
  * Transitions represents moving between pages (e.g. Go back to the previous page).
  * Relevant data is stored in the "context" of the machine.
- * At any step in the machine the "current" assignment is the one at the top of the stack (the last element).
+ * At any step in the machine the "current" assignment is the one at the top of the stack (the first element).
  *
  * @param initialAssignments the initial assignments that the state machine will use
  * @returns a state machine that models the views of the survey flow, starting with some initial assignments
@@ -53,6 +48,7 @@ const createSurveyViewMachine = (
       context: {
         assignmentsLeft: [...treatmentYouth],
         lastSavedResponses: undefined,
+        isReviewingControlYouth: false,
       },
       states: {
         confirmReviewerIdentity: {
@@ -118,9 +114,12 @@ const createSurveyViewMachine = (
     {
       guards: {
         hasControlYouth: (context) =>
-          context.assignmentsLeft.length === 0 && controlYouth.length > 0,
+          context.assignmentsLeft.length === 0 &&
+          controlYouth.length > 0 &&
+          !context.isReviewingControlYouth,
         noMoreAssignments: (context) =>
-          context.assignmentsLeft.length === 0 && controlYouth.length === 0,
+          context.assignmentsLeft.length === 0 &&
+          (context.isReviewingControlYouth || controlYouth.length === 0),
       },
       actions: {
         removeYouth: assign({
@@ -134,7 +133,10 @@ const createSurveyViewMachine = (
           lastSavedResponses: (_context) => undefined,
         }),
         resetWithControl: assign({
-          assignmentsLeft: controlYouth,
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          assignmentsLeft: (_context) => [...controlYouth],
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          isReviewingControlYouth: (_context) => true,
         }),
         selectYouth: assign({
           assignmentsLeft: (_context, event: AnyEventObject) => event.selectedYouth,
@@ -142,10 +144,5 @@ const createSurveyViewMachine = (
       },
     },
   );
-
-export type TransitionAction = (
-  event: SingleOrArray<Event<AnyEventObject>> | SCXML.Event<AnyEventObject>,
-  payload?: EventData | undefined,
-) => void;
 
 export default createSurveyViewMachine;

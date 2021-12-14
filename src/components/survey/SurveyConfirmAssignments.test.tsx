@@ -4,9 +4,9 @@ import { render } from '../../test-utils';
 import SurveyConfirmAssignments from './SurveyConfirmAssignments';
 
 const YOUTH = [
-  { email: 'one@email.com', firstName: 'Alan', lastName: 'Turing', assignmentId: 1 },
-  { email: 'two@email.com', firstName: 'Alonzo', lastName: 'Church', assignmentId: 2 },
-  { email: 'three@email.com', firstName: 'Haskell', lastName: 'Curry', assignmentId: 3 },
+  { email: 'one@email.com', firstName: 'Alan', lastName: 'Turing', assignmentUuid: '1' },
+  { email: 'two@email.com', firstName: 'Alonzo', lastName: 'Church', assignmentUuid: '2' },
+  { email: 'three@email.com', firstName: 'Haskell', lastName: 'Curry', assignmentUuid: '3' },
 ];
 
 describe('SurveyConfirmAssignments', () => {

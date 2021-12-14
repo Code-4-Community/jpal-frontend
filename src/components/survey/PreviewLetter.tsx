@@ -1,11 +1,11 @@
 import { Box, Button, Container, HStack, Text } from '@chakra-ui/react';
 import React from 'react';
-import { FormValues } from '../form/Form';
+import { Response } from '../../api/dtos/survey-assignment.dto';
 import { generateLetter } from './generateLetter';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface PreviewLetterProps {
-  savedSurveyResponses: FormValues;
+  savedSurveyResponses: Response[];
   goBack: () => void;
   confirmAndSaveResponses: () => void;
 }
