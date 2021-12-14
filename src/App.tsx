@@ -1,6 +1,6 @@
 import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
 import { AmplifyAuthenticator, AmplifySignIn, AmplifySignOut } from '@aws-amplify/ui-react';
-import { Alert, ChakraProvider, Spinner } from '@chakra-ui/react';
+import { Alert, ChakraProvider } from '@chakra-ui/react';
 import * as Sentry from '@sentry/react';
 import Amplify from 'aws-amplify';
 import { History } from 'history';
@@ -11,6 +11,7 @@ import { Route, Router, Switch } from 'react-router-dom';
 import apiClient from './api/apiClient';
 import Role from './api/dtos/role';
 import awsconfig from './aws-exports';
+import LoadingSpinner from './components/LoadingSpinner';
 import Logo from './components/Logo';
 import SurveyConfirmation from './components/survey/SurveyConfirmation';
 import AddAdminPage from './pages/AddAdminPage';
@@ -66,7 +67,7 @@ const AdminOnlyApp: React.FC = () => {
               An error occurred while fetching your user information. Please sign out and try again.
             </Alert>
           )}
-          {isLoading && <Spinner />}
+          {isLoading && <LoadingSpinner />}
           {data && (
             <Switch>
               <Route path="/private" exact component={() => <AdminLandingPage />} />
@@ -96,7 +97,6 @@ const App: React.FC<AppProps> = ({ history }) => (
       <Router history={history}>
         <Logo w="12" h="12" marginTop="4" marginLeft="8" />
         <Switch>
-          {/* <Route path="/test" component={PreviewLetter} /> */}
           <Route path="/private" component={AdminOnlyApp} />
           <Route
             path="/survey/:survey_uuid/:reviewer_uuid"

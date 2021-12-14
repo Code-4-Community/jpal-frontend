@@ -4,6 +4,8 @@ import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import apiClient from '../../api/apiClient';
 import { Response } from '../../api/dtos/survey-assignment.dto';
+import ErrorAlert from '../../components/ErrorAlert';
+import LoadingSpinner from '../../components/LoadingSpinner';
 import SurveyViewController from '../../components/survey/SurveyViewController';
 
 const SurveyPage: React.FC = () => {
@@ -30,8 +32,8 @@ const SurveyPage: React.FC = () => {
 
   return (
     <Container maxW="3xl" marginY="4">
-      {isLoading && <div>Loading...</div>}
-      {error && <div>Error</div>}
+      {error && <ErrorAlert />}
+      {isLoading && <LoadingSpinner />}
       {data && (
         <SurveyViewController
           reviewer={data.reviewer}

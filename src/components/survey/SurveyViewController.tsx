@@ -1,6 +1,8 @@
+import { useToast } from '@chakra-ui/react';
 import { useMachine } from '@xstate/react';
 import React from 'react';
 import { Response, SurveyData, Youth } from '../../api/dtos/survey-assignment.dto';
+import { TOAST_POPUP_DURATION } from '../../pages/basicConstants';
 import ConfirmYouth from './ConfirmYouth';
 import ControlExplanation from './ControlExplanation';
 import DEFAULT_QUESTIONS from './defaultQuestions';
@@ -30,15 +32,16 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
   reviewer,
 }) => {
   // See state machine visualization in `stateMachine.ts` for the entire state machine flow.
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [state, send] = useMachine(createSurveyViewMachine(treatmentYouth, controlYouth));
-  // Only call this when you know there are assignments left
+  /**
+   * Only call this when you know there are assignments left
+   */
   const getCurrentYouth: () => Youth = () => state.context.assignmentsLeft[0];
+  const toast = useToast();
 
   return (
     <>
-      {/* Eventually have one view per state in the machine: i.e. `state.matches("initial") && ...` */}
-
+      {/* One view per state in the machine: i.e. `state.matches("initial") && ...` */}
       {state.matches('confirmReviewerIdentity') && (
         <ReviewerConfirmation
           name={`${reviewer.firstName} ${reviewer.lastName}`}
@@ -82,12 +85,23 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           savedSurveyResponses={state.context.lastSavedResponses!}
           confirmAndSaveResponses={async () => {
-            await completeAssignment(
-              getCurrentYouth().assignmentUuid,
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              state.context.lastSavedResponses!,
-            );
-            send('CONFIRM');
+            const youth = getCurrentYouth();
+            try {
+              await completeAssignment(
+                youth.assignmentUuid,
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                state.context.lastSavedResponses!,
+              );
+              send('CONFIRM');
+            } catch (error) {
+              toast({
+                title: 'Error submitting review.',
+                description: `Failed to submit a review for ${youth.firstName} ${youth.lastName}. Please try again. If this problem persists, please contact an administrator.`,
+                status: 'error',
+                duration: TOAST_POPUP_DURATION,
+                isClosable: true,
+              });
+            }
           }}
           goBack={() => send('REJECT')}
         />
