@@ -13,7 +13,7 @@ import Role from './api/dtos/role';
 import awsconfig from './aws-exports';
 import LoadingSpinner from './components/LoadingSpinner';
 import Logo from './components/Logo';
-import SurveyConfirmation from './components/survey/SurveyConfirmation';
+import ThankYou from './components/survey/ThankYou';
 import AddAdminPage from './pages/AddAdminPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminLandingPage from './pages/AdminLandingPage';
@@ -103,7 +103,7 @@ const App: React.FC<AppProps> = ({ history }) => (
             exact
             component={() => <SurveyPage />}
           />
-          <Route path="/survey/confirmation" component={() => <SurveyConfirmation />} />
+          <Route path="/survey/confirmation" component={() => <ThankYou />} />
           <Route
             path="/survey/confirm-reviewer"
             exact

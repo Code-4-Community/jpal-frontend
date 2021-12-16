@@ -11,12 +11,12 @@ import {
 import React from 'react';
 import { Youth } from '../../api/dtos/survey-assignment.dto';
 
-export interface SurveyConfirmAssignmentsProps {
+export interface ConfirmAssignmentsProps {
   youth: Youth[];
   confirm: (selectedYouth: Youth[]) => void;
 }
 
-const SurveyConfirmAssignments: React.FC<SurveyConfirmAssignmentsProps> = ({ youth, confirm }) => {
+const ConfirmAssignments: React.FC<ConfirmAssignmentsProps> = ({ youth, confirm }) => {
   const youthIdentifiers = youth.map((_, index) => `${index}`);
   const [selected, setSelected] = React.useState<Youth[]>(youth);
   const handleChange = (selectedIndices: string[]) => {
@@ -49,4 +49,4 @@ const SurveyConfirmAssignments: React.FC<SurveyConfirmAssignmentsProps> = ({ you
   );
 };
 
-export default SurveyConfirmAssignments;
+export default ConfirmAssignments;

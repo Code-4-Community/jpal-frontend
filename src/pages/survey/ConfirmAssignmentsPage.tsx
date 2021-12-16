@@ -1,7 +1,7 @@
 import { Container } from '@chakra-ui/react';
 import React from 'react';
 import { Youth } from '../../api/dtos/survey-assignment.dto';
-import SurveyConfirmAssignments from '../../components/survey/SurveyConfirmAssignments';
+import ConfirmAssignments from '../../components/survey/ConfirmAssignments';
 
 const YOUTH: Youth[] = [
   { email: 'one@email.com', firstName: 'Alan', lastName: 'Turing', assignmentUuid: '1' },
@@ -12,7 +12,7 @@ const YOUTH: Youth[] = [
 
 const ConfirmAssignmentsPage: React.FC = () => (
   <Container>
-    <SurveyConfirmAssignments youth={YOUTH} confirm={() => {}} />
+    <ConfirmAssignments youth={YOUTH} confirm={() => {}} />
   </Container>
 );
 

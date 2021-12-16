@@ -1,14 +1,14 @@
 import React from 'react';
 import { Box, Button, Center, HStack, Text, VStack } from '@chakra-ui/react';
 
-interface ReviewerConfirmationProps {
+interface ConfirmReviewerIdentityProps {
   name: string;
   email: string;
   confirm: () => void;
   thisIsntMe: () => void;
 }
 
-const ReviewerConfirmation: React.FC<ReviewerConfirmationProps> = ({
+const ConfirmReviewerIdentity: React.FC<ConfirmReviewerIdentityProps> = ({
   name,
   email,
   confirm,
@@ -52,4 +52,4 @@ const ReviewerConfirmation: React.FC<ReviewerConfirmationProps> = ({
   </Center>
 );
 
-export default ReviewerConfirmation;
+export default ConfirmReviewerIdentity;

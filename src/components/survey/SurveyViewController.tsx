@@ -7,10 +7,10 @@ import ConfirmYouth from './ConfirmYouth';
 import ControlExplanation from './ControlExplanation';
 import DEFAULT_QUESTIONS from './defaultQuestions';
 import PreviewLetter from './PreviewLetter';
-import ReviewerConfirmation from './ReviewerConfirmation';
+import ConfirmReviewerIdentity from './ConfirmReviewerIdentity';
 import createSurveyViewMachine from './stateMachine';
-import SurveyConfirmAssignments from './SurveyConfirmAssignments';
-import SurveyConfirmation from './SurveyConfirmation';
+import ConfirmAssignments from './ConfirmAssignments';
+import ThankYou from './ThankYou';
 import SurveyForm from './SurveyForm';
 
 interface SurveyViewControllerProps extends SurveyData {
@@ -43,7 +43,7 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
     <>
       {/* One view per state in the machine: i.e. `state.matches("initial") && ...` */}
       {state.matches('confirmReviewerIdentity') && (
-        <ReviewerConfirmation
+        <ConfirmReviewerIdentity
           name={`${reviewer.firstName} ${reviewer.lastName}`}
           email={reviewer.email}
           confirm={() => send('CONFIRM')}
@@ -52,7 +52,7 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
       )}
 
       {state.matches('confirmAssignments') && (
-        <SurveyConfirmAssignments
+        <ConfirmAssignments
           youth={state.context.assignmentsLeft}
           confirm={(selectedYouth) => send('CONFIRM', { selectedYouth })}
         />
@@ -112,7 +112,7 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
         <ControlExplanation continueWithControl={() => send('CONFIRM')} />
       )}
 
-      {state.matches('finishedSurvey') && <SurveyConfirmation />}
+      {state.matches('finishedSurvey') && <ThankYou />}
     </>
   );
 };
