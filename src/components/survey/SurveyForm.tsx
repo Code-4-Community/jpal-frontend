@@ -10,6 +10,7 @@ export interface SurveyFormProps {
   questions: Question[];
   continueAndSaveResponses: (responses: Response[]) => void;
   goBack: () => void;
+  savedResponses?: Response[];
 }
 
 function invalidResponses(
@@ -43,11 +44,16 @@ function formValuesToResponses(questions: Question[], values: FormValues): Respo
   return responses;
 }
 
+function responsesToFormValues(responses: Response[]): FormValues {
+  return Object.fromEntries(responses.map((r) => [r.question, r.selectedOption]));
+}
+
 const SurveyForm: React.FC<SurveyFormProps> = ({
   youthName,
   questions,
   continueAndSaveResponses,
   goBack,
+  savedResponses,
 }) => (
   <Stack direction={{ base: 'column', md: 'row' }} justify="left">
     <IconButton
@@ -69,6 +75,7 @@ const SurveyForm: React.FC<SurveyFormProps> = ({
           continueAndSaveResponses(formValuesToResponses(questions, values));
         }}
         submitText="Continue"
+        initialValues={savedResponses && responsesToFormValues(savedResponses)}
       >
         <VStack spacing="6">
           <Box
@@ -101,6 +108,10 @@ const SurveyForm: React.FC<SurveyFormProps> = ({
                 fieldName={question.question}
                 options={question.options.map((option) => ({ label: option, value: option }))}
                 isRequired
+                defaultValue={
+                  savedResponses &&
+                  savedResponses.find((r) => r.question === question.question)?.selectedOption
+                }
               />
             </Box>
           ))}

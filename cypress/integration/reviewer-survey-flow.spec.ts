@@ -128,6 +128,28 @@ describe('Reviewer Survey Flow', () => {
     selectThisIsntMe()
     testFinishedSurveyPage();
   })
+
+  
+  it('should allow users to go back from preview letter and change answers', () => {
+    interceptAPICalls(SURVEY_DATA_ONLY_TREATMENT_YOUTH);
+    cy.visit(`/survey/${fakeSurveyUuid}/${fakeReviewerUuid}`);
+    testReviewerConfirmationPage();
+    confirmAssignments(SURVEY_DATA_SMALL.treatmentYouth);
+    testFillOutSurvey(SURVEY_DATA_SMALL.treatmentYouth[0]);
+    cy.get('button').contains('Go Back').click();
+    SURVEY_DATA_SMALL.questions.forEach((question) => {
+      cy.get(`[data-cy="${question.question}-${ALWAYS}"]`).should('have.attr', 'data-checked');
+    });
+    cy.get('button').contains('Continue').click();
+    testPreviewLetter(SURVEY_DATA_SMALL.treatmentYouth[0]);
+
+    testFillOutSurvey(SURVEY_DATA_SMALL.treatmentYouth[1]);
+    cy.get('button').contains('Go Back').click();
+    cy.get(`[data-cy="go-back-button"]`).click();
+    testFillOutSurvey(SURVEY_DATA_SMALL.treatmentYouth[1]);
+    testPreviewLetter(SURVEY_DATA_SMALL.treatmentYouth[1]);
+    testFinishedSurveyPage();
+  });
 });
 
 function testFinishedSurveyPage() {

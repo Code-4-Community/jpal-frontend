@@ -67,7 +67,10 @@ const createSurveyViewMachine = (
         },
         confirmYouth: {
           on: {
-            CONFIRM: 'fillOutSurvey',
+            CONFIRM: {
+              target: 'fillOutSurvey',
+              actions: 'clearResponses',
+            },
             REJECT: {
               target: 'confirmYouth',
               actions: 'removeYouth',

@@ -15,6 +15,10 @@ import { GenericFormFieldProps } from './types';
 
 interface MultipleChoiceFieldProps extends GenericFormFieldProps {
   options: Choice[];
+  /**
+   * If default value is provided, it must be set as an initial value in the parent Formik form.
+   */
+  defaultValue?: string;
 }
 type Choice = { label: string; value: string };
 
@@ -24,6 +28,7 @@ const MultipleChoiceField: React.FC<MultipleChoiceFieldProps> = ({
   displayName,
   isRequired,
   options,
+  defaultValue,
 }) => (
   <Field
     name={fieldName}
@@ -46,6 +51,7 @@ const MultipleChoiceField: React.FC<MultipleChoiceFieldProps> = ({
           id={`${idPrefix ?? ''}${fieldName}`}
           onChange={(val) => form.setFieldValue(fieldName, val)}
           aria-required
+          defaultValue={defaultValue}
         >
           <Stack direction="row" justify="space-between" wrap="wrap">
             {options.map(({ label, value }) => (
