@@ -1,9 +1,7 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { Box, Button, VStack } from '@chakra-ui/react';
 
-const SurveyConfirmation: React.FC = () => (
-  // eslint-disable-next-line no-alert
+const ThankYou: React.FC = () => (
   <VStack justify="center" height="full">
     <Box padding="4" maxW="3xl" lineHeight="200%">
       <b>Thank you for completing our survey(s)!</b>
@@ -18,4 +16,4 @@ const SurveyConfirmation: React.FC = () => (
   </VStack>
 );
 
-export default SurveyConfirmation;
+export default ThankYou;

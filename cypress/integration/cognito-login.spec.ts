@@ -5,7 +5,7 @@ describe('Cognito Login', () => {
     beforeEach(() => {
       // Programmatically login via Amazon Cognito API
       cy.loginAsResearcher();
-      cy.visit('/admin');
+      cy.visit('/private');
     });
 
     it('Contains create survey button', () => {
@@ -17,7 +17,7 @@ describe('Cognito Login', () => {
     beforeEach(() => {
       // Programmatically login via Amazon Cognito API
       cy.loginAsAdmin();
-      cy.visit('/admin');
+      cy.visit('/private');
     });
 
     it('Contains create survey button', () => {

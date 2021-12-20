@@ -1,6 +1,6 @@
 import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
 import { AmplifyAuthenticator, AmplifySignIn, AmplifySignOut } from '@aws-amplify/ui-react';
-import { Alert, ChakraProvider, Spinner } from '@chakra-ui/react';
+import { Alert, ChakraProvider } from '@chakra-ui/react';
 import * as Sentry from '@sentry/react';
 import Amplify from 'aws-amplify';
 import { History } from 'history';
@@ -9,16 +9,18 @@ import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Route, Router, Switch } from 'react-router-dom';
 import apiClient from './api/apiClient';
+import Role from './api/dtos/role';
 import awsconfig from './aws-exports';
+import LoadingSpinner from './components/LoadingSpinner';
 import Logo from './components/Logo';
-import ExampleFormPage from './pages/ExampleFormPage';
+import ThankYou from './components/survey/ThankYou';
 import AddAdminPage from './pages/AddAdminPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
-import SurveyConfirmation from './components/survey/SurveyConfirmation';
-import SurveyPage from './pages/survey/SurveyPage';
-import ReviewerConfirmationPage from './pages/survey/ReviewerConfirmationPage';
-import theme from './theme';
 import AdminLandingPage from './pages/AdminLandingPage';
+import ExampleFormPage from './pages/ExampleFormPage';
+import ReviewerConfirmationPage from './pages/survey/ReviewerConfirmationPage';
+import SurveyPage from './pages/survey/SurveyPage';
+import theme from './theme';
 
 const queryClient = new QueryClient();
 
@@ -53,6 +55,8 @@ const AdminOnlyApp: React.FC = () => {
     enabled: authState === AuthState.SignedIn && !!user,
   });
 
+  const isResearcher = data?.role === Role.RESEARCHER;
+
   return (
     <>
       <ReactQueryDevtools initialIsOpen={false} />
@@ -63,13 +67,17 @@ const AdminOnlyApp: React.FC = () => {
               An error occurred while fetching your user information. Please sign out and try again.
             </Alert>
           )}
-          {isLoading && <Spinner />}
+          {isLoading && <LoadingSpinner />}
           {data && (
             <Switch>
-              <Route path="/admin" exact component={() => <AdminLandingPage />} />
-              <Route path="/admin/dashboard" exact component={() => <AdminDashboard />} />
-              <Route path="/admin/example-form" exact component={() => <ExampleFormPage />} />
-              <Route path="/admin/add-new-admin" exact component={() => <AddAdminPage />} />
+              <Route path="/private" exact component={() => <AdminLandingPage />} />
+              <Route path="/private/example-form" exact component={() => <ExampleFormPage />} />
+              {isResearcher && (
+                <>
+                  <Route path="/private/dashboard" exact component={() => <AdminDashboard />} />
+                  <Route path="/private/add-new-admin" exact component={() => <AddAdminPage />} />
+                </>
+              )}
             </Switch>
           )}
           <AmplifySignOut />
@@ -89,13 +97,13 @@ const App: React.FC<AppProps> = ({ history }) => (
       <Router history={history}>
         <Logo w="12" h="12" marginTop="4" marginLeft="8" />
         <Switch>
-          <Route path="/admin" component={AdminOnlyApp} />
+          <Route path="/private" component={AdminOnlyApp} />
           <Route
             path="/survey/:survey_uuid/:reviewer_uuid"
             exact
             component={() => <SurveyPage />}
           />
-          <Route path="/survey/confirmation" component={() => <SurveyConfirmation />} />
+          <Route path="/survey/confirmation" component={() => <ThankYou />} />
           <Route
             path="/survey/confirm-reviewer"
             exact

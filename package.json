@@ -116,6 +116,7 @@
   "devDependencies": {
     "@pact-foundation/pact": "^9.16.1",
     "@pact-foundation/pact-node": "^10.12.2",
+    "@types/faker": "^5.5.9",
     "@types/history": "^4.7.9",
     "@types/react-router-dom": "^5.1.9",
     "@types/testing-library__jest-dom": "^5.14.1",
@@ -129,6 +130,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-prettier": "^4.0.0",
+    "faker": "^5.5.3",
     "husky": "^7.0.2",
     "lint-staged": "^11.0.1",
     "nock": "^13.1.3",
