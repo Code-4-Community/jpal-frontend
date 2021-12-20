@@ -3,6 +3,7 @@ import axios, { AxiosInstance } from 'axios';
 import { Response, SurveyData } from './dtos/survey-assignment.dto';
 import Role from './dtos/role';
 import User from './dtos/user.dto';
+import DEFAULT_QUESTIONS from '../components/survey/defaultQuestions';
 
 const defaultBaseUrl = process.env.API_BASE_URL ?? 'http://localhost:5000';
 // Required to use nock with axios (note: do not use nock, just use jest to mock the apiClient)
@@ -65,8 +66,57 @@ export class ApiClient {
     return this.get('/user') as Promise<User[]>;
   }
 
-  public async getSurvey(surveyUuid: string, reviewerUuid: string): Promise<SurveyData> {
-    return this.get(`/survey/${surveyUuid}/${reviewerUuid}`) as Promise<SurveyData>;
+  // eslint-disable-next-line class-methods-use-this
+  public getSurvey(_surveyUuid: string, _reviewerUuid: string): SurveyData {
+    // return this.get(`/survey/${surveyUuid}/${reviewerUuid}`) as Promise<SurveyData>;
+    return {
+      reviewer: {
+        email: 'c4cneu.jpal+ben.lerner@gmail.com',
+        firstName: 'Ben',
+        lastName: 'Lerner',
+      },
+      controlYouth: [
+        {
+          email: 'c4cneu.jpal+joe.shmoe@gmail.com',
+          firstName: 'Joe',
+          lastName: 'Shmoe',
+          assignmentUuid: 'demo-assignment-uuid-joe',
+        },
+        {
+          email: 'c4cneu.jpal+nash.ville@gmail.com',
+          firstName: 'Nash',
+          lastName: 'Ville',
+          assignmentUuid: 'demo-assignment-uuid-nash',
+        },
+        {
+          email: 'c4cneu.jpal+jane.doe@gmail.com',
+          firstName: 'Jane',
+          lastName: 'Doe',
+          assignmentUuid: 'demo-assignment-uuid-jane',
+        },
+      ],
+      treatmentYouth: [
+        {
+          email: 'c4cneu.jpal+ada.lovelace@gmail.com',
+          firstName: 'Ada',
+          lastName: 'Lovelace',
+          assignmentUuid: 'demo-assignment-uuid-ada',
+        },
+        {
+          email: 'c4cneu.jpal+alan.turing@gmail.com',
+          firstName: 'Alan',
+          lastName: 'Turing',
+          assignmentUuid: 'demo-assignment-uuid-alan',
+        },
+        {
+          email: 'c4cneu.jpal+george.washington@gmail.com',
+          firstName: 'George',
+          lastName: 'Washington',
+          assignmentUuid: 'demo-assignment-uuid-george',
+        },
+      ],
+      questions: DEFAULT_QUESTIONS,
+    };
   }
 
   // Stubbed out for now. Not implemented on the backend.
