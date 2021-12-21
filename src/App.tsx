@@ -14,10 +14,10 @@ import awsconfig from './aws-exports';
 import LoadingSpinner from './components/LoadingSpinner';
 import Logo from './components/Logo';
 import ThankYou from './components/survey/ThankYou';
-import AddAdminPage from './pages/AddAdminPage';
-import AdminDashboard from './pages/admin/AdminDashboard';
-import AdminLandingPage from './pages/AdminLandingPage';
-import ExampleFormPage from './pages/ExampleFormPage';
+import AddAdminPage from './pages/addAdminPage/AddAdminPage';
+import ResearcherLandingPage from './pages/researcherLandingPage/ResearcherLandingPage';
+import AdminLandingPage from './pages/adminLandingPage/AdminLandingPage';
+import ExampleFormPage from './pages/exampleFormPage/ExampleFormPage';
 import ReviewerConfirmationPage from './pages/survey/ReviewerConfirmationPage';
 import SurveyPage from './pages/survey/SurveyPage';
 import theme from './theme';
@@ -74,7 +74,11 @@ const AdminOnlyApp: React.FC = () => {
               <Route path="/private/example-form" exact component={() => <ExampleFormPage />} />
               {isResearcher && (
                 <>
-                  <Route path="/private/dashboard" exact component={() => <AdminDashboard />} />
+                  <Route
+                    path="/private/dashboard"
+                    exact
+                    component={() => <ResearcherLandingPage />}
+                  />
                   <Route path="/private/add-new-admin" exact component={() => <AddAdminPage />} />
                 </>
               )}
