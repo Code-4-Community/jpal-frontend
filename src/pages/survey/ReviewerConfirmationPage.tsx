@@ -1,8 +1,8 @@
 import React from 'react';
-import ReviewerConfirmation from '../../components/survey/ReviewerConfirmation';
+import ConfirmReviewerIdentity from '../../components/survey/ConfirmReviewerIdentity';
 
 const ReviewerConfirmationPage: React.FC = () => (
-  <ReviewerConfirmation
+  <ConfirmReviewerIdentity
     name="Jane Doe"
     email="doe.j@school.edu"
     confirm={() => undefined}

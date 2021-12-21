@@ -1,5 +1,6 @@
 import { Auth } from 'aws-amplify';
 import axios, { AxiosInstance } from 'axios';
+import { Response, SurveyData } from './dtos/survey-assignment.dto';
 import Role from './dtos/role';
 import User from './dtos/user.dto';
 
@@ -44,6 +45,10 @@ export class ApiClient {
     return this.axiosInstance.post(path, body).then((response) => response.data);
   }
 
+  private async patch(path: string, body: unknown): Promise<unknown> {
+    return this.axiosInstance.patch(path, body).then((response) => response.data);
+  }
+
   public async getHello(): Promise<string> {
     return this.get('/') as Promise<string>;
   }
@@ -58,6 +63,15 @@ export class ApiClient {
 
   public async getAdmins(): Promise<User[]> {
     return this.get('/user') as Promise<User[]>;
+  }
+
+  public async getSurvey(surveyUuid: string, reviewerUuid: string): Promise<SurveyData> {
+    return this.get(`/survey/${surveyUuid}/${reviewerUuid}`) as Promise<SurveyData>;
+  }
+
+  // Stubbed out for now. Not implemented on the backend.
+  public async completeAssignment(assignmentUuid: string, responses: Response[]): Promise<void> {
+    this.patch(`/assignment/${assignmentUuid}`, { responses }).catch(() => undefined);
   }
 }
 

@@ -1,34 +1,59 @@
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Box, Divider, IconButton, Stack, Text, VStack } from '@chakra-ui/react';
 import React from 'react';
+import { Question, Response } from '../../api/dtos/survey-assignment.dto';
 import Form, { FormValues } from '../form/Form';
 import MultipleChoiceField from '../form/MultipleChoiceField';
 
 export interface SurveyFormProps {
   youthName: string;
   questions: Question[];
-  continueAndSaveResponses: (values: FormValues) => void;
+  continueAndSaveResponses: (responses: Response[]) => void;
   goBack: () => void;
+  savedResponses?: Response[];
 }
 
-export type Question = {
-  fieldName: string;
-  text: string;
-};
+function invalidResponses(
+  questions: Question[],
+  responses: { question: string; selectedOption: string }[],
+) {
+  return questions.some(
+    (q) =>
+      responses.find((r) => r.question === q.question && q.options.includes(r.selectedOption)) ===
+      undefined,
+  );
+}
 
-const FIVE_SENTIMENT_OPTIONS = [
-  { value: 'Never', label: 'Never' },
-  { value: 'Rarely', label: 'Rarely' },
-  { value: 'Somewhat', label: 'Somewhat' },
-  { value: 'Often', label: 'Often' },
-  { value: 'Always', label: 'Always' },
-];
+function formValuesToResponses(questions: Question[], values: FormValues): Response[] {
+  const responses = Object.entries(values).map(([question, selectedOption]) => {
+    if (selectedOption === undefined) {
+      throw new Error(`No option selected for question ${question}`);
+    }
+    return {
+      question,
+      selectedOption,
+    };
+  });
+
+  if (invalidResponses(questions, responses)) {
+    throw new Error(
+      'Not all questions have been answered or a selected option is not one of the options given',
+    );
+  }
+
+  return responses;
+}
+
+function responsesToFormValues(responses: Response[]): FormValues {
+  return Object.fromEntries(responses.map((r) => [r.question, r.selectedOption]));
+}
 
 const SurveyForm: React.FC<SurveyFormProps> = ({
   youthName,
   questions,
   continueAndSaveResponses,
   goBack,
+  savedResponses,
 }) => (
   <Stack direction={{ base: 'column', md: 'row' }} justify="left">
     <IconButton
@@ -46,8 +71,11 @@ const SurveyForm: React.FC<SurveyFormProps> = ({
 
     <Box w="full">
       <Form
-        onSubmit={async (values: FormValues) => continueAndSaveResponses(values)}
+        onSubmit={async (values: FormValues) => {
+          continueAndSaveResponses(formValuesToResponses(questions, values));
+        }}
         submitText="Continue"
+        initialValues={savedResponses && responsesToFormValues(savedResponses)}
       >
         <VStack spacing="6">
           <Box
@@ -73,13 +101,17 @@ const SurveyForm: React.FC<SurveyFormProps> = ({
               boxShadow="sm"
               padding="8"
               width="full"
-              key={question.fieldName}
+              key={question.question}
             >
               <MultipleChoiceField
-                displayName={question.text}
-                fieldName={question.fieldName}
-                options={FIVE_SENTIMENT_OPTIONS}
+                displayName={question.question}
+                fieldName={question.question}
+                options={question.options.map((option) => ({ label: option, value: option }))}
                 isRequired
+                defaultValue={
+                  savedResponses &&
+                  savedResponses.find((r) => r.question === question.question)?.selectedOption
+                }
               />
             </Box>
           ))}

@@ -1,8 +1,10 @@
-import { Spinner, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import { Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import * as React from 'react';
 import { useQuery } from 'react-query';
 import apiClient from '../../api/apiClient';
 import User from '../../api/dtos/user.dto';
+import ErrorAlert from '../../components/ErrorAlert';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const AdminDashboard: React.FC = () => {
   const { isLoading, error, data } = useQuery<User[], Error>('adminList', () =>
@@ -36,8 +38,8 @@ const AdminDashboard: React.FC = () => {
           <Tbody>{getTableRows()}</Tbody>
         </Table>
       )}
-      {isLoading && <Spinner />}
-      {error && <p>error loading</p>}
+      {isLoading && <LoadingSpinner />}
+      {error && <ErrorAlert />}
     </>
   );
 };

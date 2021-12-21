@@ -1,16 +1,16 @@
 import { screen } from '@testing-library/react';
 import React from 'react';
 import { render } from '../../test-utils';
-import ReviewerConfirmation from './ReviewerConfirmation';
+import ConfirmReviewerIdentity from './ConfirmReviewerIdentity';
 
-describe('ReviewerConfirmation', () => {
+describe('ConfirmReviewerIdentity', () => {
   const REVIEWER_NAME = 'Jane Doe';
   const REVIEWER_EMAIL = 'doe.j@school.edu';
   const confirm = jest.fn();
   const thisIsntMe = jest.fn();
   beforeEach(() => {
     render(
-      <ReviewerConfirmation
+      <ConfirmReviewerIdentity
         name={REVIEWER_NAME}
         email={REVIEWER_EMAIL}
         confirm={confirm}

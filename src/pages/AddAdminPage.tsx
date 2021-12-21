@@ -4,8 +4,7 @@ import * as React from 'react';
 import apiClient from '../api/apiClient';
 import Role from '../api/dtos/role';
 import { AddAdminForm, AdminFormValues } from '../components/form/AddAdminForm';
-
-const TOAST_POPUP_DURATION = 4000;
+import { TOAST_POPUP_DURATION } from './basicConstants';
 
 const AddAdminPage: React.FC = () => {
   const toast = useToast();
@@ -24,7 +23,7 @@ const AddAdminPage: React.FC = () => {
       });
     } catch (err) {
       toast({
-        title: 'Post created.',
+        title: 'Post creation failed.',
         description: `Failed to create the admin with the email ${values.email}.`,
         status: 'error',
         duration: TOAST_POPUP_DURATION,
