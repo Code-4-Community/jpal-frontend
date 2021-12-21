@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 import React from 'react';
-import { render } from '../test-utils';
+import { render } from '../../test-utils';
 import AdminLandingPage from './AdminLandingPage';
 
 jest.mock('../api/apiClient');
