@@ -1,13 +1,13 @@
 import { screen } from '@testing-library/react';
 import React from 'react';
-import apiClient from '../api/apiClient';
-import Role from '../api/dtos/role';
-import { Survey } from '../api/dtos/survey-assignment.dto';
-import User from '../api/dtos/user.dto';
-import { render } from '../test-utils';
+import apiClient from '../../api/apiClient';
+import Role from '../../api/dtos/role';
+import { Survey } from '../../api/dtos/survey-assignment.dto';
+import User from '../../api/dtos/user.dto';
+import { render } from '../../test-utils';
 import AdminLandingPage from './AdminLandingPage';
 
-jest.mock('../api/apiClient');
+jest.mock('../../api/apiClient.ts');
 
 const exampleUser: User = { id: 1, email: 'test@test.com', role: Role.ADMIN };
 const surveyList: Survey[] = [

@@ -1,10 +1,10 @@
 import { Grid, Box, Container, Heading, useToast } from '@chakra-ui/react';
 import { FormikHelpers } from 'formik';
 import * as React from 'react';
-import apiClient from '../api/apiClient';
-import Role from '../api/dtos/role';
-import { AddAdminForm, AdminFormValues } from '../components/form/AddAdminForm';
-import { TOAST_POPUP_DURATION } from './basicConstants';
+import apiClient from '../../api/apiClient';
+import Role from '../../api/dtos/role';
+import { AddAdminForm, AdminFormValues } from '../../components/form/AddAdminForm';
+import { TOAST_POPUP_DURATION } from '../basicConstants';
 
 const AddAdminPage: React.FC = () => {
   const toast = useToast();
