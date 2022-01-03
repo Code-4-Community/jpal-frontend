@@ -1,6 +1,6 @@
 import { Auth } from 'aws-amplify';
 import axios, { AxiosInstance } from 'axios';
-import { Response, SurveyData } from './dtos/survey-assignment.dto';
+import { Response, Survey, SurveyData } from './dtos/survey-assignment.dto';
 import Role from './dtos/role';
 import User from './dtos/user.dto';
 
@@ -67,6 +67,10 @@ export class ApiClient {
 
   public async getSurvey(surveyUuid: string, reviewerUuid: string): Promise<SurveyData> {
     return this.get(`/survey/${surveyUuid}/${reviewerUuid}`) as Promise<SurveyData>;
+  }
+
+  public async getMySurveys(): Promise<Survey[]> {
+    return this.get('/survey') as Promise<Survey[]>;
   }
 
   // Stubbed out for now. Not implemented on the backend.
