@@ -10,7 +10,7 @@ import {
   Container,
 } from '@chakra-ui/react';
 import * as React from 'react';
-import SurveyTable from '../components/adminLandingPage/SurveyTable';
+import SurveyTable from '../../components/adminLandingPage/SurveyTable';
 
 // TODO : get this from an API call :)
 const data = [
