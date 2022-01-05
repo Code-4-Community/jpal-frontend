@@ -2,7 +2,7 @@ import { Link, Td, Tr } from '@chakra-ui/react';
 import React from 'react';
 
 export interface SurveyTableRowProps {
-  surveyName: string;
+  name: string;
   date: Date;
 }
 
@@ -13,9 +13,9 @@ export interface SurveyTableRowProps {
 const dateFormatter = (date: Date) =>
   date.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
-const SurveyTableRow: React.FC<SurveyTableRowProps> = ({ surveyName, date }) => (
+const SurveyTableRow: React.FC<SurveyTableRowProps> = ({ name, date }) => (
   <Tr>
-    <Td>{surveyName}</Td>
+    <Td>{name}</Td>
     <Td>{dateFormatter(date)}</Td>
     <Td fontStyle="italic">
       <Link href="/edit">Edit</Link>
