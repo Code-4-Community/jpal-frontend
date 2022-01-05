@@ -24,7 +24,7 @@ const ResearcherLandingPage: React.FC = () => {
   );
   const history = useHistory();
 
-  const onClick = () => history.push('/add-new-admin');
+  const onClick = () => history.push('/private/add-new-admin');
 
   return (
     <Container maxW="7xl" mt={12}>
