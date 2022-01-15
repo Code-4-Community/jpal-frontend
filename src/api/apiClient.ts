@@ -57,8 +57,8 @@ export class ApiClient {
     return this.get('/auth/me') as Promise<User>;
   }
 
-  public async createUser(email: string, role: Role): Promise<User> {
-    return this.post('/user', { email, role }) as Promise<User>;
+  public async createUser(user: Omit<User, 'id'>): Promise<User> {
+    return this.post('/user', { user }) as Promise<User>;
   }
 
   public async getAdmins(): Promise<User[]> {

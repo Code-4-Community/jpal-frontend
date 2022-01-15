@@ -4,6 +4,8 @@ import { Field, FieldProps, Form, Formik, FormikHelpers } from 'formik';
 import React from 'react';
 
 export interface AdminFormValues {
+  firstName: string;
+  lastName: string;
   email: string;
 }
 
@@ -20,10 +22,36 @@ export const AddAdminForm: React.FC<AddAdminFormProps> = ({ onSubmit }) => (
     onSubmit={(
       values: Partial<AdminFormValues>,
       actions: FormikHelpers<Partial<AdminFormValues>>,
-    ) => onSubmit(values as AdminFormValues, actions)}
+    ) => {
+      console.log(values);
+      return onSubmit(values as AdminFormValues, actions);
+    }}
   >
     {(props) => (
       <Form>
+        <Field name="firstName">
+          {({ field, form }: FieldProps) => (
+            <>
+              <FormControl isInvalid={Boolean(form.errors.name && form.touched)}>
+                <FormLabel htmlFor="first-name">First Name</FormLabel>
+                <Input {...field} id="first-name" placeholder="First Name" />
+                <FormErrorMessage>{form.errors.firstName}</FormErrorMessage>
+              </FormControl>
+            </>
+          )}
+        </Field>
+        <Field name="lastName">
+          {({ field, form }: FieldProps) => (
+            <>
+              <FormControl isInvalid={Boolean(form.errors.name && form.touched)}>
+                <FormLabel htmlFor="last-name">Last Name</FormLabel>
+                <Input {...field} id="last-name" placeholder="Last Name" />
+                <FormErrorMessage>{form.errors.lastName}</FormErrorMessage>
+              </FormControl>
+            </>
+          )}
+        </Field>
+
         <Field name="email">
           {({ field, form }: FieldProps) => (
             <FormControl isInvalid={Boolean(form.errors.email && form.touched)}>
@@ -36,7 +64,7 @@ export const AddAdminForm: React.FC<AddAdminFormProps> = ({ onSubmit }) => (
         <Button
           mt={4}
           colorScheme="teal"
-          id="submit-admin-email"
+          id="submit-admin-form-values"
           isLoading={props.isSubmitting}
           type="submit"
         >
