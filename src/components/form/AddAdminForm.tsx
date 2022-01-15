@@ -22,10 +22,7 @@ export const AddAdminForm: React.FC<AddAdminFormProps> = ({ onSubmit }) => (
     onSubmit={(
       values: Partial<AdminFormValues>,
       actions: FormikHelpers<Partial<AdminFormValues>>,
-    ) => {
-      console.log(values);
-      return onSubmit(values as AdminFormValues, actions);
-    }}
+    ) => onSubmit(values as AdminFormValues, actions)}
   >
     {(props) => (
       <Form>
