@@ -19,7 +19,7 @@ describe('Can add an admin', () => {
     cy.get('#first-name').type(firstName);
     cy.get('#last-name').click();
     cy.get('#last-name').type(lastName);
-    cy.get('#submit-admin-email').click();
+    cy.get('#submit-admin-form-values').click();
     cy.wait('@createAdmin');
     cy.contains(`Added the admin with the email ${email}.`);
   });
