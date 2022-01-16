@@ -15,6 +15,8 @@ describe('POST /user', () => {
             method: 'POST',
             path: '/user',
             body: {
+              firstName: 'John',
+              lastName: 'Doe',
               email: 'something@something.com',
               role: 'admin',
             },
@@ -23,6 +25,8 @@ describe('POST /user', () => {
             status: 201,
             body: Pact.Matchers.like({
               id: Pact.Matchers.somethingLike(1),
+              firstName: 'John',
+              lastName: 'Doe',
               email: Pact.Matchers.somethingLike('something@something.com'),
               role: Pact.Matchers.somethingLike('admin'),
             }),
@@ -32,11 +36,18 @@ describe('POST /user', () => {
     });
 
     it('sends a request according to contract', async () => {
-      // expect.assertions(1);
-      const res = await api.createUser('something@something.com', 'admin');
+
+      const res = await api.createUser({
+        email: 'something@somthing.com',
+        firstName: 'test',
+        lastName: 'user',
+        role: 'admin',
+      });
       expect(res).toEqual(
         expect.objectContaining({
           id: expect.any(Number),
+          firstName: 'test',
+          lastName: 'user',
           email: 'something@something.com',
           role: 'admin',
         }),
