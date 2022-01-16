@@ -32,7 +32,7 @@ describe('POST /user', () => {
     });
 
     it('sends a request according to contract', async () => {
-      expect.assertions(1);
+      // expect.assertions(1);
       const res = await api.createUser('something@something.com', 'admin');
       expect(res).toEqual(
         expect.objectContaining({
