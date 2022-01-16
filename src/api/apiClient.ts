@@ -1,7 +1,6 @@
 import { Auth } from 'aws-amplify';
 import axios, { AxiosInstance } from 'axios';
 import { Response, Survey, SurveyData } from './dtos/survey-assignment.dto';
-import Role from './dtos/role';
 import User from './dtos/user.dto';
 
 const defaultBaseUrl = process.env.API_BASE_URL ?? 'http://localhost:5000';
