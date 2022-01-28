@@ -71,7 +71,9 @@ export class ApiClient {
 
   // Stubbed out for now. Not implemented on the backend.
   public async completeAssignment(assignmentUuid: string, responses: Response[]): Promise<void> {
-    this.patch(`/assignment/${assignmentUuid}`, { responses }).catch(() => undefined);
+    this.patch(`/assignment/${assignmentUuid}`, { responses }).catch((BadRequestException) => {
+      throw BadRequestException;
+    });
   }
 }
 
