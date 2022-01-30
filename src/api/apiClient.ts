@@ -1,5 +1,6 @@
 import { Auth } from 'aws-amplify';
 import axios, { AxiosInstance } from 'axios';
+import Role from './dtos/role';
 import { Response, Survey, SurveyData } from './dtos/survey-assignment.dto';
 import User from './dtos/user.dto';
 
@@ -56,8 +57,13 @@ export class ApiClient {
     return this.get('/auth/me') as Promise<User>;
   }
 
-  public async createUser(user: Omit<User, 'id'>): Promise<User> {
-    return this.post('/user', { user }) as Promise<User>;
+  public async createUser(
+    firstName: string,
+    lastName: string,
+    email: string,
+    role: Role,
+  ): Promise<User> {
+    return this.post('/user', { firstName, lastName, email, role }) as Promise<User>;
   }
 
   public async getAdmins(): Promise<User[]> {
