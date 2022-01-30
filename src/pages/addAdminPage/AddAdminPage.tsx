@@ -3,7 +3,6 @@ import { FormikHelpers } from 'formik';
 import * as React from 'react';
 import apiClient from '../../api/apiClient';
 import Role from '../../api/dtos/role';
-import User from '../../api/dtos/user.dto';
 import { AddAdminForm, AdminFormValues } from '../../components/form/AddAdminForm';
 import { TOAST_POPUP_DURATION } from '../basicConstants';
 
