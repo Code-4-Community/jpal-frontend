@@ -19,7 +19,7 @@ const AdminTable: React.FC<AdminTableProps> = ({ data }) => (
       </Thead>
       <Tbody>
         {data.map((admin) => (
-          <AdminTableRow admin={admin} />
+          <AdminTableRow key={admin.email} admin={admin} />
         ))}
       </Tbody>
     </Table>
