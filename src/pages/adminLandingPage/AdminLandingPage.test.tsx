@@ -9,7 +9,13 @@ import AdminLandingPage from './AdminLandingPage';
 
 jest.mock('../../api/apiClient.ts');
 
-const exampleUser: User = { id: 1, email: 'test@test.com', role: Role.ADMIN };
+const exampleUser: User = {
+  id: 1,
+  firstName: 'first',
+  lastName: 'last',
+  email: 'test@test.com',
+  role: Role.ADMIN,
+};
 const surveyList: Survey[] = [
   {
     uuid: '',

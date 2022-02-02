@@ -10,7 +10,9 @@ jest.mock('../../api/apiClient');
 describe('Landing', () => {
   test('renders researcher landing page list of admins', async () => {
     apiClient.getAdmins = jest.fn(() =>
-      Promise.resolve([{ id: 1, email: 'test@test.com', role: 'admin' }]),
+      Promise.resolve([
+        { id: 1, firstName: 'first', lastName: 'last', email: 'test@test.com', role: 'admin' },
+      ]),
     ) as () => Promise<User[]>;
     render(<ResearcherLandingPage />);
     const testEmail = await screen.findByText('test@test.com');
