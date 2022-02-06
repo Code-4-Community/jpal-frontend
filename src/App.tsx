@@ -7,7 +7,7 @@ import { History } from 'history';
 import * as React from 'react';
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { Route, Router, Switch } from 'react-router-dom';
+import { Route, Router, Switch, Redirect } from 'react-router-dom';
 import apiClient from './api/apiClient';
 import Role from './api/dtos/role';
 import awsconfig from './aws-exports';
@@ -102,6 +102,7 @@ const App: React.FC<AppProps> = ({ history }) => (
       <Router history={history}>
         <Logo w="12" h="12" marginTop="4" marginLeft="8" />
         <Switch>
+          <Route path="/" component={() => <Redirect to="/private"/>} />
           <Route path="/private" component={AdminOnlyApp} />
           <Route
             path="/survey/:survey_uuid/:reviewer_uuid"
