@@ -7,12 +7,11 @@ import { History } from 'history';
 import * as React from 'react';
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { Route, Router, Switch } from 'react-router-dom';
+import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 import apiClient from './api/apiClient';
 import Role from './api/dtos/role';
 import awsconfig from './aws-exports';
 import LoadingSpinner from './components/LoadingSpinner';
-import Logo from './components/Logo';
 import ThankYou from './components/survey/ThankYou';
 import AddAdminPage from './pages/addAdminPage/AddAdminPage';
 import ResearcherLandingPage from './pages/researcherLandingPage/ResearcherLandingPage';
@@ -22,6 +21,8 @@ import ReviewerConfirmationPage from './pages/survey/ReviewerConfirmationPage';
 import SurveyPage from './pages/survey/SurveyPage';
 import theme from './theme';
 import NotFoundPage from './pages/NotFoundPage';
+import User from './api/dtos/user.dto';
+import Header from './components/header/Header';
 
 const queryClient = new QueryClient();
 
@@ -31,7 +32,11 @@ interface AppProps {
   history: History<unknown>;
 }
 
-const AdminOnlyApp: React.FC = () => {
+interface AdminOnlyAppProps {
+  setProfile: (profile: User | undefined) => void;
+}
+
+const AdminOnlyApp: React.FC<AdminOnlyAppProps> = ({ setProfile }) => {
   const [authState, setAuthState] = React.useState<AuthState>();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [user, setUser] = React.useState<any>();
@@ -56,7 +61,9 @@ const AdminOnlyApp: React.FC = () => {
     enabled: authState === AuthState.SignedIn && !!user,
   });
 
-  const isResearcher = data?.role === Role.RESEARCHER;
+  React.useEffect(() => {
+    setProfile(data);
+  }, [data, setProfile]);
 
   return (
     <>
@@ -69,22 +76,7 @@ const AdminOnlyApp: React.FC = () => {
             </Alert>
           )}
           {isLoading && <LoadingSpinner />}
-          {data && (
-            <Switch>
-              <Route path="/private" exact component={() => <AdminLandingPage />} />
-              <Route path="/private/example-form" exact component={() => <ExampleFormPage />} />
-              {isResearcher && (
-                <>
-                  <Route
-                    path="/private/dashboard"
-                    exact
-                    component={() => <ResearcherLandingPage />}
-                  />
-                  <Route path="/private/add-new-admin" exact component={() => <AddAdminPage />} />
-                </>
-              )}
-            </Switch>
-          )}
+          {data && <Outlet />}
           <AmplifySignOut />
         </>
       ) : (
@@ -96,29 +88,36 @@ const AdminOnlyApp: React.FC = () => {
   );
 };
 
-const App: React.FC<AppProps> = ({ history }) => (
-  <QueryClientProvider client={queryClient}>
-    <ChakraProvider theme={theme}>
-      <Router history={history}>
-        <Logo w="12" h="12" marginTop="4" marginLeft="8" />
-        <Switch>
-          <Route path="/private" component={AdminOnlyApp} />
-          <Route
-            path="/survey/:survey_uuid/:reviewer_uuid"
-            exact
-            component={() => <SurveyPage />}
-          />
-          <Route path="/survey/confirmation" component={() => <ThankYou />} />
-          <Route
-            path="/survey/confirm-reviewer"
-            exact
-            component={() => <ReviewerConfirmationPage />}
-          />
-          <Route path="*" component={() => <NotFoundPage />} />
-        </Switch>
-      </Router>
-    </ChakraProvider>
-  </QueryClientProvider>
-);
+const App: React.FC<AppProps> = () => {
+  const [userProfile, setUserProfile] = React.useState<User | undefined>(undefined);
+
+  const isResearcher = userProfile?.role === Role.RESEARCHER;
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ChakraProvider theme={theme}>
+        <BrowserRouter>
+          <Header profile={userProfile} />
+          <Routes>
+            <Route path="/private" element={<AdminOnlyApp setProfile={setUserProfile} />}>
+              <Route path="" element={<AdminLandingPage />} />
+              <Route path="example-form" element={<ExampleFormPage />} />
+              {isResearcher && (
+                <>
+                  <Route path="dashboard" element={<ResearcherLandingPage />} />
+                  <Route path="add-new-admin" element={<AddAdminPage />} />
+                </>
+              )}
+            </Route>
+            <Route path="/survey/:survey_uuid/:reviewer_uuid" element={<SurveyPage />} />
+            <Route path="/survey/confirmation" element={<ThankYou />} />
+            <Route path="/survey/confirm-reviewer" element={<ReviewerConfirmationPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </BrowserRouter>
+      </ChakraProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;
