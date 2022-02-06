@@ -125,11 +125,10 @@ describe('Reviewer Survey Flow', () => {
   it('can immediately end the survey', () => {
     interceptAPICalls(SURVEY_DATA_SMALL);
     cy.visit(`/survey/${fakeSurveyUuid}/${fakeReviewerUuid}`);
-    selectThisIsntMe()
+    selectThisIsntMe();
     testFinishedSurveyPage();
-  })
+  });
 
-  
   it('should allow users to go back from preview letter and change answers', () => {
     interceptAPICalls(SURVEY_DATA_ONLY_TREATMENT_YOUTH);
     cy.visit(`/survey/${fakeSurveyUuid}/${fakeReviewerUuid}`);
@@ -164,13 +163,13 @@ function interceptAPICalls(surveyData: SurveyData) {
   ).as('getSurvey');
 
   surveyData.treatmentYouth.forEach((youth) => {
-    cy.intercept('PATCH', `http://localhost:5000/assignment/${youth.assignmentUuid}`, {}).as(
+    cy.intercept('POST', `http://localhost:5000/assignment/${youth.assignmentUuid}`, {}).as(
       `completeAssignment-${youth.assignmentUuid}`,
     );
   });
 
   surveyData.controlYouth.forEach((youth) => {
-    cy.intercept('PATCH', `http://localhost:5000/assignment/${youth.assignmentUuid}`, {}).as(
+    cy.intercept('POST', `http://localhost:5000/assignment/${youth.assignmentUuid}`, {}).as(
       `completeAssignment-${youth.assignmentUuid}`,
     );
   });
