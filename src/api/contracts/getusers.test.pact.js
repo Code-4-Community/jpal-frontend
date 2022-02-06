@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { ApiClient } from '../apiClient';
 import { eachLike, like, somethingLike } from '@pact-foundation/pact/src/dsl/matchers';
+import { ApiClient } from '../apiClient';
 
 describe('GET /user contract with API', () => {
   const api = new ApiClient(`http://localhost:${global.port}`, { skipAuth: true });

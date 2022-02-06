@@ -1,9 +1,10 @@
 import { Box, Table, Tbody, Th, Thead, Tr } from '@chakra-ui/react';
 import React from 'react';
-import SurveyTableRow, { SurveyTableRowProps } from './SurveyTableRow';
+import { Survey } from '../../api/dtos/survey-assignment.dto';
+import SurveyTableRow from './SurveyTableRow';
 
 interface SurveyTableProps {
-  data: SurveyTableRowProps[];
+  data: Survey[];
 }
 
 const SurveyTable: React.FC<SurveyTableProps> = ({ data }) => (
@@ -17,7 +18,7 @@ const SurveyTable: React.FC<SurveyTableProps> = ({ data }) => (
       </Thead>
       <Tbody>
         {data.map((survey) => (
-          <SurveyTableRow surveyName={survey.surveyName} date={survey.date} />
+          <SurveyTableRow name={survey.name} date={new Date()} />
         ))}
       </Tbody>
     </Table>

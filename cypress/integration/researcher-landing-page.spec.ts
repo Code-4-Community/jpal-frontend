@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
-describe('Cognito Login', () => {
-  describe('Login as researcher', () => {
+describe('Researcher landing page', () => {
+  describe('Researcher dashboard', () => {
     beforeEach(() => {
       // Programmatically login via Amazon Cognito API
       cy.loginAsResearcher();
