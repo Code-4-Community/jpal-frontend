@@ -103,7 +103,7 @@ const App: React.FC<AppProps> = ({ history }) => (
       <Router history={history}>
         <Logo w="12" h="12" marginTop="4" marginLeft="8" />
         <Switch>
-          <Route path="/" component={() => <Redirect to="/private"/>} />
+          <Route exact path="/" component={() => <Redirect to="/private"/>} />
           <Route path="/private" component={AdminOnlyApp} />
           <Route
             path="/survey/:survey_uuid/:reviewer_uuid"
