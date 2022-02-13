@@ -25,6 +25,7 @@ const surveyList: Survey[] = [
       creator: exampleUser,
       questions: [],
     },
+    creation_date: new Date(),
   },
 ];
 
