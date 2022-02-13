@@ -25,4 +25,4 @@ describe('Can add an admin', () => {
   });
 });
 
-export {};
+export { };

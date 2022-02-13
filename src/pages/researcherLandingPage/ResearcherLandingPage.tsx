@@ -10,21 +10,23 @@ import {
   Spacer,
 } from '@chakra-ui/react';
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import { useHistory } from 'react-router-dom';
 import apiClient from '../../api/apiClient';
 import User from '../../api/dtos/user.dto';
 import ErrorAlert from '../../components/ErrorAlert';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import AdminTable from '../../components/researcherLandingPage/AdminTable';
+import useRequireResearcher from '../../hooks/useRequireResearcher';
 
 const ResearcherLandingPage: React.FC = () => {
+  useRequireResearcher();
   const { isLoading, error, data } = useQuery<User[], Error>('adminList', () =>
     apiClient.getAdmins(),
   );
-  const history = useHistory();
+  const navigate = useNavigate();
 
-  const onClick = () => history.push('/private/add-new-admin');
+  const onClick = () => navigate('/private/add-new-admin');
 
   return (
     <Container maxW="7xl" mt={12}>
