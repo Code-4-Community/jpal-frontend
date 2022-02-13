@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button, Text, Box } from '@chakra-ui/react';
-import Logo from './header/Logo';
+import Logo from './Logo';
 
 interface NotFoundProps {
   goBack: () => void;

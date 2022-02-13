@@ -18,10 +18,7 @@ const SurveyPage: React.FC = () => {
   const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000; // in ms
   const { isLoading, error, data } = useQuery(
     ['survey', surveyUuid, reviewerUuid],
-    () => {
-      if (!surveyUuid || !reviewerUuid) throw new Error();
-      return apiClient.getSurvey(surveyUuid, reviewerUuid);
-    },
+    () => apiClient.getSurvey(surveyUuid, reviewerUuid),
     {
       staleTime: TWENTY_FOUR_HOURS,
       refetchOnMount: false,

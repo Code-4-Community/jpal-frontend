@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 import { Link as RouterLink } from 'react-router-dom';
 import apiClient from '../api/apiClient';
 import ColorModeSwitcher from '../components/ColorModeSwitcher';
-import Logo from '../components/header/Logo';
+import Logo from '../components/Logo';
 
 const LandingPage: React.FC = () => {
   const { isLoading, error, data } = useQuery<string, Error>('helloWorld', () =>

@@ -4,8 +4,7 @@ import { render, RenderOptions } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import * as React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { BrowserRouter } from 'react-router-dom';
-
+import { Router } from 'react-router-dom';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -16,10 +15,12 @@ const queryClient = new QueryClient({
   },
 });
 
+const history = createMemoryHistory();
+
 const TestWrapper = ({ children }: { children?: React.ReactNode }) => (
   <QueryClientProvider client={queryClient}>
     <ChakraProvider theme={theme}>
-      <BrowserRouter>{children}</BrowserRouter>
+      <Router history={history}>{children}</Router>
     </ChakraProvider>
   </QueryClientProvider>
 );
