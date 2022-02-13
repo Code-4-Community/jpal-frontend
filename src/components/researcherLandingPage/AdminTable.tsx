@@ -12,7 +12,7 @@ const AdminTable: React.FC<AdminTableProps> = ({ data }) => (
     <Table variant="simple">
       <Thead>
         <Tr>
-          <Th>Admin</Th>
+          <Th>Name</Th>
           <Th>Email</Th>
           <Th>Date Added</Th>
         </Tr>
