@@ -14,7 +14,7 @@ export interface Survey {
   creator: User;
   uuid: string;
   surveyTemplate: SurveyTemplate;
-  date : Date;
+  date: Date;
 }
 
 export interface SurveyTemplate {

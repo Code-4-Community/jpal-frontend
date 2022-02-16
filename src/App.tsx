@@ -6,7 +6,7 @@ import Amplify from 'aws-amplify';
 import { History } from 'history';
 import * as React from 'react';
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
-import { Route, Router, Switch, Redirect } from "react-router-dom"
+import { Route, Router, Switch, Redirect } from 'react-router-dom';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
 import apiClient from './api/apiClient';
@@ -103,7 +103,7 @@ const App: React.FC<AppProps> = ({ history }) => (
       <Router history={history}>
         <Logo w="12" h="12" marginTop="4" marginLeft="8" />
         <Switch>
-          <Route exact path="/" component={() => <Redirect to="/private"/>} />
+          <Route exact path="/" component={() => <Redirect to="/private" />} />
           <Route path="/private" component={AdminOnlyApp} />
           <Route
             path="/survey/:survey_uuid/:reviewer_uuid"
