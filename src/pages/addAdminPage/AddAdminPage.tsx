@@ -6,11 +6,9 @@ import * as React from 'react';
 import apiClient from '../../api/apiClient';
 import Role from '../../api/dtos/role';
 import { AddAdminForm, AdminFormValues } from '../../components/form/AddAdminForm';
-import useRequireResearcher from '../../hooks/useRequireResearcher';
 import { TOAST_POPUP_DURATION } from '../basicConstants';
 
 const AddAdminPage: React.FC = () => {
-  useRequireResearcher();
   const navigate = useNavigate();
   const toast = useToast();
   async function submitUser(

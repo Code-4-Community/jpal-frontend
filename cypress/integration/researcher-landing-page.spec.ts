@@ -5,7 +5,7 @@ describe('Researcher landing page', () => {
     beforeEach(() => {
       // Programmatically login via Amazon Cognito API
       cy.loginAsResearcher();
-      cy.visit('/private/dashboard');
+      cy.visit('/researcher/dashboard');
     });
 
     it('shows dashboard', () => {
@@ -15,4 +15,4 @@ describe('Researcher landing page', () => {
   });
 });
 
-export {};
+export { };

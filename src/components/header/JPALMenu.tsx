@@ -36,7 +36,7 @@ const JPALMenu: React.FC<JPALMenuProps> = ({ isResearcher }) => {
       </MenuButton>
       <MenuList>
         {isResearcher && (
-          <MenuItem onClick={() => navigateTo('/private/dashboard')}>View Admins</MenuItem>
+          <MenuItem onClick={() => navigateTo('/researcher/dashboard')}>View Admins</MenuItem>
         )}
         {isResearcher && <MenuItem onClick={() => navigateTo('/private')}>View Surveys</MenuItem>}
         <MenuItem onClick={onSignOutClicked}>Sign Out</MenuItem>

@@ -12,7 +12,7 @@ describe('Can add an admin', () => {
       role: 'admin',
     }).as('createAdmin');
     cy.loginAsResearcher();
-    cy.visit('/private/add-new-admin');
+    cy.visit('/researcher/add-new-admin');
     cy.get('#admin-email').click();
     cy.get('#admin-email').type(email);
     cy.get('#first-name').click();

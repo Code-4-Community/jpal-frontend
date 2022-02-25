@@ -1,16 +1,15 @@
-import { AmplifyAuthenticator, AmplifySignIn, AmplifySignOut } from '@aws-amplify/ui-react';
-import { Alert, ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
 import Amplify from 'aws-amplify';
 import { History } from 'history';
 import * as React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Role from './api/dtos/role';
 import awsconfig from './aws-exports';
+import AuthedApp from './components/AuthedApp';
 import Header from './components/header/Header';
-import LoadingSpinner from './components/LoadingSpinner';
 import ThankYou from './components/survey/ThankYou';
-import useAuth from './hooks/useAuth';
 import AddAdminPage from './pages/addAdminPage/AddAdminPage';
 import AdminLandingPage from './pages/adminLandingPage/AdminLandingPage';
 import ExampleFormPage from './pages/exampleFormPage/ExampleFormPage';
@@ -28,45 +27,17 @@ interface AppProps {
   history: History<unknown>;
 }
 
-const AdminOnlyApp: React.FC = () => {
-  const [userLoading, userError, user] = useAuth();
-
-  if (userLoading) return (
-    <>
-      <LoadingSpinner />
-      <AmplifySignOut />;
-    </>
-  )
-  if (userError) return (
-    <>
-      <Alert status="error">
-        An error occurred while fetching your user information. Please sign out and try again.
-      </Alert>
-      <AmplifySignOut />
-    </>
-  )
-  if (!user) return (
-    <AmplifyAuthenticator usernameAlias="email">
-      <AmplifySignIn usernameAlias="email" hideSignUp slot="sign-in" />
-    </AmplifyAuthenticator>
-  );
-  return (
-    <>
-      <Outlet />
-      <AmplifySignOut />
-    </>
-  );
-};
-
 const App: React.FC<AppProps> = () => (
   <QueryClientProvider client={queryClient}>
     <ChakraProvider theme={theme}>
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route path="/private" element={<AdminOnlyApp />}>
+          <Route path="/private" element={<AuthedApp roles={[Role.ADMIN, Role.RESEARCHER]} />}>
             <Route path="" element={<AdminLandingPage />} />
             <Route path="example-form" element={<ExampleFormPage />} />
+          </Route>
+          <Route path="/researcher" element={<AuthedApp roles={[Role.RESEARCHER]} />}>
             <Route path="dashboard" element={<ResearcherLandingPage />} />
             <Route path="add-new-admin" element={<AddAdminPage />} />
           </Route>
