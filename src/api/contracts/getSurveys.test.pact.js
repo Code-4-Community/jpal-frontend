@@ -19,6 +19,7 @@ describe('GET /survey contract with API', () => {
             status: 200,
             body: eachLike(
               like({
+                name: somethingLike('pact test survey'),
                 id: somethingLike(1),
                 creator: like({
                   id: somethingLike(1),
@@ -49,6 +50,7 @@ describe('GET /survey contract with API', () => {
       expect(res).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
+            name: expect.any(String),
             id: expect.any(Number),
             creator: expect.objectContaining({
               id: expect.any(Number),
