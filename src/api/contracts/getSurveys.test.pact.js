@@ -36,7 +36,7 @@ describe.skip('GET /survey contract with API', () => {
                   }),
                   questions: somethingLike([]),
                 }),
-                date: somethingLike(new Date(2002,11,27).toJSON()),
+                date: somethingLike(new Date(2002, 11, 27).toJSON()),
               }),
             ),
           },
