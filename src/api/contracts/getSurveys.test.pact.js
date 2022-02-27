@@ -35,7 +35,7 @@ describe('GET /survey contract with API', () => {
                   }),
                   questions: somethingLike([]),
                 }),
-                date: new Date(2002,11,27)
+                date: new Date(2002,11,27),
               }),
             ),
           },
@@ -65,7 +65,7 @@ describe('GET /survey contract with API', () => {
               }),
               questions: expect.any(Array),
             }),
-            date : expect.any(Date)
+            date : expect.any(Date),
           }),
         ]),
       );
