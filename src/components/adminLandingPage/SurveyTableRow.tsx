@@ -11,7 +11,7 @@ export interface SurveyTableRowProps {
  * Example : 09/02/2002 -> September 2, 2002
  */
 const dateFormatter = (date: Date) =>
-  new Date(date).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  date.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
 const SurveyTableRow: React.FC<SurveyTableRowProps> = ({ name, date }) => (
   <Tr>
