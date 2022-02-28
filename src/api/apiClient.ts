@@ -4,7 +4,7 @@ import Role from './dtos/role';
 import { Response, Survey, SurveyData } from './dtos/survey-assignment.dto';
 import User from './dtos/user.dto';
 
-const defaultBaseUrl = process.env.API_BASE_URL ?? 'http://localhost:5000';
+const defaultBaseUrl = process.env.REACT_APP_API_BASE_URL ?? 'http://localhost:5000';
 // Required to use nock with axios (note: do not use nock, just use jest to mock the apiClient)
 axios.defaults.adapter = require('axios/lib/adapters/http');
 
