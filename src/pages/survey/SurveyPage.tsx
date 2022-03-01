@@ -31,7 +31,7 @@ const SurveyPage: React.FC = () => {
     apiClient.completeAssignment(assignmentUuid, responses);
 
   return (
-    <Container maxW="3xl" marginY="4">
+    <Container maxW="4xl" marginY="4">
       {error && <ErrorAlert />}
       {isLoading && <LoadingSpinner />}
       {data && (
