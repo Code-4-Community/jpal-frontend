@@ -1,13 +1,13 @@
-import { AuthState, onAuthUIStateChange } from "@aws-amplify/ui-components";
-import React from "react";
+import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
+import React from 'react';
 import * as Sentry from '@sentry/react';
-import { useQuery } from "react-query";
-import User from "../api/dtos/user.dto";
-import apiClient from "../api/apiClient";
+import { useQuery } from 'react-query';
+import User from '../api/dtos/user.dto';
+import apiClient from '../api/apiClient';
 
 /**
- * Waits for Amplify auth state to change. When it changes, refetches the User from the backend. 
- * @returns whether the User object is being loaded, whether there was an error fetching the user, 
+ * Waits for Amplify auth state to change. When it changes, refetches the User from the backend.
+ * @returns whether the User object is being loaded, whether there was an error fetching the user,
  *          and the User object (or undefined if not signed in)
  */
 export default function useAuth(): [boolean, boolean, User | undefined] {
