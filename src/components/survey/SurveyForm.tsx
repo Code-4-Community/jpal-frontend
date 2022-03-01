@@ -1,5 +1,6 @@
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Box, Divider, IconButton, Stack, Text, VStack } from '@chakra-ui/react';
+import pupa from 'pupa';
 import React from 'react';
 import { Question, Response } from '../../api/dtos/survey-assignment.dto';
 import Form, { FormValues } from '../form/Form';
@@ -104,7 +105,7 @@ const SurveyForm: React.FC<SurveyFormProps> = ({
               key={question.question}
             >
               <MultipleChoiceField
-                displayName={question.question}
+                displayName={pupa(question.question, { subject: youthName.split(' ')[0] })}
                 fieldName={question.question}
                 options={question.options.map((option) => ({ label: option, value: option }))}
                 isRequired

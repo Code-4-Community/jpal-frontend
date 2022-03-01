@@ -53,7 +53,7 @@ const MultipleChoiceField: React.FC<MultipleChoiceFieldProps> = ({
           aria-required
           defaultValue={defaultValue}
         >
-          <Stack direction="row" justify="space-between" wrap="wrap">
+          <Stack direction="row" justify="space-evenly" wrap="wrap">
             {options.map(({ label, value }) => (
               <Radio
                 key={value}
@@ -61,7 +61,7 @@ const MultipleChoiceField: React.FC<MultipleChoiceFieldProps> = ({
                 data-testid={`${fieldName}-${value}`}
                 data-cy={`${fieldName}-${value}`}
               >
-                <Text fontSize={{ base: 'xs', sm: 'sm', md: 'md' }}>{label}</Text>
+                <Text fontSize={{ base: 'xs', sm: 'xs', md: 'sm' }}>{label}</Text>
               </Radio>
             ))}
           </Stack>

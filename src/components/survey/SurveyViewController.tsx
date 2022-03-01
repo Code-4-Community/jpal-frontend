@@ -3,15 +3,14 @@ import { useMachine } from '@xstate/react';
 import React from 'react';
 import { Response, SurveyData, Youth } from '../../api/dtos/survey-assignment.dto';
 import { TOAST_POPUP_DURATION } from '../../pages/basicConstants';
+import ConfirmAssignments from './ConfirmAssignments';
+import ConfirmReviewerIdentity from './ConfirmReviewerIdentity';
 import ConfirmYouth from './ConfirmYouth';
 import ControlExplanation from './ControlExplanation';
-import DEFAULT_QUESTIONS from './defaultQuestions';
 import PreviewLetter from './PreviewLetter';
-import ConfirmReviewerIdentity from './ConfirmReviewerIdentity';
 import createSurveyViewMachine from './stateMachine';
-import ConfirmAssignments from './ConfirmAssignments';
-import ThankYou from './ThankYou';
 import SurveyForm from './SurveyForm';
+import ThankYou from './ThankYou';
 
 interface SurveyViewControllerProps extends SurveyData {
   completeAssignment: (assignmentUuid: string, responses: Response[]) => Promise<void>;
@@ -30,6 +29,7 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
   controlYouth,
   completeAssignment,
   reviewer,
+  questions,
 }) => {
   // See state machine visualization in `stateMachine.ts` for the entire state machine flow.
   const [state, send] = useMachine(createSurveyViewMachine(treatmentYouth, controlYouth));
@@ -70,7 +70,7 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
       {state.matches('fillOutSurvey') && (
         <SurveyForm
           youthName={`${getCurrentYouth().firstName} ${getCurrentYouth().lastName}`}
-          questions={DEFAULT_QUESTIONS}
+          questions={questions}
           continueAndSaveResponses={(responses: Response[]) =>
             send('CONFIRM', {
               responses,
