@@ -5,7 +5,7 @@ import JPALMenu from './JPALMenu';
 
 describe('JPAL menu', () => {
   it('should have three options for researchers', () => {
-    render(<JPALMenu isResearcher={true} />);
+    render(<JPALMenu isResearcher />);
     expect(screen.getByText('View Admins')).toBeInTheDocument();
     expect(screen.getByText('View Surveys')).toBeInTheDocument();
     expect(screen.getByText('Sign Out')).toBeInTheDocument();
