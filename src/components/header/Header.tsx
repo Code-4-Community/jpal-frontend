@@ -15,7 +15,7 @@ const Header: React.FC = () => {
       <Logo w="12" h="12" marginTop="4" marginLeft="8" />
       <JPALMenu isResearcher={user?.role === Role.RESEARCHER} />
     </Box>
-  )
-}
+  );
+};
 
 export default Header;
