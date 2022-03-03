@@ -49,19 +49,36 @@ const MultipleChoiceField: React.FC<MultipleChoiceFieldProps> = ({
         <RadioGroup
           {...field}
           id={`${idPrefix ?? ''}${fieldName}`}
-          onChange={(val) => form.setFieldValue(fieldName, val)}
+          onChange={(val) => {
+            form.setFieldValue(fieldName, val);
+          }}
           aria-required
           defaultValue={defaultValue}
         >
-          <Stack direction="row" justify="space-evenly" wrap="wrap">
+          <Stack
+            direction="row"
+            justify="space-evenly"
+            wrap="wrap"
+            sx={{
+              '.chakra-radio__label': {
+                marginLeft: 0,
+                marginTop: 1,
+              },
+            }}
+          >
             {options.map(({ label, value }) => (
               <Radio
                 key={value}
                 value={value}
                 data-testid={`${fieldName}-${value}`}
                 data-cy={`${fieldName}-${value}`}
+                display="flex"
+                flexDirection="column"
+                margin={0}
               >
-                <Text fontSize={{ base: 'xs', sm: 'xs', md: 'sm' }}>{label}</Text>
+                <Text margin="0" fontSize={{ base: 'xs', sm: 'xs', md: 'sm' }}>
+                  {label}
+                </Text>
               </Radio>
             ))}
           </Stack>
