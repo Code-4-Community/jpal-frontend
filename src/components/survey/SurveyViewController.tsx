@@ -1,6 +1,7 @@
 import { useToast } from '@chakra-ui/react';
 import { useMachine } from '@xstate/react';
 import React from 'react';
+import apiClient from '../../api/apiClient';
 import { Response, SurveyData, Youth } from '../../api/dtos/survey-assignment.dto';
 import { TOAST_POPUP_DURATION } from '../../pages/basicConstants';
 import ConfirmAssignments from './ConfirmAssignments';
@@ -85,6 +86,12 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
         <PreviewLetter
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           savedSurveyResponses={state.context.lastSavedResponses!}
+          getPreviewLetter={async () =>
+            apiClient.getPreviewLetter(
+              getCurrentYouth().assignmentUuid,
+              state.context.lastSavedResponses ?? [],
+            )
+          } // TODO: Move this into parent component in SurveyPage
           confirmAndSaveResponses={async () => {
             const youth = getCurrentYouth();
             try {

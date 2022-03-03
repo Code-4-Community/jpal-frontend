@@ -1,5 +1,6 @@
 import { Auth } from 'aws-amplify';
 import axios, { AxiosInstance } from 'axios';
+import { Letter } from './dtos/letter';
 import Role from './dtos/role';
 import { Response, Survey, SurveyData } from './dtos/survey-assignment.dto';
 import User from './dtos/user.dto';
@@ -83,6 +84,12 @@ export class ApiClient {
     this.post(`/assignment/${assignmentUuid}`, { responses }).catch((BadRequestException) => {
       throw BadRequestException;
     });
+  }
+
+  public async getPreviewLetter(assignmentUuid: string, responses: Response[]): Promise<Letter> {
+    return this.post(`/assignment/preview-letter/${assignmentUuid}`, {
+      responses,
+    }) as Promise<Letter>;
   }
 }
 
