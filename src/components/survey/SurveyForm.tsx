@@ -6,6 +6,18 @@ import { Question, Response } from '../../api/dtos/survey-assignment.dto';
 import Form, { FormValues } from '../form/Form';
 import MultipleChoiceField from '../form/MultipleChoiceField';
 
+/**
+ * Makes a string safe for use with Formik by removing all periods.
+ * A replacement string of (period) is chosen to make the chance of collision as remote as possible.
+ */
+function toFormikSafeFieldName(question: string): string {
+  return question.replace(/\./g, '(period)');
+}
+
+function fromFormikSafeFieldName(question: string): string {
+  return question.replace(/\(period\)/g, '.');
+}
+
 export interface SurveyFormProps {
   youthName: string;
   questions: Question[];
@@ -17,16 +29,19 @@ export interface SurveyFormProps {
 function invalidResponses(
   questions: Question[],
   responses: { question: string; selectedOption: string }[],
-) {
-  return questions.some(
+): Question[] {
+  const invalid = questions.filter(
     (q) =>
       responses.find((r) => r.question === q.question && q.options.includes(r.selectedOption)) ===
       undefined,
   );
+
+  return invalid;
 }
 
 function formValuesToResponses(questions: Question[], values: FormValues): Response[] {
-  const responses = Object.entries(values).map(([question, selectedOption]) => {
+  const responses = Object.entries(values).map(([formikSafeQuestion, selectedOption]) => {
+    const question = fromFormikSafeFieldName(formikSafeQuestion);
     if (selectedOption === undefined) {
       throw new Error(`No option selected for question ${question}`);
     }
@@ -35,10 +50,14 @@ function formValuesToResponses(questions: Question[], values: FormValues): Respo
       selectedOption,
     };
   });
-
-  if (invalidResponses(questions, responses)) {
+  const invalid = invalidResponses(questions, responses);
+  if (invalid.length > 0) {
     throw new Error(
-      'Not all questions have been answered or a selected option is not one of the options given',
+      `Not all questions have been answered or a selected option is not one of the options given:\n${JSON.stringify(
+        invalid,
+        null,
+        2,
+      )}\nResponses: ${JSON.stringify(responses, null, 2)}`,
     );
   }
 
@@ -46,7 +65,9 @@ function formValuesToResponses(questions: Question[], values: FormValues): Respo
 }
 
 function responsesToFormValues(responses: Response[]): FormValues {
-  return Object.fromEntries(responses.map((r) => [r.question, r.selectedOption]));
+  return Object.fromEntries(
+    responses.map((r) => [toFormikSafeFieldName(r.question), r.selectedOption]),
+  );
 }
 
 const SurveyForm: React.FC<SurveyFormProps> = ({
@@ -106,7 +127,7 @@ const SurveyForm: React.FC<SurveyFormProps> = ({
             >
               <MultipleChoiceField
                 displayName={pupa(question.question, { subject: youthName.split(' ')[0] })}
-                fieldName={question.question}
+                fieldName={toFormikSafeFieldName(question.question)}
                 options={question.options.map((option) => ({ label: option, value: option }))}
                 isRequired
                 defaultValue={
