@@ -8,7 +8,7 @@ export interface AdminTableRowProps {
 
 const AdminTableRow: React.FC<AdminTableRowProps> = ({ admin }) => (
   <Tr>
-    <Td>Placeholder name</Td>
+    <Td>{`${admin.firstName} ${admin.lastName}`}</Td>
     <Td>{admin.email}</Td>
     <Td>Placeholder date</Td>
   </Tr>
