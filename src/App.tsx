@@ -33,11 +33,11 @@ const App: React.FC<AppProps> = () => (
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route path="/" element={<Navigate to="/private" />}/>
-            <Route path="/private" element={<AuthedApp roles={[Role.ADMIN, Role.RESEARCHER]} />}>
-              <Route path="" element={<AdminLandingPage />} />
-              <Route path="example-form" element={<ExampleFormPage />} />
-            </Route>
+          <Route path="/" element={<Navigate to="/private" />} />
+          <Route path="/private" element={<AuthedApp roles={[Role.ADMIN, Role.RESEARCHER]} />}>
+            <Route path="" element={<AdminLandingPage />} />
+            <Route path="example-form" element={<ExampleFormPage />} />
+          </Route>
           <Route path="/researcher" element={<AuthedApp roles={[Role.RESEARCHER]} />}>
             <Route path="dashboard" element={<ResearcherLandingPage />} />
             <Route path="add-new-admin" element={<AddAdminPage />} />
