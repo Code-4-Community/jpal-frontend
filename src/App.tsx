@@ -4,7 +4,7 @@ import { History } from 'history';
 import * as React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Role from './api/dtos/role';
 import awsconfig from './aws-exports';
 import AuthedApp from './components/AuthedApp';
@@ -33,6 +33,7 @@ const App: React.FC<AppProps> = () => (
       <BrowserRouter>
         <Header />
         <Routes>
+          <Route path="/" element={<Navigate to="/private" />} />
           <Route path="/private" element={<AuthedApp roles={[Role.ADMIN, Role.RESEARCHER]} />}>
             <Route path="" element={<AdminLandingPage />} />
             <Route path="example-form" element={<ExampleFormPage />} />
