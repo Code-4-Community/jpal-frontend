@@ -14,7 +14,7 @@ const PreviewLetter: React.FC<PreviewLetterProps> = ({ goBack, confirmAndSaveRes
   const letter: string = generateLetter();
   return (
     <Container>
-      <Box mt={12}>
+      <Box mt={16}>
         <Box mb={12}>
           <Text fontSize="lg" fontWeight="bold">
             Please review the letter below.
