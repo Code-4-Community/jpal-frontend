@@ -1,6 +1,6 @@
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Grid, Box, Container, Heading, useToast, IconButton } from '@chakra-ui/react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { FormikHelpers } from 'formik';
 import * as React from 'react';
 import apiClient from '../../api/apiClient';
@@ -9,7 +9,7 @@ import { AddAdminForm, AdminFormValues } from '../../components/form/AddAdminFor
 import { TOAST_POPUP_DURATION } from '../basicConstants';
 
 const AddAdminPage: React.FC = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const toast = useToast();
   async function submitUser(
     values: AdminFormValues,
@@ -46,7 +46,7 @@ const AddAdminPage: React.FC = () => {
               aria-label="Back Arrow Button"
               color="black"
               colorScheme="white"
-              onClick={() => history.goBack()}
+              onClick={() => navigate(-1)}
               icon={<ArrowBackIcon />}
             />
             Add New Admin
