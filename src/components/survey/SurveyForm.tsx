@@ -1,6 +1,6 @@
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Box, Divider, IconButton, Stack, Text, VStack } from '@chakra-ui/react';
-import pupa from 'pupa';
+import pupa from 'pupa-browser';
 import React from 'react';
 import { Question, Response } from '../../api/dtos/survey-assignment.dto';
 import Form, { FormValues } from '../form/Form';
