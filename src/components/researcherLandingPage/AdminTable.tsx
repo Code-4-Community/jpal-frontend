@@ -12,14 +12,14 @@ const AdminTable: React.FC<AdminTableProps> = ({ data }) => (
     <Table variant="simple">
       <Thead>
         <Tr>
-          <Th>Admin</Th>
+          <Th>Name</Th>
           <Th>Email</Th>
           <Th>Date Added</Th>
         </Tr>
       </Thead>
       <Tbody>
         {data.map((admin) => (
-          <AdminTableRow admin={admin} />
+          <AdminTableRow key={admin.email} admin={admin} />
         ))}
       </Tbody>
     </Table>

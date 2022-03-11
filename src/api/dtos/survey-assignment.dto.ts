@@ -1,5 +1,6 @@
 // DTOs for surveys and assignments
 
+import { z } from 'zod';
 import User from './user.dto';
 
 export interface SurveyData {
@@ -9,11 +10,22 @@ export interface SurveyData {
   questions: Question[];
 }
 
+export const surveySchema = z.object({
+  name: z.string(),
+  creator: z.any(),
+  uuid: z.string(),
+  surveyTemplate: z.any(),
+  date: z.string().transform((date) => new Date(date)),
+});
+
+export const surveysSchema = z.array(surveySchema);
+
 export interface Survey {
   name: string;
   creator: User;
   uuid: string;
   surveyTemplate: SurveyTemplate;
+  date: Date;
 }
 
 export interface SurveyTemplate {
