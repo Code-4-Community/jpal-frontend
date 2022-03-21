@@ -1,0 +1,11 @@
+/* @import '@aws-amplify/ui-react/styles.css'; */
+
+/* @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap'); */
+
+:root {
+  --amplify-primary-color: #d46136 !important;
+  --amplify-font-color: #000 !important;
+  --amplify-font: 'Inter' !important;
+  --amplify-font-weight: 500 !important;
+  --amplify-font-size: 16px !important;
+}

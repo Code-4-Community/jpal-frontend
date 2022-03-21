@@ -1,6 +1,6 @@
 import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
 import { AmplifyAuthenticator, AmplifySignIn, AmplifySignOut } from '@aws-amplify/ui-react';
-import { Alert, ChakraProvider } from '@chakra-ui/react';
+import { Alert, ChakraProvider, HStack } from '@chakra-ui/react';
 import * as Sentry from '@sentry/react';
 import Amplify from 'aws-amplify';
 import { History } from 'history';
@@ -12,7 +12,7 @@ import apiClient from './api/apiClient';
 import Role from './api/dtos/role';
 import awsconfig from './aws-exports';
 import LoadingSpinner from './components/LoadingSpinner';
-import Logo from './components/Logo';
+import Logo, { FullLogo } from './components/Logo';
 import ThankYou from './components/survey/ThankYou';
 import AddAdminPage from './pages/addAdminPage/AddAdminPage';
 import ResearcherLandingPage from './pages/researcherLandingPage/ResearcherLandingPage';
@@ -22,6 +22,7 @@ import ReviewerConfirmationPage from './pages/survey/ReviewerConfirmationPage';
 import SurveyPage from './pages/survey/SurveyPage';
 import theme from './theme';
 import NotFoundPage from './pages/NotFoundPage';
+import './styles.css';
 
 const queryClient = new QueryClient();
 
@@ -89,7 +90,9 @@ const AdminOnlyApp: React.FC = () => {
         </>
       ) : (
         <AmplifyAuthenticator usernameAlias="email">
-          <AmplifySignIn usernameAlias="email" hideSignUp slot="sign-in" />
+          <HStack>
+            <AmplifySignIn usernameAlias="email" hideSignUp slot="sign-in" />
+          </HStack>
         </AmplifyAuthenticator>
       )}
     </>
