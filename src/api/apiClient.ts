@@ -1,10 +1,10 @@
 import { Auth } from 'aws-amplify';
 import axios, { AxiosInstance } from 'axios';
 import Role from './dtos/role';
-import { Response, Survey, SurveyData } from './dtos/survey-assignment.dto';
+import { Response, Survey, SurveyData, surveysSchema } from './dtos/survey-assignment.dto';
 import User from './dtos/user.dto';
 
-const defaultBaseUrl = process.env.API_BASE_URL ?? 'http://localhost:5000';
+const defaultBaseUrl = process.env.REACT_APP_API_BASE_URL ?? 'http://localhost:5000';
 // Required to use nock with axios (note: do not use nock, just use jest to mock the apiClient)
 axios.defaults.adapter = require('axios/lib/adapters/http');
 
@@ -75,7 +75,8 @@ export class ApiClient {
   }
 
   public async getMySurveys(): Promise<Survey[]> {
-    return this.get('/survey') as Promise<Survey[]>;
+    const surveys = await this.get('/survey');
+    return surveysSchema.parse(surveys) as Survey[];
   }
 
   // Stubbed out for now. Not implemented on the backend.

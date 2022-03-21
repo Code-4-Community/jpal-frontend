@@ -17,5 +17,9 @@ describe('Landing', () => {
     render(<ResearcherLandingPage />);
     const testEmail = await screen.findByText('test@test.com');
     expect(testEmail).toBeInTheDocument();
+    const testFirstName = await screen.findByText(/first/);
+    expect(testFirstName).toBeInTheDocument();
+    const testLastName = await screen.findByText(/last/);
+    expect(testLastName).toBeInTheDocument();
   });
 });
