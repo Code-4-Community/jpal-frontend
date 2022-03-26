@@ -11,8 +11,8 @@ const Header: React.FC = () => {
   if (!user) return null;
 
   return (
-    <Box display="flex" justifyContent="space-between">
-      <Logo w="12" h="12" marginTop="4" marginLeft="8" />
+    <Box display="flex" paddingLeft="8" paddingRight="8" justifyContent="space-between">
+      <Logo w="12" h="12" marginTop="4" />
       <JPALMenu isResearcher={user?.role === Role.RESEARCHER} />
     </Box>
   );
