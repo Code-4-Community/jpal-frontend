@@ -30,9 +30,9 @@ interface AppProps {
 
 // Map with all the roles mapped to their landing pages
 const roleMap = {
-  [Role.ADMIN]: "/private",
-  [Role.RESEARCHER]: "/researcher",
-}
+  [Role.ADMIN]: '/private',
+  [Role.RESEARCHER]: '/researcher',
+};
 
 const App: React.FC<AppProps> = () => (
   <QueryClientProvider client={queryClient}>

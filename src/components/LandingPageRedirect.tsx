@@ -7,7 +7,7 @@ import useAuth from '../hooks/useAuth';
 import LoadingSpinner from './LoadingSpinner';
 
 interface LandingPageRedirectProps {
-  rolesMap: Record<Role,string>;
+  rolesMap: Record<Role, string>;
 }
 // TODO: Fix signature
 const LandingPageRedirect: React.FC<LandingPageRedirectProps> = ({ rolesMap }) => {
@@ -30,7 +30,9 @@ const LandingPageRedirect: React.FC<LandingPageRedirectProps> = ({ rolesMap }) =
         </AmplifyAuthenticator>
       )}
       {user && !rolesMap[user.role] && <AmplifySignOut />}
-      {user && rolesMap[user.role] && user.role !== undefined && <Navigate to={rolesMap[user.role]} />}
+      {user && rolesMap[user.role] && user.role !== undefined && (
+        <Navigate to={rolesMap[user.role]} />
+      )}
     </>
   );
 };
