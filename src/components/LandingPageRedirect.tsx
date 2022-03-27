@@ -30,7 +30,7 @@ const LandingPageRedirect: React.FC<LandingPageRedirectProps> = ({ rolesMap }) =
         </AmplifyAuthenticator>
       )}
       {user && !rolesMap[user.role] && <AmplifySignOut />}
-      {user && rolesMap[user.role] && user.role !== undefined && <Navigate to={user.role} />}
+      {user && rolesMap[user.role] && user.role !== undefined && <Navigate to={rolesMap[user.role]} />}
     </>
   );
 };
