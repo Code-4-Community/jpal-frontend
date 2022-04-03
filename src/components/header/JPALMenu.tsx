@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
+import { chakra, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import * as Sentry from '@sentry/react';
 import { Auth, Hub } from 'aws-amplify';
 import { useNavigate } from 'react-router-dom';
@@ -32,7 +32,7 @@ const JPALMenu: React.FC<JPALMenuProps> = ({ isResearcher }) => {
   return (
     <Menu>
       <MenuButton>
-        <img src={Avatar} alt="User avatar" />
+        <chakra.img src={Avatar} alt="User avatar" />
       </MenuButton>
       <MenuList>
         {isResearcher && (

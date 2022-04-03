@@ -1,4 +1,4 @@
-import { Link, Td, Tr } from '@chakra-ui/react';
+import { Td, Tr } from '@chakra-ui/react';
 import React from 'react';
 
 export interface SurveyTableRowProps {
@@ -17,12 +17,6 @@ const SurveyTableRow: React.FC<SurveyTableRowProps> = ({ name, date }) => (
   <Tr>
     <Td>{name}</Td>
     <Td>{dateFormatter(date)}</Td>
-    <Td fontStyle="italic">
-      <Link href="/edit">Edit</Link>
-    </Td>
-    <Td fontStyle="italic">
-      <Link href="/delete">Delete</Link>
-    </Td>
   </Tr>
 );
 

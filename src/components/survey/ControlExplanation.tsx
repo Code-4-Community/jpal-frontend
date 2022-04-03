@@ -10,7 +10,7 @@ interface ControlExplanationProps {
  */
 const ControlExplanation: React.FC<ControlExplanationProps> = ({ continueWithControl }) => (
   <Container>
-    <Box mt={12}>
+    <Box mt={16}>
       <Box mb={12}>
         <Text fontSize="lg" fontWeight="bold">
           Please continue to review additional youth

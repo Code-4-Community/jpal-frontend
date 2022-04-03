@@ -17,7 +17,7 @@ const ConfirmReviewerIdentity: React.FC<ConfirmReviewerIdentityProps> = ({
   <Center mt={20}>
     <HStack spacing={12}>
       <VStack justify="center" height="full">
-        <Box padding="4" maxW="md">
+        <Box padding="16" maxW="md">
           <Text fontSize="lg" mb={6}>
             Welcome to JPAL&apos;s Letter of Recommendation System!
           </Text>
