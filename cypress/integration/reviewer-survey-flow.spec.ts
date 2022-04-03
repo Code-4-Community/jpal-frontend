@@ -185,6 +185,21 @@ function interceptAPICalls(surveyData: SurveyData) {
       `startAssignment-${youth.assignmentUuid}`,
     )
   })
+  // ALl preview letters are the same
+  cy.intercept('POST', `http://localhost:5000/assignment/preview-letter/*`, {
+    shouldBeSent: true,
+    date: '2022-03-10T23:53:42.899Z',
+    greeting: 'To Whom It May Concern',
+    paragraphs: [
+      'Joe Shmoe worked for me at the Wharton School during this past Summer. Overall, Joe was an exceptional employee.',
+      'Joe always completed work related tasks in a timely manner.',
+      'Joe was an incredibly effective communicator. Joe was excellent at following instructions.',
+      "In addition to Joe's other strengths, Joe takes initiative, is trustworthy, is respectful, works well in teams, is good at responding to constructive criticism and is responsible.",
+      'Given the resources, I would hire Joe as a regular employee. I invite you to contact me if you would like more information. I can be reached at c4cneu.jpal+ben.lerner@gmail.com.',
+    ],
+    closing: 'Sincerely',
+    signature: { fullName: 'Ben Lerner', organization: 'The Wharton School' },
+  }).as('previewLetter');
 }
 
 function reviewAllYouth(youth: Youth[]) {
