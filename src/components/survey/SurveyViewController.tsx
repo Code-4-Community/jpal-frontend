@@ -64,9 +64,9 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
           // we know there is at least one element, otherwise it will epsilon transition to accept state
           youth={getCurrentYouth()}
           confirmYouth={async () => {
-            const youth = getCurrentYouth()
+            const youth = getCurrentYouth();
             try {
-              await apiClient.startAssignment(youth.assignmentUuid)
+              await apiClient.startAssignment(youth.assignmentUuid);
             } catch (error) {
               toast({
                 title: 'Error submitting review.',
@@ -76,7 +76,7 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
                 isClosable: true,
               });
             }
-            send("CONFIRM")
+            send('CONFIRM');
           }}
           rejectYouth={() => send('REJECT')}
         />
