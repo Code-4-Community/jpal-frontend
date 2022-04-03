@@ -12,6 +12,7 @@ import createSurveyViewMachine from './stateMachine';
 import ConfirmAssignments from './ConfirmAssignments';
 import ThankYou from './ThankYou';
 import SurveyForm from './SurveyForm';
+import apiClient from '../../api/apiClient';
 
 interface SurveyViewControllerProps extends SurveyData {
   completeAssignment: (assignmentUuid: string, responses: Response[]) => Promise<void>;
@@ -62,7 +63,21 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
         <ConfirmYouth
           // we know there is at least one element, otherwise it will epsilon transition to accept state
           youth={getCurrentYouth()}
-          confirmYouth={() => send('CONFIRM')}
+          confirmYouth={async () => {
+            const youth = getCurrentYouth()
+            try {
+              await apiClient.startAssignment(youth.assignmentUuid)
+            } catch (error) {
+              toast({
+                title: 'Error submitting review.',
+                description: `Failed to start a review for ${youth.firstName} ${youth.lastName}. Please try again. If this problem persists, please contact an administrator.`,
+                status: 'error',
+                duration: TOAST_POPUP_DURATION,
+                isClosable: true,
+              });
+            }
+            send("CONFIRM")
+          }}
           rejectYouth={() => send('REJECT')}
         />
       )}
