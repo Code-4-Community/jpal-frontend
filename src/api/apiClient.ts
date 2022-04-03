@@ -88,8 +88,8 @@ export class ApiClient {
 
   public async startAssignment(assignmentUuid: string): Promise<void> {
     this.patch(`/assignment/${assignmentUuid}`, null).catch((BadRequestException) => {
-      throw BadRequestException
-    })
+      throw BadRequestException;
+    });
   }
 }
 
