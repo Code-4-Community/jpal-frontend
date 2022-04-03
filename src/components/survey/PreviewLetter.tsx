@@ -44,7 +44,7 @@ const PreviewLetter: React.FC<PreviewLetterProps> = ({
             )}
             <Text marginBottom="1rem" color="gray.600">{`${letter.greeting},`}</Text>
             {letter.paragraphs.map((paragraph) => (
-              <Text marginBottom="1rem" color="gray.600">
+              <Text key={paragraph} marginBottom="1rem" color="gray.600">
                 {paragraph}
               </Text>
             ))}
