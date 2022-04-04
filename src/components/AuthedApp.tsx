@@ -19,7 +19,6 @@ const AuthedApp: React.FC<AuthedAppProps> = ({ roles }) => {
     return (
       <>
         <LoadingSpinner />
-        <AmplifySignOut />;
       </>
     );
   if (userError)
@@ -28,7 +27,6 @@ const AuthedApp: React.FC<AuthedAppProps> = ({ roles }) => {
         <Alert status="error">
           An error occurred while fetching your user information. Please sign out and try again.
         </Alert>
-        <AmplifySignOut />
       </>
     );
   if (!user)
@@ -55,7 +53,6 @@ const AuthedApp: React.FC<AuthedAppProps> = ({ roles }) => {
   return (
     <>
       <Outlet />
-      <AmplifySignOut />
     </>
   );
 };
