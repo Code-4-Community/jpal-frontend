@@ -35,7 +35,7 @@ const AuthedApp: React.FC<AuthedAppProps> = ({ roles }) => {
         <Flex gridColumnGap={30} alignItems="center">
           <Flex flexDirection="column" width="100%" padding="10" alignItems="flex-center">
             <FullLogo />
-            <Text>
+            <Text margin={10}>
               This text here is to explain the background of the site or the user’s role, etc. Lorem
               ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
               labore et dolore magna aliqua.
