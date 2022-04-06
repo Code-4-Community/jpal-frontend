@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Outlet } from 'react-router-dom';
 import Role from '../api/dtos/role';
 import useAuth from '../hooks/useAuth';
-import { FullLogo } from './header/Logo';
+import FullLogo from './header/FullLogo';
 import LoadingSpinner from './LoadingSpinner';
 import '../styles.css';
 
