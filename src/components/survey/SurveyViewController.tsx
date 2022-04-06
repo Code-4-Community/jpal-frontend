@@ -1,6 +1,6 @@
 import { useToast } from '@chakra-ui/react';
 import { useMachine } from '@xstate/react';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Response, SurveyData, Youth } from '../../api/dtos/survey-assignment.dto';
 import { TOAST_POPUP_DURATION } from '../../pages/basicConstants';
 import ConfirmAssignments from './ConfirmAssignments';
@@ -37,8 +37,27 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
   /**
    * Only call this when you know there are assignments left
    */
-  const getCurrentYouth: () => Youth = () => state.context.assignmentsLeft[0];
+  const getCurrentYouth: () => Youth = useCallback(
+    () => state.context.assignmentsLeft[0],
+    [state.context.assignmentsLeft],
+  );
   const toast = useToast();
+
+  const confirmYouthCallback = useCallback(async () => {
+    const youth = getCurrentYouth();
+    try {
+      await apiClient.startAssignment(youth.assignmentUuid);
+    } catch (error) {
+      toast({
+        title: 'Error submitting review.',
+        description: `Failed to start a review for ${youth.firstName} ${youth.lastName}. Please try again. If this problem persists, please contact an administrator.`,
+        status: 'error',
+        duration: TOAST_POPUP_DURATION,
+        isClosable: true,
+      });
+    }
+    send('CONFIRM');
+  }, [getCurrentYouth, send, toast]);
 
   return (
     <>
@@ -63,21 +82,7 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
         <ConfirmYouth
           // we know there is at least one element, otherwise it will epsilon transition to accept state
           youth={getCurrentYouth()}
-          confirmYouth={async () => {
-            const youth = getCurrentYouth();
-            try {
-              await apiClient.startAssignment(youth.assignmentUuid);
-            } catch (error) {
-              toast({
-                title: 'Error submitting review.',
-                description: `Failed to start a review for ${youth.firstName} ${youth.lastName}. Please try again. If this problem persists, please contact an administrator.`,
-                status: 'error',
-                duration: TOAST_POPUP_DURATION,
-                isClosable: true,
-              });
-            }
-            send('CONFIRM');
-          }}
+          confirmYouth={confirmYouthCallback}
           rejectYouth={() => send('REJECT')}
         />
       )}
