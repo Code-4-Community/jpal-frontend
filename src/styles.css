@@ -1,0 +1,12 @@
+/* @import '@aws-amplify/ui-react/styles.css'; */
+
+/* @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap'); */
+
+amplify-authenticator {
+  --amplify-primary-color: #d46136 !important;
+  --amplify-font-color: #000 !important;
+  --amplify-font-weight: 700 !important;
+  --amplify-font-size: 16px !important;
+  --amplify-box-shadow: 0;
+  --box-shadow: 0;
+}
