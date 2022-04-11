@@ -7,10 +7,19 @@ import Avatar from '../../assets/Avatar.svg';
 
 type JPALMenuProps = {
   isResearcher: boolean;
+  setUserAvatarClicked: (userAvatarClicked: boolean) => void;
+  userAvatarClicked: boolean;
 };
 
-const JPALMenu: React.FC<JPALMenuProps> = ({ isResearcher }) => {
+const JPALMenu: React.FC<JPALMenuProps> = ({
+  isResearcher,
+  setUserAvatarClicked,
+  userAvatarClicked,
+}) => {
   const navigate = useNavigate();
+  React.useEffect(() => {
+    setUserAvatarClicked(userAvatarClicked);
+  }, [userAvatarClicked, setUserAvatarClicked]);
 
   const onSignOutClicked = async () => {
     try {
@@ -31,7 +40,7 @@ const JPALMenu: React.FC<JPALMenuProps> = ({ isResearcher }) => {
 
   return (
     <Menu>
-      <MenuButton>
+      <MenuButton onClick={() => setUserAvatarClicked(!userAvatarClicked)}>
         <chakra.img src={Avatar} alt="User avatar" />
       </MenuButton>
       <MenuList>

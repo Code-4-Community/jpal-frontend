@@ -18,10 +18,15 @@ import ErrorAlert from '../../components/ErrorAlert';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import AdminTable from '../../components/researcherLandingPage/AdminTable';
 
-const ResearcherLandingPage: React.FC = () => {
+type ResearcherLandingPageProps = {
+  userAvatarClicked: boolean;
+};
+
+const ResearcherLandingPage: React.FC<ResearcherLandingPageProps> = ({ userAvatarClicked }) => {
   const { isLoading, error, data } = useQuery<User[], Error>('adminList', () =>
     apiClient.getAdmins(),
   );
+
   const navigate = useNavigate();
 
   const onClick = () => navigate('/researcher/add-new-admin');
@@ -38,7 +43,7 @@ const ResearcherLandingPage: React.FC = () => {
         <Box>
           <InputGroup>
             <InputLeftElement>
-              <SearchIcon color="gray.300" />
+              {!userAvatarClicked && <SearchIcon color="gray.300" />}
             </InputLeftElement>
             <Input width="200px" placeholder="Search..." />
           </InputGroup>

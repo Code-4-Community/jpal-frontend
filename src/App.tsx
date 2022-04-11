@@ -27,30 +27,40 @@ interface AppProps {
   history: History<unknown>;
 }
 
-const App: React.FC<AppProps> = () => (
-  <QueryClientProvider client={queryClient}>
-    <ChakraProvider theme={theme}>
-      <BrowserRouter>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Navigate to="/private" />} />
-          <Route path="/private" element={<AuthedApp roles={[Role.ADMIN, Role.RESEARCHER]} />}>
-            <Route path="" element={<AdminLandingPage />} />
-            <Route path="example-form" element={<ExampleFormPage />} />
-          </Route>
-          <Route path="/researcher" element={<AuthedApp roles={[Role.RESEARCHER]} />}>
-            <Route path="dashboard" element={<ResearcherLandingPage />} />
-            <Route path="add-new-admin" element={<AddAdminPage />} />
-          </Route>
-          <Route path="/survey/:survey_uuid/:reviewer_uuid" element={<SurveyPage />} />
-          <Route path="/survey/confirmation" element={<ThankYou />} />
-          <Route path="/survey/confirm-reviewer" element={<ReviewerConfirmationPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </BrowserRouter>
-    </ChakraProvider>
-    <ReactQueryDevtools initialIsOpen={false} />
-  </QueryClientProvider>
-);
+const App: React.FC<AppProps> = () => {
+  const [userAvatarClicked, setUserAvatarClicked] = React.useState(false);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ChakraProvider theme={theme}>
+        <BrowserRouter>
+          <Header
+            setUserAvatarClicked={setUserAvatarClicked}
+            userAvatarClicked={userAvatarClicked}
+          />
+          <Routes>
+            <Route path="/" element={<Navigate to="/private" />} />
+            <Route path="/private" element={<AuthedApp roles={[Role.ADMIN, Role.RESEARCHER]} />}>
+              <Route path="" element={<AdminLandingPage userAvatarClicked={userAvatarClicked} />} />
+              <Route path="example-form" element={<ExampleFormPage />} />
+            </Route>
+            <Route path="/researcher" element={<AuthedApp roles={[Role.RESEARCHER]} />}>
+              <Route
+                path="dashboard"
+                element={<ResearcherLandingPage userAvatarClicked={userAvatarClicked} />}
+              />
+              <Route path="add-new-admin" element={<AddAdminPage />} />
+            </Route>
+            <Route path="/survey/:survey_uuid/:reviewer_uuid" element={<SurveyPage />} />
+            <Route path="/survey/confirmation" element={<ThankYou />} />
+            <Route path="/survey/confirm-reviewer" element={<ReviewerConfirmationPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </BrowserRouter>
+      </ChakraProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  );
+};
 
 export default App;
