@@ -5,14 +5,26 @@ import JPALMenu from './JPALMenu';
 
 describe('JPAL menu', () => {
   it('should have three options for researchers', () => {
-    render(<JPALMenu isResearcher />);
+    render(
+      <JPALMenu
+        isResearcher
+        setUserAvatarClicked={function (userAvatarClicked: boolean): void {}}
+        userAvatarClicked={false}
+      />,
+    );
     expect(screen.getByText('View Admins')).toBeInTheDocument();
     expect(screen.getByText('View Surveys')).toBeInTheDocument();
     expect(screen.getByText('Sign Out')).toBeInTheDocument();
   });
 
   it('should have one option for admins', () => {
-    render(<JPALMenu isResearcher={false} />);
+    render(
+      <JPALMenu
+        isResearcher={false}
+        setUserAvatarClicked={function (userAvatarClicked: boolean): void {}}
+        userAvatarClicked={false}
+      />,
+    );
     expect(screen.getByText('Sign Out')).toBeInTheDocument();
     expect(screen.queryByText('View Admins')).toBeNull();
     expect(screen.queryByText('View Surveys')).toBeNull();
