@@ -13,15 +13,15 @@ const ControlExplanation: React.FC<ControlExplanationProps> = ({ continueWithCon
     <Box mt={16}>
       <Box mb={12}>
         <Text fontSize="lg" fontWeight="bold">
-          Please continue to review additional youth
+          Please continue to review additional workers
         </Text>
       </Box>
 
       <Box mb={12}>
         <Text color="gray.600">
-          Thank you for filling out the survey! Next, we have some additional youth that are
+          Thank you for filling out the survey! Next, we have some additional workers that are
           currently not eligible to receive letters, but we would appreciate if you could take the
-          time to fill out their surveys as well. These students are in the control group of our
+          time to fill out their surveys as well. These workers are in the control group of our
           study.
         </Text>
       </Box>
