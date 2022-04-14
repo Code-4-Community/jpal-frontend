@@ -17,10 +17,10 @@ describe('ConfirmAssignments', () => {
 
   it('should contain explanatory text', () => {
     expect(
-      screen.getByText('Please confirm the youth you have supervised.', { exact: false }),
+      screen.getByText('Please confirm the workers you have supervised.', { exact: false }),
     ).toBeInTheDocument();
     expect(
-      screen.getByText('Uncheck any youth you have not supervised.', { exact: false }),
+      screen.getByText('Uncheck any workers you have not supervised.', { exact: false }),
     ).toBeInTheDocument();
   });
 

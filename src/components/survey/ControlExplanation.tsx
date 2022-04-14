@@ -19,7 +19,10 @@ const ControlExplanation: React.FC<ControlExplanationProps> = ({ continueWithCon
 
       <Box mb={12}>
         <Text color="gray.600">
-          Thanks for filling out the survey! We want to also do the same but for control youth.
+          Thank you for filling out the survey! Next, we have some additional youth that are
+          currently not eligible to receive letters, but we would appreciate if you could take the
+          time to fill out their surveys as well. These students are in the control group of our
+          study.
         </Text>
       </Box>
 
