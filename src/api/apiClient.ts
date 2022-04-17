@@ -88,9 +88,7 @@ export class ApiClient {
   }
 
   public async startAssignment(assignmentUuid: string): Promise<void> {
-    return this.patch(`/assignment/${assignmentUuid}`, null).catch((BadRequestException) => {
-      throw BadRequestException;
-    }) as Promise<void>;
+    return this.patch(`/assignment/${assignmentUuid}`, null) as Promise<void>;
   }
 
   public async getPreviewLetter(assignmentUuid: string, responses: Response[]): Promise<Letter> {

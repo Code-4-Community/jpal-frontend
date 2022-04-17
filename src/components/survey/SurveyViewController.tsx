@@ -47,6 +47,7 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
     const youth = getCurrentYouth();
     try {
       await apiClient.startAssignment(youth.assignmentUuid);
+      send('CONFIRM');
     } catch (error) {
       toast({
         title: 'Error submitting review.',
@@ -56,7 +57,6 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
         isClosable: true,
       });
     }
-    send('CONFIRM');
   }, [getCurrentYouth, send, toast]);
 
   return (
