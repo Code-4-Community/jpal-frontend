@@ -22,15 +22,14 @@ const ConfirmReviewerIdentity: React.FC<ConfirmReviewerIdentityProps> = ({
             Welcome to JPAL&apos;s Letter of Recommendation System!
           </Text>
           <Text mb={6}>
-            {' '}
             Thanks you for taking the time to create letters of recommendation for workers that you
             have supervised.
           </Text>
           <Text>
             This LoR system will ask you questions about people you have supervised. For each
-            wroker, your responses will be used to generate a letter of recommendation. You will
+            worker, your responses will be used to generate a letter of recommendation. You will
             have the opportunity to view this letter, make changes to you answer, and send the
-            letter to the worker. We really appreciate your time!{' '}
+            letter to the worker. We really appreciate your time!
           </Text>
         </Box>
       </VStack>
