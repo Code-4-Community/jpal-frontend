@@ -6,7 +6,7 @@ import { render } from '../../test-utils';
 describe('Add Admin Page', () => {
   test('renders Add New Admin heading', () => {
     render(<AddAdminPage />);
-    const heading = screen.getByText('Add New Admin');
+    const heading = screen.getByText('Admin Profile');
     expect(heading).toBeInTheDocument();
   });
 });
