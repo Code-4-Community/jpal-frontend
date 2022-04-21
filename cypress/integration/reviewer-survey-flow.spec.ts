@@ -306,7 +306,7 @@ function skipSurvey(youth: Youth) {
 
 function testFillOutSurvey(youth: Youth) {
   cy.contains(`${youth.firstName} ${youth.lastName}`).should('be.visible');
-  cy.get('button').contains('Complete their survey').click();
+  cy.get('button').contains('Complete the survey').click();
   cy.contains(`${youth.firstName} ${youth.lastName}`).should('be.visible');
   SURVEY_DATA_SMALL.questions.forEach((question) => {
     cy.get(`[data-cy="${question.question}-${ALWAYS}"]`).click();
