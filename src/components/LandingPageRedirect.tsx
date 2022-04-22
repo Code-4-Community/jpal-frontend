@@ -9,7 +9,7 @@ import LoadingSpinner from './LoadingSpinner';
 interface LandingPageRedirectProps {
   rolesMap: Record<Role, string>;
 }
-// TODO: Fix signature
+
 const LandingPageRedirect: React.FC<LandingPageRedirectProps> = ({ rolesMap }) => {
   const [userLoading, userError, user] = useAuth();
 
