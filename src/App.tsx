@@ -34,14 +34,11 @@ const App: React.FC<AppProps> = () => {
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>
         <BrowserRouter>
-          <Header
-            setUserAvatarClicked={setUserAvatarClicked}
-            userAvatarClicked={userAvatarClicked}
-          />
+          <Header />
           <Routes>
             <Route path="/" element={<Navigate to="/private" />} />
             <Route path="/private" element={<AuthedApp roles={[Role.ADMIN, Role.RESEARCHER]} />}>
-              <Route path="" element={<AdminLandingPage userAvatarClicked={userAvatarClicked} />} />
+              <Route path="" element={<AdminLandingPage />} />
               <Route path="example-form" element={<ExampleFormPage />} />
             </Route>
             <Route path="/researcher" element={<AuthedApp roles={[Role.RESEARCHER]} />}>

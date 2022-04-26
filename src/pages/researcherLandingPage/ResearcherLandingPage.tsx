@@ -41,9 +41,9 @@ const ResearcherLandingPage: React.FC<ResearcherLandingPageProps> = ({ userAvata
         </Box>
         <Spacer />
         <Box>
-          <InputGroup>
+          <InputGroup zIndex={0}>
             <InputLeftElement>
-              {!userAvatarClicked && <SearchIcon color="gray.300" />}
+              <SearchIcon color="gray.300" />
             </InputLeftElement>
             <Input width="200px" placeholder="Search..." />
           </InputGroup>

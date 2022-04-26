@@ -17,10 +17,7 @@ import ErrorAlert from '../../components/ErrorAlert';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import SurveyTable from '../../components/adminLandingPage/SurveyTable';
 
-type AdminLandingPageProps = {
-  userAvatarClicked: boolean;
-};
-const AdminLandingPage: React.FC<AdminLandingPageProps> = ({ userAvatarClicked }) => {
+const AdminLandingPage: React.FC = () => {
   const { isLoading, error, data } = useQuery<Survey[], Error>('surveyList', () =>
     apiClient.getMySurveys(),
   );
@@ -35,9 +32,9 @@ const AdminLandingPage: React.FC<AdminLandingPageProps> = ({ userAvatarClicked }
         </Box>
         <Spacer />
         <Box>
-          <InputGroup>
+          <InputGroup zIndex={0}>
             <InputLeftElement>
-              {!userAvatarClicked && <SearchIcon color="gray.300" />}
+              <SearchIcon color="gray.300" />
             </InputLeftElement>
             <Input width="200px" placeholder="Search..." />
           </InputGroup>
