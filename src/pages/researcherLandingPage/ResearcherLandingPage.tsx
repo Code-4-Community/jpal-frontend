@@ -22,7 +22,6 @@ const ResearcherLandingPage: React.FC = () => {
   const { isLoading, error, data } = useQuery<User[], Error>('adminList', () =>
     apiClient.getAdmins(),
   );
-
   const navigate = useNavigate();
 
   const onClick = () => navigate('/researcher/add-new-admin');
