@@ -1,5 +1,5 @@
 import { ArrowBackIcon } from '@chakra-ui/icons';
-import { Grid, Box, Container, Heading, useToast, IconButton } from '@chakra-ui/react';
+import { Grid, Box, Container, Heading, useToast, IconButton, GridItem } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { FormikHelpers } from 'formik';
 import * as React from 'react';
@@ -38,22 +38,28 @@ const AddAdminPage: React.FC = () => {
   }
   return (
     <Box>
-      <Grid minH="100vh" p={3}>
-        <Container maxW="xl">
-          <Heading size="lg" textAlign="start">
+      <Container maxW="xl">
+        <Grid h="100vh" templateRows="repeat(5, 1fr)" templateColumns="repeat(8, 1fr)" gap={1}>
+          <GridItem rowSpan={2} colSpan={1}>
             <IconButton
               size="xl"
               aria-label="Back Arrow Button"
               color="black"
               colorScheme="white"
               onClick={() => navigate(-1)}
-              icon={<ArrowBackIcon />}
+              icon={<ArrowBackIcon w={10} h={10} />}
             />
-            Add New Admin
-          </Heading>
-          <AddAdminForm onSubmit={submitUser} />
-        </Container>
-      </Grid>
+          </GridItem>
+          <GridItem colSpan={7}>
+            <Heading size="lg" textAlign="start">
+              Admin Profile
+            </Heading>
+          </GridItem>
+          <GridItem colSpan={7}>
+            <AddAdminForm onSubmit={submitUser} />
+          </GridItem>
+        </Grid>
+      </Container>
     </Box>
   );
 };

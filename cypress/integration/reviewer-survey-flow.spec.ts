@@ -219,12 +219,12 @@ function reviewSomeAndSkipSome(youth: Youth[]) {
 }
 
 function continueToReviewControlYouth() {
-  cy.contains('Please continue to review additional youth').should('be.visible');
+  cy.contains('Please continue to review additional workers').should('be.visible');
   cy.get('button').contains('Confirm').click();
 }
 
 function confirmAssignments(youth: Youth[]) {
-  cy.contains('Please confirm the youth you have supervised.').should('be.visible');
+  cy.contains('Please confirm the workers you have supervised.').should('be.visible');
   youth.forEach((y) => {
     cy.contains(`${y.firstName} ${y.lastName}`).should('be.visible');
   });
@@ -232,7 +232,7 @@ function confirmAssignments(youth: Youth[]) {
 }
 
 function uncheckEveryOtherAssignment(youth: Youth[]): void {
-  cy.contains('Please confirm the youth you have supervised.').should('be.visible');
+  cy.contains('Please confirm the workers you have supervised.').should('be.visible');
   youth.forEach((y) => {
     cy.contains(`${y.firstName} ${y.lastName}`).should('be.visible');
   });
@@ -246,7 +246,7 @@ function uncheckEveryOtherAssignment(youth: Youth[]): void {
 }
 
 function uncheckAllAssignments(youth: Youth[]) {
-  cy.contains('Please confirm the youth you have supervised.').should('be.visible');
+  cy.contains('Please confirm the workers you have supervised.').should('be.visible');
   youth.forEach((y) => {
     cy.contains(`${y.firstName} ${y.lastName}`).should('be.visible');
   });
@@ -318,12 +318,12 @@ function testCompleteAssignmentAPICall(youth: Youth) {
 
 function skipSurvey(youth: Youth) {
   cy.contains(`${youth.firstName} ${youth.lastName}`).should('be.visible');
-  cy.get('button').contains('I did not work with this youth').click();
+  cy.get('button').contains('I did not work with this person').click();
 }
 
 function testFillOutSurvey(youth: Youth) {
   cy.contains(`${youth.firstName} ${youth.lastName}`).should('be.visible');
-  cy.get('button').contains('Complete their survey').click();
+  cy.get('button').contains('Complete the survey').click();
   testStartAssignmentAPICall(youth)
   cy.contains(`${youth.firstName} ${youth.lastName}`).should('be.visible');
   SURVEY_DATA_SMALL.questions.forEach((question) => {
