@@ -20,7 +20,7 @@ const JPALMenu: React.FC<JPALMenuProps> = ({ isResearcher }) => {
         event: 'AuthStateChange',
         message: 'signedout',
       });
-      navigate("/");
+      navigate('/');
     } catch (error) {
       Sentry.captureException('Error signing out');
     }
