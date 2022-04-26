@@ -13,7 +13,7 @@ const ConfirmYouth: React.FC<ConfirmYouthProps> = ({ youth, rejectYouth, confirm
     <Box mt={24}>
       <Box mb={12}>
         <Text fontSize="2xl" fontWeight="bold">
-          Next student:
+          Next worker:
         </Text>
         <Text fontSize="2xl">
           {youth.firstName} {youth.lastName}
@@ -23,11 +23,11 @@ const ConfirmYouth: React.FC<ConfirmYouthProps> = ({ youth, rejectYouth, confirm
       <HStack spacing={4}>
         <Button colorScheme="gray" variant="link" onClick={rejectYouth}>
           <Text color="gray.500" fontSize="md" as="cite" fontWeight={400}>
-            I did not work with this youth.
+            I did not work with this person.
           </Text>
         </Button>
         <Button colorScheme="teal" variant="solid" onClick={confirmYouth}>
-          Complete their survey
+          Complete the survey
         </Button>
       </HStack>
     </Box>
