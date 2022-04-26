@@ -14,7 +14,7 @@ describe('Landing', () => {
         { id: 1, firstName: 'first', lastName: 'last', email: 'test@test.com', role: 'admin' },
       ]),
     ) as () => Promise<User[]>;
-    render(<ResearcherLandingPage userAvatarClicked={false} />);
+    render(<ResearcherLandingPage />);
     const testEmail = await screen.findByText('test@test.com');
     expect(testEmail).toBeInTheDocument();
     const testFirstName = await screen.findByText(/first/);

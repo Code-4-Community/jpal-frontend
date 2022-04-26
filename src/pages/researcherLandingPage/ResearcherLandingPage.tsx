@@ -18,11 +18,7 @@ import ErrorAlert from '../../components/ErrorAlert';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import AdminTable from '../../components/researcherLandingPage/AdminTable';
 
-type ResearcherLandingPageProps = {
-  userAvatarClicked: boolean;
-};
-
-const ResearcherLandingPage: React.FC<ResearcherLandingPageProps> = ({ userAvatarClicked }) => {
+const ResearcherLandingPage: React.FC = () => {
   const { isLoading, error, data } = useQuery<User[], Error>('adminList', () =>
     apiClient.getAdmins(),
   );

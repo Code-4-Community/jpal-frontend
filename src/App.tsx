@@ -28,8 +28,6 @@ interface AppProps {
 }
 
 const App: React.FC<AppProps> = () => {
-  const [userAvatarClicked, setUserAvatarClicked] = React.useState(false);
-
   return (
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>
@@ -42,10 +40,7 @@ const App: React.FC<AppProps> = () => {
               <Route path="example-form" element={<ExampleFormPage />} />
             </Route>
             <Route path="/researcher" element={<AuthedApp roles={[Role.RESEARCHER]} />}>
-              <Route
-                path="dashboard"
-                element={<ResearcherLandingPage userAvatarClicked={userAvatarClicked} />}
-              />
+              <Route path="dashboard" element={<ResearcherLandingPage />} />
               <Route path="add-new-admin" element={<AddAdminPage />} />
             </Route>
             <Route path="/survey/:survey_uuid/:reviewer_uuid" element={<SurveyPage />} />
