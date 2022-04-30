@@ -174,6 +174,17 @@ function interceptAPICalls(surveyData: SurveyData) {
     );
   });
 
+  surveyData.treatmentYouth.forEach((youth) => {
+    cy.intercept("PATCH", `http://localhost:5000/assignment/${youth.assignmentUuid}`, {}).as(
+      `startAssignment-${youth.assignmentUuid}`,
+    )
+  })
+
+  surveyData.controlYouth.forEach((youth) => {
+    cy.intercept("PATCH", `http://localhost:5000/assignment/${youth.assignmentUuid}`, {}).as(
+      `startAssignment-${youth.assignmentUuid}`,
+    )
+  })
   // ALl preview letters are the same
   cy.intercept('POST', `http://localhost:5000/assignment/preview-letter/*`, {
     shouldBeSent: true,
@@ -288,6 +299,12 @@ function testPreviewLetter(youth: {
   testCompleteAssignmentAPICall(youth);
 }
 
+function testStartAssignmentAPICall(youth: Youth) {
+  cy.wait(`@startAssignment-${youth.assignmentUuid}`)
+    .its('request.body')
+    .should('equal', '')
+}
+
 function testCompleteAssignmentAPICall(youth: Youth) {
   cy.wait(`@completeAssignment-${youth.assignmentUuid}`)
     .its('request.body')
@@ -307,6 +324,7 @@ function skipSurvey(youth: Youth) {
 function testFillOutSurvey(youth: Youth) {
   cy.contains(`${youth.firstName} ${youth.lastName}`).should('be.visible');
   cy.get('button').contains('Complete the survey').click();
+  testStartAssignmentAPICall(youth)
   cy.contains(`${youth.firstName} ${youth.lastName}`).should('be.visible');
   SURVEY_DATA_SMALL.questions.forEach((question) => {
     cy.get(`[data-cy="${question.question}-${ALWAYS}"]`).click();
@@ -335,4 +353,4 @@ function selectThisIsntMe() {
   cy.get('button').contains(`This isn't me.`).click();
 }
 
-export {};
+export { };
