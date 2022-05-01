@@ -4,7 +4,7 @@ import { History } from 'history';
 import * as React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Role from './api/dtos/role';
 import awsconfig from './aws-exports';
 import AuthedApp from './components/AuthedApp';
@@ -18,6 +18,7 @@ import ResearcherLandingPage from './pages/researcherLandingPage/ResearcherLandi
 import ReviewerConfirmationPage from './pages/survey/ReviewerConfirmationPage';
 import SurveyPage from './pages/survey/SurveyPage';
 import theme from './theme';
+import LandingPageRedirect from './components/LandingPageRedirect';
 
 const queryClient = new QueryClient();
 
@@ -27,13 +28,19 @@ interface AppProps {
   history: History<unknown>;
 }
 
+// Map with all the roles mapped to their landing pages
+const roleMap = {
+  [Role.ADMIN]: '/private',
+  [Role.RESEARCHER]: '/researcher',
+};
+
 const App: React.FC<AppProps> = () => (
   <QueryClientProvider client={queryClient}>
     <ChakraProvider theme={theme}>
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route path="/" element={<Navigate to="/private" />} />
+          <Route path="/" element={<LandingPageRedirect rolesMap={roleMap} />} />
           <Route path="/private" element={<AuthedApp roles={[Role.ADMIN, Role.RESEARCHER]} />}>
             <Route path="" element={<AdminLandingPage />} />
             <Route path="example-form" element={<ExampleFormPage />} />
