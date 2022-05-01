@@ -4,7 +4,7 @@ import { History } from 'history';
 import * as React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Role from './api/dtos/role';
 import awsconfig from './aws-exports';
 import AuthedApp from './components/AuthedApp';
@@ -46,6 +46,7 @@ const App: React.FC<AppProps> = () => (
             <Route path="example-form" element={<ExampleFormPage />} />
           </Route>
           <Route path="/researcher" element={<AuthedApp roles={[Role.RESEARCHER]} />}>
+            <Route path="" element={<Navigate to="/researcher/dashboard" />} />
             <Route path="dashboard" element={<ResearcherLandingPage />} />
             <Route path="add-new-admin" element={<AddAdminPage />} />
           </Route>
