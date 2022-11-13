@@ -20,10 +20,13 @@ const alertOnSubmit = async (values: FormValues) => {
   alert(JSON.stringify(values, null, 2));
 };
 
-const validateFavoriteColor = (value: string) => {
+const validateEmail = (email: string) => {
   let error: string | undefined;
-  if (value.toLowerCase() === 'brown') {
-    error = 'Thats a bad opinion. Choose something else.';
+  if (email.toLowerCase()
+  .match(
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  )) {
+    error = 'Please enter a valid email.';
   }
   return error;
 };
@@ -33,13 +36,13 @@ const ContactInfoCollect: React.FC<ContactFormProps> = ({ onSubmit }) => (
     <Form onSubmit={onSubmit ?? alertOnSubmit} initialValues={{ favoriteColor: 'Purple' }}>
       <InputField
           isRequired
-          displayName="Favorite Color"
-          fieldName="favoriteColor"
-          validate={validateFavoriteColor}
+          displayName="Email"
+          fieldName="email"
+          validate={validateEmail}
       />
       <NumberInputField
-          displayName="Favorite Number"
-          fieldName="favoriteNumber"
+          displayName="Phone Number"
+          fieldName="phoneNumber"
           validate={(value) => (Number(value) < 0 ? 'Must be positive' : undefined)}
       />
     </Form>
