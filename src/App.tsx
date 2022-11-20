@@ -19,6 +19,7 @@ import ReviewerConfirmationPage from './pages/survey/ReviewerConfirmationPage';
 import SurveyPage from './pages/survey/SurveyPage';
 import theme from './theme';
 import LandingPageRedirect from './components/LandingPageRedirect';
+import CreateSurvey from './pages/survey/CreateSurvey';
 
 const queryClient = new QueryClient();
 
@@ -53,6 +54,7 @@ const App: React.FC<AppProps> = () => (
           <Route path="/survey/:survey_uuid/:reviewer_uuid" element={<SurveyPage />} />
           <Route path="/survey/confirmation" element={<ThankYou />} />
           <Route path="/survey/confirm-reviewer" element={<ReviewerConfirmationPage />} />
+          <Route path="/survey/create" element={<CreateSurvey />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
