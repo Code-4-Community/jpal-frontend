@@ -2,7 +2,6 @@
 import React from 'react';
 import Form, { FormValues } from './Form';
 import InputField from './InputField';
-import NumberInputField from './NumberInputField';
 
 interface ContactFormValues {
   email: string;
@@ -20,27 +19,38 @@ const alertOnSubmit = async (values: FormValues) => {
   alert(JSON.stringify(values, null, 2));
 };
 
-const validateFavoriteColor = (value: string) => {
+const validateEmail = (value: string) => {
   let error: string | undefined;
-  if (value.toLowerCase() === 'brown') {
-    error = 'Thats a bad opinion. Choose something else.';
+  const emailRegex = "^[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*$";
+  if(value.match(emailRegex) == null) {
+    error = "Invalid email address";
+  }
+  return error;
+};
+
+const validatePhoneNumber = (value: string) => {
+  let error: string | undefined;
+  const phoneNumberRegex = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+  if(value.match(phoneNumberRegex) == null) {
+    error = "Invalid phone number";
   }
   return error;
 };
 
 const ContactInfoCollect: React.FC<ContactFormProps> = ({ onSubmit }) => (
     // eslint-disable-next-line no-alert
-    <Form onSubmit={onSubmit ?? alertOnSubmit} initialValues={{ favoriteColor: 'Purple' }}>
+    <Form onSubmit={onSubmit ?? alertOnSubmit}>
       <InputField
           isRequired
-          displayName="Favorite Color"
-          fieldName="favoriteColor"
-          validate={validateFavoriteColor}
+          displayName="Email"
+          fieldName="email"
+          validate={validateEmail}
       />
-      <NumberInputField
-          displayName="Favorite Number"
-          fieldName="favoriteNumber"
-          validate={(value) => (Number(value) < 0 ? 'Must be positive' : undefined)}
+      <InputField
+          isRequired
+          displayName="Phone Number"
+          fieldName="phoneNumber"
+          validate={validatePhoneNumber}
       />
     </Form>
 );
