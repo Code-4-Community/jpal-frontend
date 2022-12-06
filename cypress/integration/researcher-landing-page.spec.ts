@@ -9,10 +9,17 @@ describe('Researcher landing page', () => {
     });
 
     it('shows dashboard', () => {
-      cy.intercept('GET', '/user', [{ id: 1, email: 'testemail@test.com', role: 'admin' }]);
+      cy.intercept('GET', '/user', [
+        {
+          id: 1,
+          email: 'testemail@test.com',
+          role: 'admin',
+          creation_date: new Date("2-6'2022"),
+        },
+      ]);
       cy.contains('testemail@test.com').should('be.visible');
     });
   });
 });
 
-export { };
+export {};

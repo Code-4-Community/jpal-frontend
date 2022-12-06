@@ -11,7 +11,14 @@ describe('Landing', () => {
   test('renders researcher landing page list of admins', async () => {
     apiClient.getAdmins = jest.fn(() =>
       Promise.resolve([
-        { id: 1, firstName: 'first', lastName: 'last', email: 'test@test.com', role: 'admin' },
+        {
+          id: 1,
+          firstName: 'first',
+          lastName: 'last',
+          email: 'test@test.com',
+          role: 'admin',
+          creation_date: new Date("2-6'2022"),
+        },
       ]),
     ) as () => Promise<User[]>;
     render(<ResearcherLandingPage />);
