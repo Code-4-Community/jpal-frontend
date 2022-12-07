@@ -8,9 +8,19 @@ import {
   AlertDialogFooter,
   AlertDialogOverlay,
   Button,
+  Text
 } from '@chakra-ui/react';
 
-const ConfirmLetterPopup = ({ isOpen, onClose, dialogRef }) => {
+interface ConfirmLetterPopupProps {
+    isOpen : boolean
+    onConfirm : () => void
+    onClose: () => void
+}
+
+const ConfirmLetterPopup = ({
+    isOpen,
+    onConfirm,
+    onClose } : ConfirmLetterPopupProps) : JSX.Element => {
   const cancelRef = useRef(null);
 
   return (
@@ -23,22 +33,20 @@ const ConfirmLetterPopup = ({ isOpen, onClose, dialogRef }) => {
       <AlertDialogContent>
         <AlertDialogCloseButton onClick={onClose} />
         <AlertDialogBody fontFamily="roboto" fontSize="1.25rem">
-        By clicking confirm, you are approving this letter to be sent. Are you sure you want to confirm this letter?
+        <Text>By clicking confirm, you are approving this letter to be sent. Are you sure you want to confirm this letter?</Text>
         </AlertDialogBody>
 
         <AlertDialogFooter>
           <Button
             ref={cancelRef}
             onClick={onClose}
-            colorScheme="green"
           >
             Continue Working
           </Button>
 
           <Button
-            onClick={onClose}
-            ml={3}
-            fontFamily="cursive"
+            colorScheme="green"
+            onClick={onConfirm}
           >
             Confirm
           </Button>
