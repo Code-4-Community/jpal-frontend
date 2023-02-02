@@ -21,9 +21,9 @@ const PreviewLetter: React.FC<PreviewLetterProps> = ({
   const [letter, setLetter] = React.useState<Letter | Error | undefined>(undefined);
   const [showPopup, setShowPopup] = React.useState(false);
 
-  const popupHandler = () : void => {
-    setShowPopup(prevShowPopup => !prevShowPopup);
-  }
+  const popupHandler = (): void => {
+    setShowPopup((prevShowPopup) => !prevShowPopup);
+  };
 
   React.useEffect(() => {
     getPreviewLetter().then(setLetter).catch(setLetter);
@@ -68,10 +68,10 @@ const PreviewLetter: React.FC<PreviewLetterProps> = ({
           </Button>
         </HStack>
       </Box>
-      <ConfirmLetterPopup 
-      isOpen={showPopup} 
-      onConfirm={confirmAndSaveResponses}
-      onClose={popupHandler}
+      <ConfirmLetterPopup
+        isOpen={showPopup}
+        onConfirm={confirmAndSaveResponses}
+        onClose={popupHandler}
       />
     </Container>
   );
