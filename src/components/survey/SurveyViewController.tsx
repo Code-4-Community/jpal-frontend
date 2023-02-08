@@ -98,6 +98,7 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
           }
           goBack={() => send('REJECT')}
           savedResponses={state.context.lastSavedResponses}
+          mock={false}
         />
       )}
 

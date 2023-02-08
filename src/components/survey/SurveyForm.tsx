@@ -21,9 +21,10 @@ function fromFormikSafeFieldName(question: string): string {
 export interface SurveyFormProps {
   youthName: string;
   questions: Question[];
-  continueAndSaveResponses: (responses: Response[]) => void;
-  goBack: () => void;
+  continueAndSaveResponses?: (responses: Response[]) => void;
+  goBack?: () => void;
   savedResponses?: Response[];
+  mock: boolean;
 }
 
 function invalidResponses(
@@ -76,6 +77,7 @@ const SurveyForm: React.FC<SurveyFormProps> = ({
   continueAndSaveResponses,
   goBack,
   savedResponses,
+    mock,
 }) => (
   <Stack direction={{ base: 'column', md: 'row' }} justify="left">
     <IconButton
@@ -94,7 +96,10 @@ const SurveyForm: React.FC<SurveyFormProps> = ({
     <Box w="full">
       <Form
         onSubmit={async (values: FormValues) => {
-          continueAndSaveResponses(formValuesToResponses(questions, values));
+          if (!mock && continueAndSaveResponses)
+          {
+            continueAndSaveResponses(formValuesToResponses(questions, values));
+          }
         }}
         submitText="Continue"
         initialValues={savedResponses && responsesToFormValues(savedResponses)}
@@ -131,9 +136,11 @@ const SurveyForm: React.FC<SurveyFormProps> = ({
                 options={question.options.map((option) => ({ label: option, value: option }))}
                 isRequired
                 defaultValue={
+
                   savedResponses &&
                   savedResponses.find((r) => r.question === question.question)?.selectedOption
                 }
+                isDisabled={mock}
               />
             </Box>
           ))}

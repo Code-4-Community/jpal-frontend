@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 import * as React from 'react';
 import { useQuery } from 'react-query';
+import {useNavigate} from "react-router-dom";
 import apiClient from '../../api/apiClient';
 import { Survey } from '../../api/dtos/survey-assignment.dto';
 import ErrorAlert from '../../components/ErrorAlert';
@@ -21,12 +22,14 @@ const AdminLandingPage: React.FC = () => {
   const { isLoading, error, data } = useQuery<Survey[], Error>('surveyList', () =>
     apiClient.getMySurveys(),
   );
+  const navigate = useNavigate();
+  const onClick = () => navigate('/private/add-survey');
 
   return (
     <Container maxW="7xl" mt={12}>
       <Flex>
         <Box>
-          <Button leftIcon={<AddIcon />} colorScheme="teal">
+          <Button leftIcon={<AddIcon />} colorScheme="teal" onClick={onClick}>
             Create Survey
           </Button>
         </Box>

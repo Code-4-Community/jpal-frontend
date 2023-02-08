@@ -20,6 +20,7 @@ import SurveyPage from './pages/survey/SurveyPage';
 import theme from './theme';
 import LandingPageRedirect from './components/LandingPageRedirect';
 import Footer from './components/footer/Footer';
+import {AddSurveyForm} from "./components/form/AddSurveyForm";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +47,7 @@ const App: React.FC<AppProps> = () => (
               <Route path="/" element={<LandingPageRedirect rolesMap={roleMap} />} />
               <Route path="/private" element={<AuthedApp roles={[Role.ADMIN, Role.RESEARCHER]} />}>
                 <Route path="" element={<AdminLandingPage />} />
+                <Route path="add-survey" element={<AddSurveyForm />} />
                 <Route path="example-form" element={<ExampleFormPage />} />
               </Route>
               <Route path="/researcher" element={<AuthedApp roles={[Role.RESEARCHER]} />}>
