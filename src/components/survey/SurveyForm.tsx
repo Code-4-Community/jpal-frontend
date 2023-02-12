@@ -80,7 +80,8 @@ const SurveyForm: React.FC<SurveyFormProps> = ({
     mock,
 }) => (
   <Stack direction={{ base: 'column', md: 'row' }} justify="left">
-    <IconButton
+
+    {!mock && <IconButton
       marginTop="10"
       color="gray.600"
       backgroundColor="white"
@@ -91,10 +92,10 @@ const SurveyForm: React.FC<SurveyFormProps> = ({
       onClick={goBack}
       data-testid="go-back-button"
       data-cy="go-back-button"
-    />
+    />}
 
     <Box w="full">
-      <Form
+       <Form
         onSubmit={async (values: FormValues) => {
           if (!mock && continueAndSaveResponses)
           {
