@@ -20,6 +20,7 @@ const JPALMenu: React.FC<JPALMenuProps> = ({ isResearcher }) => {
         event: 'AuthStateChange',
         message: 'signedout',
       });
+      navigate('/');
     } catch (error) {
       Sentry.captureException('Error signing out');
     }
@@ -34,7 +35,7 @@ const JPALMenu: React.FC<JPALMenuProps> = ({ isResearcher }) => {
       <MenuButton>
         <chakra.img src={Avatar} alt="User avatar" />
       </MenuButton>
-      <MenuList>
+      <MenuList zIndex={1}>
         {isResearcher && (
           <MenuItem onClick={() => navigateTo('/researcher/dashboard')}>View Admins</MenuItem>
         )}

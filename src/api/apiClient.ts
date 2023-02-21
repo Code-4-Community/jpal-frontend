@@ -87,6 +87,10 @@ export class ApiClient {
     });
   }
 
+  public async startAssignment(assignmentUuid: string): Promise<void> {
+    return this.patch(`/assignment/${assignmentUuid}`, null) as Promise<void>;
+  }
+
   public async getPreviewLetter(assignmentUuid: string, responses: Response[]): Promise<Letter> {
     return this.post(`/assignment/preview-letter/${assignmentUuid}`, {
       responses,

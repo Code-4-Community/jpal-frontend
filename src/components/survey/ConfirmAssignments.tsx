@@ -26,9 +26,9 @@ const ConfirmAssignments: React.FC<ConfirmAssignmentsProps> = ({ youth, confirm 
   return (
     <Container marginTop={16}>
       <Text fontWeight={600} fontSize="lg">
-        Please confirm the youth you have supervised.
+        Please confirm the workers you have supervised.
       </Text>
-      <Text>Uncheck any youth you have not supervised.</Text>
+      <Text>Uncheck any workers you have not supervised.</Text>
       <Box mx={6} my={8}>
         <CheckboxGroup colorScheme="teal" defaultValue={youthIdentifiers} onChange={handleChange}>
           <Stack>

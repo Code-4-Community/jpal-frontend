@@ -36,7 +36,7 @@ const ResearcherLandingPage: React.FC = () => {
         </Box>
         <Spacer />
         <Box>
-          <InputGroup>
+          <InputGroup zIndex={0}>
             <InputLeftElement>
               <SearchIcon color="gray.300" />
             </InputLeftElement>

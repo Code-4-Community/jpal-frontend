@@ -1,7 +1,6 @@
 import { useToast } from '@chakra-ui/react';
 import { useMachine } from '@xstate/react';
-import React from 'react';
-import apiClient from '../../api/apiClient';
+import React, { useCallback } from 'react';
 import { Response, SurveyData, Youth } from '../../api/dtos/survey-assignment.dto';
 import { TOAST_POPUP_DURATION } from '../../pages/basicConstants';
 import ConfirmAssignments from './ConfirmAssignments';
@@ -11,6 +10,7 @@ import ControlExplanation from './ControlExplanation';
 import PreviewLetter from './PreviewLetter';
 import createSurveyViewMachine from './stateMachine';
 import SurveyForm from './SurveyForm';
+import apiClient from '../../api/apiClient';
 import ThankYou from './ThankYou';
 
 interface SurveyViewControllerProps extends SurveyData {
@@ -18,7 +18,7 @@ interface SurveyViewControllerProps extends SurveyData {
 }
 
 /**
- * Responsible for rendering the current survey view depending on the state of the survey view state machine.
+ * Responsible for rendering the current surview depending on the state of the survey view state machine.
  * Every state in the state machine is mapped to a component that will render a different view in the survey flow.
  *
  * e.g. fillOutSurvey -> SurveyForm, confirmLetter -> ConfirmLetter, ...
@@ -37,8 +37,27 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
   /**
    * Only call this when you know there are assignments left
    */
-  const getCurrentYouth: () => Youth = () => state.context.assignmentsLeft[0];
+  const getCurrentYouth: () => Youth = useCallback(
+    () => state.context.assignmentsLeft[0],
+    [state.context.assignmentsLeft],
+  );
   const toast = useToast();
+
+  const confirmYouthCallback = useCallback(async () => {
+    const youth = getCurrentYouth();
+    try {
+      await apiClient.startAssignment(youth.assignmentUuid);
+      send('CONFIRM');
+    } catch (error) {
+      toast({
+        title: 'Error submitting review.',
+        description: `Failed to start a review for ${youth.firstName} ${youth.lastName}. Please try again. If this problem persists, please contact an administrator.`,
+        status: 'error',
+        duration: TOAST_POPUP_DURATION,
+        isClosable: true,
+      });
+    }
+  }, [getCurrentYouth, send, toast]);
 
   return (
     <>
@@ -63,7 +82,7 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
         <ConfirmYouth
           // we know there is at least one element, otherwise it will epsilon transition to accept state
           youth={getCurrentYouth()}
-          confirmYouth={() => send('CONFIRM')}
+          confirmYouth={confirmYouthCallback}
           rejectYouth={() => send('REJECT')}
         />
       )}
