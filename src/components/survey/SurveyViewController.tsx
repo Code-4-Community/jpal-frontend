@@ -73,7 +73,7 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
 
       {state.matches('confirmAssignments') && (
         <ConfirmAssignments
-          youth={state.context.assignmentsLeft}
+          youth={treatmentYouth.concat(controlYouth)}
           confirm={(selectedYouth) => send('CONFIRM', { selectedYouth })}
         />
       )}
