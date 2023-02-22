@@ -1,14 +1,5 @@
-import { AddIcon, SearchIcon } from '@chakra-ui/icons';
-import {
-  Box,
-  Button,
-  Container,
-  Flex,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Spacer,
-} from '@chakra-ui/react';
+import { AddIcon } from '@chakra-ui/icons';
+import { Box, Button, Container, Flex } from '@chakra-ui/react';
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
@@ -33,15 +24,6 @@ const ResearcherLandingPage: React.FC = () => {
           <Button leftIcon={<AddIcon />} colorScheme="teal" onClick={onClick}>
             Add Admin
           </Button>
-        </Box>
-        <Spacer />
-        <Box>
-          <InputGroup zIndex={0}>
-            <InputLeftElement>
-              <SearchIcon color="gray.300" />
-            </InputLeftElement>
-            <Input width="200px" placeholder="Search..." />
-          </InputGroup>
         </Box>
       </Flex>
       {data && <AdminTable data={data} />}
