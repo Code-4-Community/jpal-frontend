@@ -11,6 +11,8 @@ interface Context {
    */
   assignmentsLeft: Youth[];
 
+  confirmedControl: Youth[];
+
   /**
    * Represents the responses that were saved in the last step of the survey.
    * Only relevant for passing responses data from the `fillOutSurvey` state to the `confirmLetter` state.
@@ -46,9 +48,10 @@ const createSurveyViewMachine = (
       id: 'survey-state-machine',
       initial: 'confirmReviewerIdentity',
       context: {
-        assignmentsLeft: [...treatmentYouth],
+        assignmentsLeft: treatmentYouth.concat(controlYouth),
         lastSavedResponses: undefined,
         isReviewingControlYouth: false,
+        confirmedControl: [],
       },
       states: {
         confirmReviewerIdentity: {
@@ -98,12 +101,19 @@ const createSurveyViewMachine = (
             },
             REJECT: 'fillOutSurvey',
           },
+          always: [
+            {
+              target: 'confirmYouth',
+              actions: ['removeYouth', 'clearResponses'],
+              cond: 'isReviewingControlYouth',
+            },
+          ],
         },
 
         repeatWithControl: {
           on: {
             CONFIRM: {
-              target: 'confirmAssignments',
+              target: 'confirmYouth',
               actions: ['resetWithControl'],
             },
           },
@@ -123,6 +133,8 @@ const createSurveyViewMachine = (
         noMoreAssignments: (context) =>
           context.assignmentsLeft.length === 0 &&
           (context.isReviewingControlYouth || controlYouth.length === 0),
+        isReviewingTreatmentYouth: (context) => !context.isReviewingControlYouth,
+        isReviewingControlYouth: (context) => context.isReviewingControlYouth,
       },
       actions: {
         removeYouth: assign({
@@ -137,12 +149,15 @@ const createSurveyViewMachine = (
         }),
         resetWithControl: assign({
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          assignmentsLeft: (_context) => [...controlYouth],
+          assignmentsLeft: (context) => [...context.confirmedControl],
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           isReviewingControlYouth: (_context) => true,
         }),
         selectYouth: assign({
-          assignmentsLeft: (_context, event: AnyEventObject) => event.selectedYouth,
+          assignmentsLeft: (_context, event: AnyEventObject) =>
+            event.selectedYouth.filter((youth: Youth) => treatmentYouth.includes(youth)),
+          confirmedControl: (_context, event: AnyEventObject) =>
+            event.selectedYouth.filter((youth: Youth) => controlYouth.includes(youth)),
         }),
       },
     },
