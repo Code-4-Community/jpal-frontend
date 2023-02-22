@@ -174,6 +174,17 @@ function interceptAPICalls(surveyData: SurveyData) {
     );
   });
 
+  surveyData.treatmentYouth.forEach((youth) => {
+    cy.intercept("PATCH", `http://localhost:5000/assignment/${youth.assignmentUuid}`, {}).as(
+      `startAssignment-${youth.assignmentUuid}`,
+    )
+  })
+
+  surveyData.controlYouth.forEach((youth) => {
+    cy.intercept("PATCH", `http://localhost:5000/assignment/${youth.assignmentUuid}`, {}).as(
+      `startAssignment-${youth.assignmentUuid}`,
+    )
+  })
   // ALl preview letters are the same
   cy.intercept('POST', `http://localhost:5000/assignment/preview-letter/*`, {
     shouldBeSent: true,
@@ -208,12 +219,12 @@ function reviewSomeAndSkipSome(youth: Youth[]) {
 }
 
 function continueToReviewControlYouth() {
-  cy.contains('Please continue to review additional youth').should('be.visible');
+  cy.contains('Please continue to review additional workers').should('be.visible');
   cy.get('button').contains('Confirm').click();
 }
 
 function confirmAssignments(youth: Youth[]) {
-  cy.contains('Please confirm the youth you have supervised.').should('be.visible');
+  cy.contains('Please confirm the workers you have supervised.').should('be.visible');
   youth.forEach((y) => {
     cy.contains(`${y.firstName} ${y.lastName}`).should('be.visible');
   });
@@ -221,7 +232,7 @@ function confirmAssignments(youth: Youth[]) {
 }
 
 function uncheckEveryOtherAssignment(youth: Youth[]): void {
-  cy.contains('Please confirm the youth you have supervised.').should('be.visible');
+  cy.contains('Please confirm the workers you have supervised.').should('be.visible');
   youth.forEach((y) => {
     cy.contains(`${y.firstName} ${y.lastName}`).should('be.visible');
   });
@@ -235,7 +246,7 @@ function uncheckEveryOtherAssignment(youth: Youth[]): void {
 }
 
 function uncheckAllAssignments(youth: Youth[]) {
-  cy.contains('Please confirm the youth you have supervised.').should('be.visible');
+  cy.contains('Please confirm the workers you have supervised.').should('be.visible');
   youth.forEach((y) => {
     cy.contains(`${y.firstName} ${y.lastName}`).should('be.visible');
   });
@@ -288,6 +299,12 @@ function testPreviewLetter(youth: {
   testCompleteAssignmentAPICall(youth);
 }
 
+function testStartAssignmentAPICall(youth: Youth) {
+  cy.wait(`@startAssignment-${youth.assignmentUuid}`)
+    .its('request.body')
+    .should('equal', '')
+}
+
 function testCompleteAssignmentAPICall(youth: Youth) {
   cy.wait(`@completeAssignment-${youth.assignmentUuid}`)
     .its('request.body')
@@ -301,12 +318,13 @@ function testCompleteAssignmentAPICall(youth: Youth) {
 
 function skipSurvey(youth: Youth) {
   cy.contains(`${youth.firstName} ${youth.lastName}`).should('be.visible');
-  cy.get('button').contains('I did not work with this youth').click();
+  cy.get('button').contains('I did not work with this person').click();
 }
 
 function testFillOutSurvey(youth: Youth) {
   cy.contains(`${youth.firstName} ${youth.lastName}`).should('be.visible');
-  cy.get('button').contains('Complete their survey').click();
+  cy.get('button').contains('Complete the survey').click();
+  testStartAssignmentAPICall(youth)
   cy.contains(`${youth.firstName} ${youth.lastName}`).should('be.visible');
   SURVEY_DATA_SMALL.questions.forEach((question) => {
     cy.get(`[data-cy="${question.question}-${ALWAYS}"]`).click();
@@ -335,4 +353,4 @@ function selectThisIsntMe() {
   cy.get('button').contains(`This isn't me.`).click();
 }
 
-export {};
+export { };

@@ -1,14 +1,5 @@
-import { AddIcon, SearchIcon } from '@chakra-ui/icons';
-import {
-  Box,
-  Button,
-  Flex,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Spacer,
-  Container,
-} from '@chakra-ui/react';
+import { AddIcon } from '@chakra-ui/icons';
+import { Box, Button, Flex, Container } from '@chakra-ui/react';
 import * as React from 'react';
 import { useQuery } from 'react-query';
 import apiClient from '../../api/apiClient';
@@ -29,15 +20,6 @@ const AdminLandingPage: React.FC = () => {
           <Button leftIcon={<AddIcon />} colorScheme="teal">
             Create Survey
           </Button>
-        </Box>
-        <Spacer />
-        <Box>
-          <InputGroup>
-            <InputLeftElement>
-              <SearchIcon color="gray.300" />
-            </InputLeftElement>
-            <Input width="200px" placeholder="Search..." />
-          </InputGroup>
         </Box>
       </Flex>
       {data && <SurveyTable data={data} />}
