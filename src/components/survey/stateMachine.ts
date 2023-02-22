@@ -101,7 +101,13 @@ const createSurveyViewMachine = (
             },
             REJECT: 'fillOutSurvey',
           },
-          always: [{ target: 'confirmYouth', cond: 'isReviewingControlYouth' }],
+          always: [
+            {
+              target: 'confirmYouth',
+              actions: ['removeYouth', 'clearResponses'],
+              cond: 'isReviewingControlYouth',
+            },
+          ],
         },
 
         repeatWithControl: {
@@ -128,6 +134,7 @@ const createSurveyViewMachine = (
           context.assignmentsLeft.length === 0 &&
           (context.isReviewingControlYouth || controlYouth.length === 0),
         isReviewingTreatmentYouth: (context) => !context.isReviewingControlYouth,
+        isReviewingControlYouth: (context) => context.isReviewingControlYouth,
       },
       actions: {
         removeYouth: assign({
