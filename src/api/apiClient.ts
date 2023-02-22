@@ -67,6 +67,12 @@ export class ApiClient {
     return this.post('/user', { firstName, lastName, email, role }) as Promise<User>;
   }
 
+  public async survey(
+      surveyName: string,
+  ): Promise<Survey> {
+    return this.post('/survey', {surveyName}) as Promise<Survey>;
+  }
+
   public async getAdmins(): Promise<User[]> {
     return this.get('/user') as Promise<User[]>;
   }
