@@ -40,39 +40,51 @@ const PreviewLetter: React.FC<PreviewLetterProps> = ({
         {letter === undefined && <LoadingSpinner />}
         {letter && letter instanceof Error && <ErrorAlert />}
         {letter && !(letter instanceof Error) && (
-          <Box mb={12}>
-            {!letter.shouldBeSent && (
-              <Alert status="warning" marginBottom={6}>
-                <AlertIcon />
-                This letter did not meet the criteria for sending and therefore will not be
-                delivered.
-              </Alert>
-            )}
-            <Text marginBottom="1rem" color="gray.600">{`${letter.greeting},`}</Text>
-            {letter.paragraphs.map((paragraph) => (
-              <Text key={paragraph} marginBottom="1rem" color="gray.600">
-                {paragraph}
-              </Text>
-            ))}
-            <Text color="gray.600">{`${letter.closing},`}</Text>
-            <Text color="gray.600">{letter.signature.fullName}</Text>
-            <Text color="gray.600">{letter.signature.organization}</Text>
-          </Box>
-        )}
+          <>
+            <Box mb={12}>
+              {!letter.shouldBeSent && (
+                <Alert status="warning" marginBottom={6}>
+                  <AlertIcon />
+                  This letter did not meet the criteria for sending and therefore will not be
+                  delivered.
+                </Alert>
+              )}
+              <Text marginBottom="1rem" color="gray.600">{`${letter.greeting},`}</Text>
+              {letter.paragraphs.map((paragraph) => (
+                <Text key={paragraph} marginBottom="1rem" color="gray.600">
+                  {paragraph}
+                </Text>
+              ))}
+              <Text color="gray.600">{`${letter.closing},`}</Text>
+              <Text color="gray.600">{letter.signature.fullName}</Text>
+              <Text color="gray.600">{letter.signature.organization}</Text>
+            </Box>
+            <HStack spacing={6}>
+              <Button colorScheme="gray" variant="link">
+                <Text color="gray.500" fontSize="md" as="cite" fontWeight={400} onClick={goBack}>
+                  Go Back
+                </Text>
+              </Button>
 
-        <HStack spacing={6}>
-          <Button colorScheme="gray" variant="link">
-            <Text color="gray.500" fontSize="md" as="cite" fontWeight={400} onClick={goBack}>
-              Go Back
-            </Text>
-          </Button>
-        </HStack>
+              {letter.shouldBeSent && (
+                <Button mt={4} colorScheme="teal">
+                  <Text onClick={() => setShowPopup(true)}>Confirm</Text>
+                </Button>
+              )}
+              {!letter.shouldBeSent && (
+                <Button colorScheme="teal" onClick={confirmAndSaveResponses}>
+                  Confirm
+                </Button>
+              )}
+            </HStack>
+            <ConfirmLetterPopup
+              isOpen={showPopup}
+              onConfirm={confirmAndSaveResponses}
+              onClose={popupHandler}
+            />
+          </>
+        )}
       </Box>
-      <ConfirmLetterPopup
-        isOpen={showPopup}
-        onConfirm={confirmAndSaveResponses}
-        onClose={popupHandler}
-      />
     </Container>
   );
 };

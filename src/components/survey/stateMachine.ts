@@ -56,6 +56,12 @@ const createSurveyViewMachine = (
       states: {
         confirmReviewerIdentity: {
           on: {
+            CONFIRM: 'provideContactInfo',
+            REJECT: 'finishedSurvey',
+          },
+        },
+        provideContactInfo: {
+          on: {
             CONFIRM: 'confirmAssignments',
             REJECT: 'finishedSurvey',
           },
