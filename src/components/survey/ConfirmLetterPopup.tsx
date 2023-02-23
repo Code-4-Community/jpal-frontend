@@ -3,7 +3,6 @@ import React, { useRef } from 'react';
 import {
   AlertDialog,
   AlertDialogBody,
-  AlertDialogCloseButton,
   AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
