@@ -1,7 +1,15 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { EmailIcon, PhoneIcon } from '@chakra-ui/icons';
-import { Button, Center, Input, InputGroup, InputLeftElement, VStack } from '@chakra-ui/react';
-import React from 'react';
+import {
+  Button,
+  Center,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  useToast,
+  VStack,
+} from '@chakra-ui/react';
+import React, { useState } from 'react';
 
 export interface ContactFormValues {
   email: string;
@@ -11,13 +19,6 @@ export interface ContactFormValues {
 interface ContactFormProps {
   onSubmit: () => void;
 }
-
-// const alertOnSubmit = async (values: FormValues) => {
-//   // import and call method on api
-//   await new Promise((resolve) => setTimeout(resolve, 1000));
-//   // eslint-disable-next-line no-alert
-//   alert(JSON.stringify(values, null, 2));
-// };
 
 const validateEmail = (value: string) => {
   let error: string | undefined;
@@ -37,27 +38,73 @@ const validatePhoneNumber = (value: string) => {
   return error;
 };
 
-const ContactInfoCollect: React.FC<ContactFormProps> = ({ onSubmit }) => (
+const ContactInfoCollect: React.FC<ContactFormProps> = ({ onSubmit }) => {
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const toast = useToast();
+
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setEmail(event.target.value);
+  const handlePhoneNumberChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setPhoneNumber(event.target.value);
+
+  const submitAndSaveValues: () => Promise<void> = async () => {
+    const emailError = validateEmail(email);
+    const phoneError = validatePhoneNumber(phoneNumber);
+    if (email && phoneNumber && emailError && phoneError) {
+      toast({
+        title: 'Invalid email address and phone number',
+      });
+      return;
+    }
+    if (phoneNumber && phoneError) {
+      toast({
+        title: 'Invalid phone number',
+      });
+      return;
+    }
+    if (email && emailError) {
+      toast({
+        title: 'Invalid email address',
+      });
+      return;
+    }
+    // TODO: Send email and phone number to the backend
+    onSubmit();
+  };
+
   // eslint-disable-next-line no-alert
-  <Center>
-    <VStack>
-      <InputGroup>
-        <InputLeftElement pointerEvents="none">
-          <EmailIcon color="gray.300" />
-        </InputLeftElement>
-        <Input type="email" placeholder="Preferred email" />
-      </InputGroup>
-      <InputGroup>
-        <InputLeftElement pointerEvents="none">
-          <PhoneIcon color="gray.300" />
-        </InputLeftElement>
-        <Input type="tel" placeholder="Phone number" />
-      </InputGroup>
-      <Button onClick={onSubmit} mt={4} colorScheme="teal" type="submit">
-        Next
-      </Button>
-    </VStack>
-  </Center>
-);
+  return (
+    <Center>
+      <VStack>
+        <InputGroup>
+          <InputLeftElement pointerEvents="none">
+            <EmailIcon color="gray.300" />
+          </InputLeftElement>
+          <Input
+            type="email"
+            placeholder="Preferred email"
+            value={email}
+            onChange={handleEmailChange}
+          />
+        </InputGroup>
+        <InputGroup>
+          <InputLeftElement pointerEvents="none">
+            <PhoneIcon color="gray.300" />
+          </InputLeftElement>
+          <Input
+            type="tel"
+            placeholder="Phone number"
+            value={phoneNumber}
+            onChange={handlePhoneNumberChange}
+          />
+        </InputGroup>
+        <Button onClick={submitAndSaveValues} mt={4} colorScheme="teal" type="submit">
+          Next
+        </Button>
+      </VStack>
+    </Center>
+  );
+};
 
 export default ContactInfoCollect;
