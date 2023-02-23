@@ -12,6 +12,7 @@ import createSurveyViewMachine from './stateMachine';
 import SurveyForm from './SurveyForm';
 import apiClient from '../../api/apiClient';
 import ThankYou from './ThankYou';
+import CollectContactPage from './CollectContactPage';
 
 interface SurveyViewControllerProps extends SurveyData {
   completeAssignment: (assignmentUuid: string, responses: Response[]) => Promise<void>;
@@ -69,6 +70,10 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
           confirm={() => send('CONFIRM')}
           thisIsntMe={() => send('REJECT')}
         />
+      )}
+
+      {state.matches('provideContactInfo') && (
+        <CollectContactPage confirm={() => send('CONFIRM')} />
       )}
 
       {state.matches('confirmAssignments') && (
