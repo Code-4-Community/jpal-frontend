@@ -4,6 +4,7 @@ import { Letter } from '../../api/dtos/letter';
 import { Response } from '../../api/dtos/survey-assignment.dto';
 import ErrorAlert from '../ErrorAlert';
 import LoadingSpinner from '../LoadingSpinner';
+import ConfirmLetterPopup from './ConfirmLetterPopup';
 
 interface PreviewLetterProps {
   savedSurveyResponses: Response[];
@@ -18,6 +19,11 @@ const PreviewLetter: React.FC<PreviewLetterProps> = ({
   getPreviewLetter,
 }) => {
   const [letter, setLetter] = React.useState<Letter | Error | undefined>(undefined);
+  const [showPopup, setShowPopup] = React.useState(false);
+
+  const popupHandler = (): void => {
+    setShowPopup((prevShowPopup) => !prevShowPopup);
+  };
 
   React.useEffect(() => {
     getPreviewLetter().then(setLetter).catch(setLetter);
@@ -60,11 +66,13 @@ const PreviewLetter: React.FC<PreviewLetterProps> = ({
               Go Back
             </Text>
           </Button>
-          <Button colorScheme="teal" variant="solid" onClick={confirmAndSaveResponses}>
-            Confirm
-          </Button>
         </HStack>
       </Box>
+      <ConfirmLetterPopup
+        isOpen={showPopup}
+        onConfirm={confirmAndSaveResponses}
+        onClose={popupHandler}
+      />
     </Container>
   );
 };
