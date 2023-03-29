@@ -42,7 +42,11 @@ export interface Youth extends PersonInfo {
   assignmentUuid: string;
 }
 
-export type Reviewer = PersonInfo;
+export interface Reviewer extends PersonInfo {
+  reviewerUuid: string
+  secondaryEmail: string;
+  phone: string;
+}
 
 interface PersonInfo {
   email: string;
