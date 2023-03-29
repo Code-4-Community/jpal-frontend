@@ -97,8 +97,9 @@ export class ApiClient {
     }) as Promise<Letter>;
   }
 
-  public async updateReviewer(reviewerUuid: string, secondaryEmail?: string, phone?: string) : Promise<Reviewer> {
-      return this.patch(`/reviewer/${reviewerUuid}`, {secondaryEmail, phone}) as Promise<Reviewer>
+  public async updateReviewer(reviewer : Reviewer) : Promise<Reviewer> {
+      const {secondaryEmail, phone} = reviewer;
+      return this.patch(`/reviewer/${reviewer.reviewerUuid}`, {secondaryEmail, phone}) as Promise<Reviewer>
     }
 }
 
