@@ -1,7 +1,7 @@
 import { useToast } from '@chakra-ui/react';
 import { useMachine } from '@xstate/react';
 import React, { useCallback } from 'react';
-import { Response, SurveyData, Youth } from '../../api/dtos/survey-assignment.dto';
+import { Response, Reviewer, SurveyData, Youth } from '../../api/dtos/survey-assignment.dto';
 import { TOAST_POPUP_DURATION } from '../../pages/basicConstants';
 import ConfirmAssignments from './ConfirmAssignments';
 import ConfirmReviewerIdentity from './ConfirmReviewerIdentity';
@@ -72,8 +72,11 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
         />
       )}
 
-      {state.matches('provideContactInfo') && (
-        <CollectContactPage confirm={() => send('CONFIRM')} />
+{state.matches('provideContactInfo') && (
+        <CollectContactPage 
+        reviewer = {reviewer}
+        updateContact={async (reviewerUpdate : Reviewer) => {
+          apiClient.updateReviewer(reviewerUpdate);}} />
       )}
 
       {state.matches('confirmAssignments') && (
