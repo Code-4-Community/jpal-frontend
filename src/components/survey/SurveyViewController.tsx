@@ -74,9 +74,7 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
 
 {state.matches('provideContactInfo') && (
         <CollectContactPage 
-        reviewer = {reviewer}
-        updateContact={async (reviewerUpdate : Reviewer) => {
-          apiClient.updateReviewer(reviewerUpdate);}} />
+        reviewer = {reviewer}/>
       )}
 
       {state.matches('confirmAssignments') && (

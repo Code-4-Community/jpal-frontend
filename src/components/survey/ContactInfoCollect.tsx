@@ -10,6 +10,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
+import apiClient from '../../api/apiClient';
 import { Reviewer } from '../../api/dtos/survey-assignment.dto';
 
 export interface ContactFormValues {
@@ -18,7 +19,6 @@ export interface ContactFormValues {
 }
 
 interface ContactFormProps {
-  updateContact: (reviewerUpdate : Reviewer) => Promise<Reviewer>
   reviewer: Reviewer
 }
 
@@ -40,7 +40,7 @@ const validatePhoneNumber = (value: string) => {
   return error;
 };
 
-const ContactInfoCollect: React.FC<ContactFormProps> = ({ updateContact, reviewer }) => {
+const ContactInfoCollect: React.FC<ContactFormProps> = ({reviewer }) => {
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const toast = useToast();
@@ -80,7 +80,7 @@ const ContactInfoCollect: React.FC<ContactFormProps> = ({ updateContact, reviewe
       phone: phoneNumber,
     }
     // TODO: Send email and phone number to the backend
-    updateContact(updateReviewer);
+    apiClient.updateReviewer(updateReviewer)
   };
 
   // eslint-disable-next-line no-alert
