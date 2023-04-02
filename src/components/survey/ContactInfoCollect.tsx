@@ -20,6 +20,7 @@ export interface ContactFormValues {
 
 interface ContactFormProps {
   reviewer: Reviewer
+  reviewerUuid: string | undefined
 }
 
 const validateEmail = (value: string) => {
@@ -40,7 +41,7 @@ const validatePhoneNumber = (value: string) => {
   return error;
 };
 
-const ContactInfoCollect: React.FC<ContactFormProps> = ({reviewer }) => {
+const ContactInfoCollect: React.FC<ContactFormProps> = ({reviewer, reviewerUuid }) => {
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const toast = useToast();
@@ -71,16 +72,24 @@ const ContactInfoCollect: React.FC<ContactFormProps> = ({reviewer }) => {
       });
       return;
     }
-    const updateReviewer = {
-      email: reviewer.email,
-      firstName: reviewer.firstName,
-      lastName: reviewer.lastName,
-      reviewerUuid: reviewer.reviewerUuid,
-      secondaryEmail: email,
-      phone: phoneNumber,
+    if (reviewerUuid) {
+      const updateReviewer = {
+        email: reviewer.email,
+        firstName: reviewer.firstName,
+        lastName: reviewer.lastName,
+        reviewerUuid,
+        secondaryEmail: email,
+        phone: phoneNumber,
+      }
+      // TODO: Send email and phone number to the backend
+      apiClient.updateReviewer(updateReviewer)
     }
-    // TODO: Send email and phone number to the backend
-    apiClient.updateReviewer(updateReviewer)
+    else {
+      toast({
+        title: 'There was an error in updating contact information.',
+      });
+    }
+
   };
 
   // eslint-disable-next-line no-alert

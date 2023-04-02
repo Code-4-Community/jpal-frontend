@@ -1,7 +1,7 @@
 import { useToast } from '@chakra-ui/react';
 import { useMachine } from '@xstate/react';
 import React, { useCallback } from 'react';
-import { Response, Reviewer, SurveyData, Youth } from '../../api/dtos/survey-assignment.dto';
+import { Response, SurveyData, Youth } from '../../api/dtos/survey-assignment.dto';
 import { TOAST_POPUP_DURATION } from '../../pages/basicConstants';
 import ConfirmAssignments from './ConfirmAssignments';
 import ConfirmReviewerIdentity from './ConfirmReviewerIdentity';
@@ -16,6 +16,7 @@ import CollectContactPage from './CollectContactPage';
 
 interface SurveyViewControllerProps extends SurveyData {
   completeAssignment: (assignmentUuid: string, responses: Response[]) => Promise<void>;
+  reviewerUuid: string | undefined, 
 }
 
 /**
@@ -32,6 +33,7 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
   completeAssignment,
   reviewer,
   questions,
+  reviewerUuid,
 }) => {
   // See state machine visualization in `stateMachine.ts` for the entire state machine flow.
   const [state, send] = useMachine(createSurveyViewMachine(treatmentYouth, controlYouth));
@@ -74,6 +76,7 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
 
 {state.matches('provideContactInfo') && (
         <CollectContactPage 
+        reviewerUuid = {reviewerUuid}
         reviewer = {reviewer}/>
       )}
 
