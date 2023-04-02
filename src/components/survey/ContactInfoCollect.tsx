@@ -21,6 +21,7 @@ export interface ContactFormValues {
 interface ContactFormProps {
   reviewer: Reviewer
   reviewerUuid: string | undefined
+  confirm: () => void 
 }
 
 const validateEmail = (value: string) => {
@@ -41,7 +42,7 @@ const validatePhoneNumber = (value: string) => {
   return error;
 };
 
-const ContactInfoCollect: React.FC<ContactFormProps> = ({reviewer, reviewerUuid }) => {
+const ContactInfoCollect: React.FC<ContactFormProps> = ({reviewer, reviewerUuid, confirm }) => {
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const toast = useToast();
@@ -82,12 +83,8 @@ const ContactInfoCollect: React.FC<ContactFormProps> = ({reviewer, reviewerUuid 
         phone: phoneNumber,
       }
       // TODO: Send email and phone number to the backend
-      apiClient.updateReviewer(updateReviewer)
-    }
-    else {
-      toast({
-        title: 'There was an error in updating contact information.',
-      });
+      await apiClient.updateReviewer(updateReviewer)
+      confirm()
     }
 
   };

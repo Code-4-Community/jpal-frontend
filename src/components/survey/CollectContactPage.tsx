@@ -6,9 +6,10 @@ import { Reviewer } from '../../api/dtos/survey-assignment.dto';
 interface CollectContactPageProps {
   reviewer: Reviewer
   reviewerUuid: string | undefined
+  confirm: () => void 
 }
 
-const CollectContactPage: React.FC<CollectContactPageProps> = ({reviewer, reviewerUuid }) => (
+const CollectContactPage: React.FC<CollectContactPageProps> = ({reviewer, reviewerUuid , confirm}) => (
   <Center mt={20}>
     <VStack justify="center" height="full">
       <Box padding="4" W="md">
@@ -18,6 +19,7 @@ const CollectContactPage: React.FC<CollectContactPageProps> = ({reviewer, review
         <ContactInfoCollect 
         reviewer={reviewer}
         reviewerUuid={reviewerUuid}
+        confirm={confirm}
         />
       </Box>
     </VStack>

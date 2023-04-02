@@ -77,7 +77,9 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
 {state.matches('provideContactInfo') && (
         <CollectContactPage 
         reviewerUuid = {reviewerUuid}
-        reviewer = {reviewer}/>
+        reviewer = {reviewer}
+        confirm={() => send('CONFIRM')}
+        />
       )}
 
       {state.matches('confirmAssignments') && (
