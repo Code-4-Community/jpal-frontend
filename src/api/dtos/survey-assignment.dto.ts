@@ -43,7 +43,7 @@ export interface Youth extends PersonInfo {
 }
 
 export interface Reviewer extends PersonInfo {
-  reviewerUuid: string
+  reviewerUuid: string;
   secondaryEmail: string;
   phone: string;
 }

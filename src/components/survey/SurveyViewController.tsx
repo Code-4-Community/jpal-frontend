@@ -16,7 +16,7 @@ import CollectContactPage from './CollectContactPage';
 
 interface SurveyViewControllerProps extends SurveyData {
   completeAssignment: (assignmentUuid: string, responses: Response[]) => Promise<void>;
-  reviewerUuid: string | undefined, 
+  reviewerUuid: string | undefined;
 }
 
 /**
@@ -74,11 +74,11 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
         />
       )}
 
-{state.matches('provideContactInfo') && (
-        <CollectContactPage 
-        reviewerUuid = {reviewerUuid}
-        reviewer = {reviewer}
-        confirm={() => send('CONFIRM')}
+      {state.matches('provideContactInfo') && (
+        <CollectContactPage
+          reviewerUuid={reviewerUuid}
+          reviewer={reviewer}
+          confirm={() => send('CONFIRM')}
         />
       )}
 
