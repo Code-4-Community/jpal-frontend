@@ -14,7 +14,6 @@ const AdminTable: React.FC<AdminTableProps> = ({ data }) => (
         <Tr>
           <Th>Name</Th>
           <Th>Email</Th>
-          <Th>Date Added</Th>
         </Tr>
       </Thead>
       <Tbody>

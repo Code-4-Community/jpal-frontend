@@ -10,7 +10,6 @@ const AdminTableRow: React.FC<AdminTableRowProps> = ({ admin }) => (
   <Tr>
     <Td>{`${admin.firstName} ${admin.lastName}`}</Td>
     <Td>{admin.email}</Td>
-    <Td>Placeholder date</Td>
   </Tr>
 );
 
