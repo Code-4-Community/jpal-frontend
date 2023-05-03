@@ -139,10 +139,6 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
         />
       )}
 
-      {state.matches('repeatWithControl') && (
-        <ControlExplanation continueWithControl={() => send('CONFIRM')} />
-      )}
-
       {state.matches('finishedSurvey') && <ThankYou />}
     </>
   );

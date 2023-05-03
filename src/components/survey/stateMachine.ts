@@ -136,9 +136,7 @@ const createSurveyViewMachine = (
           context.assignmentsLeft.length === 0 &&
           controlYouth.length > 0 &&
           !context.isReviewingControlYouth,
-        noMoreAssignments: (context) =>
-          context.assignmentsLeft.length === 0 &&
-          (context.isReviewingControlYouth || controlYouth.length === 0),
+        noMoreAssignments: (context) => context.assignmentsLeft.length === 0,
         isReviewingTreatmentYouth: (context) => !context.isReviewingControlYouth,
         isReviewingControlYouth: (context) => context.isReviewingControlYouth,
       },

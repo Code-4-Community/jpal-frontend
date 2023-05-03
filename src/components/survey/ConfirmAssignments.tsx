@@ -40,7 +40,8 @@ const ConfirmAssignments: React.FC<ConfirmAssignmentsProps> = ({ youth, confirm 
       </Text>
       <Text>
         Please provide an overall score for the workers you have supervised, and uncheck any workers
-        you have not supervised
+        you have not supervised. Please note that not all workers are currently eligible to receive
+        letters, as they are in the control group of our study.
       </Text>
       <Box mx={6} my={8}>
         <CheckboxGroup
