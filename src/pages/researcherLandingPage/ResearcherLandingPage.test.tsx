@@ -11,7 +11,7 @@ describe('Landing', () => {
   test('renders researcher landing page list of admins', async () => {
     apiClient.getAdmins = jest.fn(() =>
       Promise.resolve([
-        { id: 1, firstName: 'first', lastName: 'last', email: 'test@test.com', role: 'admin' },
+        { id: 1, firstName: 'first', lastName: 'last', email: 'test@test.com', role: 'admin', createdDate: new Date(2023, 10, 15) },
       ]),
     ) as () => Promise<User[]>;
     render(<ResearcherLandingPage />);
@@ -21,5 +21,7 @@ describe('Landing', () => {
     expect(testFirstName).toBeInTheDocument();
     const testLastName = await screen.findByText(/last/);
     expect(testLastName).toBeInTheDocument();
+    const testDate = await screen.findByText(/date/);
+    expect(testDate).toBeInTheDocument();
   });
 });

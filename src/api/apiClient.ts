@@ -63,8 +63,9 @@ export class ApiClient {
     lastName: string,
     email: string,
     role: Role,
+    createdDate: Date
   ): Promise<User> {
-    return this.post('/user', { firstName, lastName, email, role }) as Promise<User>;
+    return this.post('/user', { firstName, lastName, email, role, createdDate }) as Promise<User>;
   }
 
   public async getAdmins(): Promise<User[]> {

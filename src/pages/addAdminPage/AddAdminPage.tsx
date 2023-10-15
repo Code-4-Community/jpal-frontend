@@ -16,7 +16,7 @@ const AddAdminPage: React.FC = () => {
     actions: FormikHelpers<Partial<AdminFormValues>>,
   ): Promise<void> {
     try {
-      await apiClient.createUser(values.firstName, values.lastName, values.email, Role.ADMIN);
+      await apiClient.createUser(values.firstName, values.lastName, values.email, Role.ADMIN, new Date());
       toast({
         title: 'Post created.',
         description: `Added the admin with the email ${values.email}.`,
