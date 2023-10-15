@@ -63,7 +63,7 @@ export class ApiClient {
     lastName: string,
     email: string,
     role: Role,
-    createdDate: Date
+    createdDate: Date,
   ): Promise<User> {
     return this.post('/user', { firstName, lastName, email, role, createdDate }) as Promise<User>;
   }
