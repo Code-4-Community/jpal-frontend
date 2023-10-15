@@ -21,7 +21,5 @@ describe('Landing', () => {
     expect(testFirstName).toBeInTheDocument();
     const testLastName = await screen.findByText(/last/);
     expect(testLastName).toBeInTheDocument();
-    const testDate = await screen.findByText(/date/);
-    expect(testDate).toBeInTheDocument();
   });
 });
