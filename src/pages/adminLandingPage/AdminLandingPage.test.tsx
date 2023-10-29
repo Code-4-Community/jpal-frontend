@@ -15,7 +15,7 @@ const exampleUser: User = {
   lastName: 'last',
   email: 'test@test.com',
   role: Role.ADMIN,
-  createdDate: new Date(2023, 10, 15)
+  createdDate: new Date(2023, 10, 15),
 };
 const surveyList: Survey[] = [
   {
