@@ -3,6 +3,9 @@ import React from 'react';
 import { render } from '../../test-utils';
 import DEFAULT_QUESTIONS from './defaultQuestions';
 import SurveyForm from './SurveyForm';
+import createCheckboxQuestion from "./SurveyForm";
+import isCheckboxQuestion from "./SurveyForm";
+
 
 describe('SurveyForm', () => {
   const YOUTH_NAME = 'Nash Ville';
