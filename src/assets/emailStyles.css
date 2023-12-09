@@ -30,7 +30,7 @@ hr {
     height: 0px;
     left: 460px;
     top: 355px;
-
+    
     border: 2px solid #417671;
 }
 
@@ -51,30 +51,4 @@ hr {
 
 a {
     color: #D46136;
-}
-
-.resetPassword {
-    color: #D46136;
-    position: absolute;
-    
-}
-
-#forgotPw {
-    background-color: #D46136;
-    color: #FFFFFF;
-    width: 139px;
-    height: 35px;
-    border-radius: 8px;
-    border: none;
-
-
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 28px;
-
-    flex: none;
-    order: 1;
-    flex-grow: 0;  
 }

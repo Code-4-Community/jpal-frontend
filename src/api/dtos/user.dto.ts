@@ -11,6 +11,8 @@ interface User {
   email: string;
 
   role: Role;
+
+  createdDate: Date;
 }
 
 export default User;
