@@ -47,8 +47,12 @@ function createCheckboxQuestion(questions: Question[]): Question {
     options: [],
   };
 
-  questions.forEach((question) =>   {
-    if (question.options.length === 2  && question.options.includes('Yes') && question.options.includes('No')) {
+  questions.forEach((question) => {
+    if (
+      question.options.length === 2 &&
+      question.options.includes('Yes') &&
+      question.options.includes('No')
+    ) {
       // delete the yes/no question
       questions.splice(questions.indexOf(question), 1);
 
@@ -58,17 +62,12 @@ function createCheckboxQuestion(questions: Question[]): Question {
   });
 
   return checkboxQuestion;
-
 }
 
-/* Checks if a question is a checkbox question */ 
+/* Checks if a question is a checkbox question */
 function isCheckboxQuestion(question: Question): boolean {
-  return (
-    question.question === 'Check off the box if you agree with the question'
-  );
+  return question.question === 'Check off the box if you agree with the question';
 }
-
-
 
 function formValuesToResponses(questions: Question[], values: FormValues): Response[] {
   const checkboxQuestion = createCheckboxQuestion(questions);
@@ -103,8 +102,6 @@ function responsesToFormValues(responses: Response[]): FormValues {
   );
 }
 
-
-
 const SurveyForm: React.FC<SurveyFormProps> = ({
   youthName,
   questions,
@@ -112,8 +109,6 @@ const SurveyForm: React.FC<SurveyFormProps> = ({
   goBack,
   savedResponses,
 }) => (
-  
-
   <Stack direction={{ base: 'column', md: 'row' }} justify="left">
     <IconButton
       marginTop="10"
@@ -152,10 +147,7 @@ const SurveyForm: React.FC<SurveyFormProps> = ({
             <Text color="white">Please fill out all questions.</Text>
           </Box>
 
-          
-
           {questions.map((question) => (
-            
             <Box
               borderWidth="1px"
               borderRadius="2xl"
@@ -188,7 +180,6 @@ const SurveyForm: React.FC<SurveyFormProps> = ({
                   }
                 />
               )}
-
             </Box>
           ))}
         </VStack>

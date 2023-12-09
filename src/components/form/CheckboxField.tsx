@@ -22,9 +22,16 @@ const CheckboxField: React.FC<CheckboxFieldProps> = ({
   options,
   defaultValue,
 }) => (
-  <Field name={fieldName} validate={isRequired && ((value: any) => (value ? undefined : 'Required'))}>
+  <Field
+    name={fieldName}
+    validate={isRequired && ((value: any) => (value ? undefined : 'Required'))}
+  >
     {({ field, form }: FieldProps<string>) => (
-      <FormControl isInvalid={Boolean(form.errors[fieldName] && (form.touched[fieldName] || form.submitCount > 0))}>
+      <FormControl
+        isInvalid={Boolean(
+          form.errors[fieldName] && (form.touched[fieldName] || form.submitCount > 0),
+        )}
+      >
         <FormLabel htmlFor={fieldName} aria-label={displayName || fieldName}>
           {displayName || fieldName}
         </FormLabel>
@@ -51,8 +58,3 @@ const CheckboxField: React.FC<CheckboxFieldProps> = ({
 );
 
 export default CheckboxField;
-
-
-
-
-
