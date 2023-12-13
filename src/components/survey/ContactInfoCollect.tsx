@@ -10,6 +10,8 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
+import apiClient from '../../api/apiClient';
+import { Reviewer } from '../../api/dtos/survey-assignment.dto';
 
 export interface ContactFormValues {
   email: string;
@@ -17,7 +19,9 @@ export interface ContactFormValues {
 }
 
 interface ContactFormProps {
-  onSubmit: () => void;
+  reviewer: Reviewer;
+  reviewerUuid: string | undefined;
+  confirm: () => void;
 }
 
 const validateEmail = (value: string) => {
@@ -38,7 +42,7 @@ const validatePhoneNumber = (value: string) => {
   return error;
 };
 
-const ContactInfoCollect: React.FC<ContactFormProps> = ({ onSubmit }) => {
+const ContactInfoCollect: React.FC<ContactFormProps> = ({ reviewer, reviewerUuid, confirm }) => {
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const toast = useToast();
@@ -69,8 +73,19 @@ const ContactInfoCollect: React.FC<ContactFormProps> = ({ onSubmit }) => {
       });
       return;
     }
-    // TODO: Send email and phone number to the backend
-    onSubmit();
+    if (reviewerUuid) {
+      const updateReviewer = {
+        email: reviewer.email,
+        firstName: reviewer.firstName,
+        lastName: reviewer.lastName,
+        reviewerUuid,
+        secondaryEmail: email,
+        phone: phoneNumber,
+      };
+      // TODO: Send email and phone number to the backend
+      await apiClient.updateReviewer(updateReviewer);
+      confirm();
+    }
   };
 
   // eslint-disable-next-line no-alert
