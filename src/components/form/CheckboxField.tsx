@@ -20,7 +20,6 @@ const CheckboxField: React.FC<CheckboxFieldProps> = ({
   displayName,
   isRequired,
   options,
-  defaultValue,
 }) => (
   <Field
     name={fieldName}
