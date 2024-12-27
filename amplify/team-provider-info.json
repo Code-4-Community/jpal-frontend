@@ -1,19 +1,19 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-jpalfrontend-dev-195743-authRole",
-      "UnauthRoleArn": "arn:aws:iam::489881683177:role/amplify-jpalfrontend-dev-195743-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::489881683177:role/amplify-jpalfrontend-dev-195743-authRole",
+      "AuthRoleName": "amplify-jpalfrontend-dev-7d9b0-authRole",
+      "UnauthRoleArn": "arn:aws:iam::489881683177:role/amplify-jpalfrontend-dev-7d9b0-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::489881683177:role/amplify-jpalfrontend-dev-7d9b0-authRole",
       "Region": "us-east-2",
-      "DeploymentBucketName": "amplify-jpalfrontend-dev-195743-deployment",
-      "UnauthRoleName": "amplify-jpalfrontend-dev-195743-unauthRole",
-      "StackName": "amplify-jpalfrontend-dev-195743",
-      "StackId": "arn:aws:cloudformation:us-east-2:489881683177:stack/amplify-jpalfrontend-dev-195743/ecf44cd0-faff-11eb-9db3-02302ac4cefe",
-      "AmplifyAppId": "d1gyzea2ro79j2"
+      "DeploymentBucketName": "amplify-jpalfrontend-dev-7d9b0-deployment",
+      "UnauthRoleName": "amplify-jpalfrontend-dev-7d9b0-unauthRole",
+      "StackName": "amplify-jpalfrontend-dev-7d9b0",
+      "StackId": "arn:aws:cloudformation:us-east-2:489881683177:stack/amplify-jpalfrontend-dev-7d9b0/22927320-c3fd-11ef-bfc9-06e9c7ac7b43",
+      "AmplifyAppId": "d2dgp0tiwvwoxa"
     },
     "categories": {
       "auth": {
-        "jpalfrontend600f46bc": {}
+        "jpalfrontend314a0530": {}
       }
     }
   }
