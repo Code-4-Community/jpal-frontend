@@ -39,7 +39,7 @@ const Form: React.FC<FormProps> = ({ children, initialValues, onSubmit, submitTe
       <FormBody>
         {children}
         <Center>
-          <Button mt={4} colorScheme="teal" Loading={props.isSubmitting} type="submit">
+          <Button mt={4} colorScheme="teal" isLoading={props.isSubmitting} type="submit">
             {submitText ?? 'Submit'}
           </Button>
         </Center>

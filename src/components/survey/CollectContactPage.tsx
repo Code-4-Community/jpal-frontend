@@ -9,7 +9,7 @@ interface CollectContactPageProps {
 const CollectContactPage: React.FC<CollectContactPageProps> = ({ confirm }) => (
   <Center mt={20}>
     <VStack justify="center" height="full">
-      <Box padding="4" W="md">
+      <Box padding="4" w="md">
         <Text fontWeight={600} mb={6}>
           Please provide additional contact information if you desire
         </Text>

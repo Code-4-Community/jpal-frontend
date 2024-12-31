@@ -23,6 +23,7 @@ pact/logs
 .env.production.local
 .env
 .idea
+.vscode
 
 npm-debug.log*
 yarn-debug.log*
@@ -42,7 +43,6 @@ amplify/backend/.temp
 build/
 dist/
 node_modules/
-aws-exports.js
 awsconfiguration.json
 amplifyconfiguration.json
 amplifyconfiguration.dart

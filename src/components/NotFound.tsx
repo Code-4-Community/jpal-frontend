@@ -7,7 +7,7 @@ interface NotFoundProps {
 }
 
 const NotFound: React.FC<NotFoundProps> = ({ goBack }) => (
-  <Box align="center" mt={20}>
+  <Box alignItems="center" mt={20}>
     <Logo w="200" h="200" mb={6} />
     <Text fontSize="3xl" color="#D46136" fontWeight={600}>
       404 Page not found
