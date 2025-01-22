@@ -5,6 +5,7 @@ import React from 'react';
 import { Question, Response } from '../../api/dtos/survey-assignment.dto';
 import Form, { FormValues } from '../form/Form';
 import MultipleChoiceField from '../form/MultipleChoiceField';
+import CheckboxField from '../form/CheckboxField';
 
 /**
  * Makes a string safe for use with Formik by removing all periods.
@@ -39,7 +40,39 @@ function invalidResponses(
   return invalid;
 }
 
+/* Converting yes/no questions to checkboxes */
+function createCheckboxQuestion(questions: Question[]): Question {
+  const checkboxQuestion: Question = {
+    question: 'Check off the box if you agree with the question',
+    options: [],
+  };
+
+  questions.forEach((question) =>   {
+    if (question.options.length === 2  && question.options.includes('Yes') && question.options.includes('No')) {
+      // delete the yes/no question
+      questions.splice(questions.indexOf(question), 1);
+
+      // add title of deleted question to option in checkboxQuestion
+      checkboxQuestion.options.push(question.question);
+    }
+  });
+
+  return checkboxQuestion;
+
+}
+
+/* Checks if a question is a checkbox question */ 
+function isCheckboxQuestion(question: Question): boolean {
+  return (
+    question.question === 'Check off the box if you agree with the question'
+  );
+}
+
+
+
 function formValuesToResponses(questions: Question[], values: FormValues): Response[] {
+  const checkboxQuestion = createCheckboxQuestion(questions);
+  questions.push(checkboxQuestion);
   const responses = Object.entries(values).map(([formikSafeQuestion, selectedOption]) => {
     const question = fromFormikSafeFieldName(formikSafeQuestion);
     if (selectedOption === undefined) {
@@ -70,6 +103,8 @@ function responsesToFormValues(responses: Response[]): FormValues {
   );
 }
 
+
+
 const SurveyForm: React.FC<SurveyFormProps> = ({
   youthName,
   questions,
@@ -77,6 +112,8 @@ const SurveyForm: React.FC<SurveyFormProps> = ({
   goBack,
   savedResponses,
 }) => (
+  
+
   <Stack direction={{ base: 'column', md: 'row' }} justify="left">
     <IconButton
       marginTop="10"
@@ -115,7 +152,10 @@ const SurveyForm: React.FC<SurveyFormProps> = ({
             <Text color="white">Please fill out all questions.</Text>
           </Box>
 
+          
+
           {questions.map((question) => (
+            
             <Box
               borderWidth="1px"
               borderRadius="2xl"
@@ -125,16 +165,30 @@ const SurveyForm: React.FC<SurveyFormProps> = ({
               width="full"
               key={question.question}
             >
-              <MultipleChoiceField
-                displayName={pupa(question.question, { subject: youthName.split(' ')[0] })}
-                fieldName={toFormikSafeFieldName(question.question)}
-                options={question.options.map((option) => ({ label: option, value: option }))}
-                isRequired
-                defaultValue={
-                  savedResponses &&
-                  savedResponses.find((r) => r.question === question.question)?.selectedOption
-                }
-              />
+              {isCheckboxQuestion(question) ? (
+                <CheckboxField
+                  fieldName={question.question}
+                  displayName={question.question}
+                  options={question.options.map((option) => ({ label: option, value: option }))}
+                  isRequired
+                  defaultValue={
+                    savedResponses &&
+                    savedResponses.find((r) => r.question === question.question)?.selectedOption
+                  }
+                />
+              ) : (
+                <MultipleChoiceField
+                  displayName={pupa(question.question, { subject: youthName.split(' ')[0] })}
+                  fieldName={toFormikSafeFieldName(question.question)}
+                  options={question.options.map((option) => ({ label: option, value: option }))}
+                  isRequired
+                  defaultValue={
+                    savedResponses &&
+                    savedResponses.find((r) => r.question === question.question)?.selectedOption
+                  }
+                />
+              )}
+
             </Box>
           ))}
         </VStack>
