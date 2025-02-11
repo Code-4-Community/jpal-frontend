@@ -34,7 +34,7 @@ const ConfirmReviewerIdentity: React.FC<ConfirmReviewerIdentityProps> = ({
         </Box>
       </VStack>
       <VStack justify="center" height="full">
-        <Box padding="4" W="md">
+        <Box padding="4" w="md">
           <Text fontWeight={600} mb={6}>
             Please confirm your name and email
           </Text>

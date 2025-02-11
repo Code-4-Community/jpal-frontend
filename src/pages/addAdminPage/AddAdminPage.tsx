@@ -11,37 +11,41 @@ import { TOAST_POPUP_DURATION } from '../basicConstants';
 const AddAdminPage: React.FC = () => {
   const navigate = useNavigate();
   const toast = useToast();
-  async function submitUser(
-    values: AdminFormValues,
-    actions: FormikHelpers<Partial<AdminFormValues>>,
-  ): Promise<void> {
-    try {
-      await apiClient.createUser(
-        values.firstName,
-        values.lastName,
-        values.email,
-        Role.ADMIN,
-        new Date(),
-      );
-      toast({
-        title: 'Post created.',
-        description: `Added the admin with the email ${values.email}.`,
-        status: 'success',
-        duration: TOAST_POPUP_DURATION,
-        isClosable: true,
-      });
-    } catch (err) {
-      toast({
-        title: 'Post creation failed.',
-        description: `Failed to create the admin with the email ${values.email}.`,
-        status: 'error',
-        duration: TOAST_POPUP_DURATION,
-        isClosable: true,
-      });
-    } finally {
-      actions.setSubmitting(false);
-    }
-  }
+  const submitUser = React.useCallback(
+    async (
+      values: AdminFormValues,
+      actions: FormikHelpers<Partial<AdminFormValues>>,
+    ): Promise<void> => {
+      try {
+        await apiClient.createUser(
+          values.firstName,
+          values.lastName,
+          values.email,
+          Role.ADMIN,
+          new Date(),
+        );
+        toast({
+          title: 'Post created.',
+          description: `Added the admin with the email ${values.email}.`,
+          status: 'success',
+          duration: TOAST_POPUP_DURATION,
+          isClosable: true,
+        });
+      } catch (err) {
+        toast({
+          title: 'Post creation failed.',
+          description: `Failed to create the admin with the email ${values.email}.`,
+          status: 'error',
+          duration: TOAST_POPUP_DURATION,
+          isClosable: true,
+        });
+      } finally {
+        actions.setSubmitting(false);
+      }
+    },
+    [toast],
+  );
+
   return (
     <Box>
       <Container maxW="xl">

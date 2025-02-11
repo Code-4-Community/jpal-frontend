@@ -14,6 +14,7 @@ interface PreviewLetterProps {
 }
 
 const PreviewLetter: React.FC<PreviewLetterProps> = ({
+  savedSurveyResponses,
   goBack,
   confirmAndSaveResponses,
   getPreviewLetter,

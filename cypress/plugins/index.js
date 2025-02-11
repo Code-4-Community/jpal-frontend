@@ -19,7 +19,7 @@
 const dotenv = require('dotenv');
 const path = require('path');
 
-const awsConfig = require(path.join(__dirname, '../../src/aws-exports.ts'));
+const awsConfig = require(path.join(__dirname, '../../src/aws-exports.js'));
 
 dotenv.config();
 
