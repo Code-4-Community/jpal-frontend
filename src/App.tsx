@@ -20,7 +20,6 @@ import SurveyPage from './pages/survey/SurveyPage';
 import theme from './theme';
 import LandingPageRedirect from './components/LandingPageRedirect';
 import Footer from './components/footer/Footer';
-import CreateSurvey from './components/createSurvey/CreateSurvey';
 
 const queryClient = new QueryClient();
 
@@ -54,7 +53,6 @@ const App: React.FC<AppProps> = () => (
                 <Route path="dashboard" element={<ResearcherLandingPage />} />
                 <Route path="add-new-admin" element={<AddAdminPage />} />
               </Route>
-              <Route path="/create-survey" element={<CreateSurvey />} />
               <Route path="/survey/:survey_uuid/:reviewer_uuid" element={<SurveyPage />} />
               <Route path="/survey/confirmation" element={<ThankYou />} />
               <Route path="/survey/confirm-reviewer" element={<ReviewerConfirmationPage />} />
