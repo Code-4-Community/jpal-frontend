@@ -2,7 +2,13 @@ import { Auth } from 'aws-amplify';
 import axios, { AxiosInstance } from 'axios';
 import { Letter } from './dtos/letter';
 import Role from './dtos/role';
-import { Response, Survey, SurveyData, surveysSchema } from './dtos/survey-assignment.dto';
+import {
+  Response,
+  Reviewer,
+  Survey,
+  SurveyData,
+  surveysSchema,
+} from './dtos/survey-assignment.dto';
 import User from './dtos/user.dto';
 
 const defaultBaseUrl = process.env.REACT_APP_API_BASE_URL ?? 'http://localhost:5000';
@@ -96,6 +102,11 @@ export class ApiClient {
     return this.post(`/assignment/preview-letter/${assignmentUuid}`, {
       responses,
     }) as Promise<Letter>;
+  }
+
+  public async updateReviewer(reviewer: Reviewer): Promise<Reviewer> {
+    const { secondaryEmail, phone, reviewerUuid } = reviewer;
+    return this.patch(`/reviewer/${reviewerUuid}`, { secondaryEmail, phone }) as Promise<Reviewer>;
   }
 }
 

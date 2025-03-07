@@ -39,6 +39,7 @@ const SurveyPage: React.FC = () => {
       {isLoading && <LoadingSpinner />}
       {data && (
         <SurveyViewController
+          reviewerUuid={reviewerUuid}
           reviewer={data.reviewer}
           questions={data.questions}
           treatmentYouth={data.treatmentYouth}
