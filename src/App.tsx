@@ -16,6 +16,7 @@ import ExampleFormPage from './pages/exampleFormPage/ExampleFormPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ResearcherLandingPage from './pages/researcherLandingPage/ResearcherLandingPage';
 import ReviewerConfirmationPage from './pages/survey/ReviewerConfirmationPage';
+import SurveyDetailsPage from './pages/survey/SurveyDetailsPage';
 import SurveyPage from './pages/survey/SurveyPage';
 import theme from './theme';
 import LandingPageRedirect from './components/LandingPageRedirect';
@@ -47,6 +48,7 @@ const App: React.FC<AppProps> = () => (
               <Route path="/private" element={<AuthedApp roles={[Role.ADMIN, Role.RESEARCHER]} />}>
                 <Route path="" element={<AdminLandingPage />} />
                 <Route path="example-form" element={<ExampleFormPage />} />
+                <Route path="survey/:survey_uuid" element={<SurveyDetailsPage />} />
               </Route>
               <Route path="/researcher" element={<AuthedApp roles={[Role.RESEARCHER]} />}>
                 <Route path="" element={<Navigate to="/researcher/dashboard" />} />

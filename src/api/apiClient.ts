@@ -4,6 +4,7 @@ import { Letter } from './dtos/letter';
 import Role from './dtos/role';
 import { Response, Survey, SurveyData, surveysSchema } from './dtos/survey-assignment.dto';
 import User from './dtos/user.dto';
+import { SurveyDetail } from '../pages/survey/SurveyDetailsPage';
 
 const defaultBaseUrl = process.env.REACT_APP_API_BASE_URL ?? 'http://localhost:5000';
 // Required to use nock with axios (note: do not use nock, just use jest to mock the apiClient)
@@ -96,6 +97,13 @@ export class ApiClient {
     return this.post(`/assignment/preview-letter/${assignmentUuid}`, {
       responses,
     }) as Promise<Letter>;
+  }
+
+  public async getSurveyAssignments(surveyUuid: string | undefined): Promise<SurveyDetail> {
+    if (!surveyUuid) {
+      throw new Error('Survey UUID is required to fetch survey details.');
+    }
+    return this.get(`/survey/${surveyUuid}/assignments`) as Promise<SurveyDetail>;
   }
 }
 
