@@ -4,6 +4,7 @@ import React from 'react';
 export interface SurveyTableRowProps {
   name: string;
   date: Date;
+  uuid: string;
 }
 
 /**
@@ -13,9 +14,17 @@ export interface SurveyTableRowProps {
 export const dateFormatter = (date: Date): string =>
   date.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
-const SurveyTableRow: React.FC<SurveyTableRowProps> = ({ name, date }) => (
+const SurveyTableRow: React.FC<SurveyTableRowProps> = ({ name, date, uuid }) => (
   <Tr>
-    <Td>{name}</Td>
+    <Td>
+      <a
+        href={`/survey/${uuid}`}
+        style={{ textDecoration: 'none' }}
+        onClick={() => console.log('poop')}
+      >
+        {name}
+      </a>
+    </Td>
     <Td>{dateFormatter(date)}</Td>
   </Tr>
 );

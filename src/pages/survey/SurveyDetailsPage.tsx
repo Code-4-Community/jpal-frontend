@@ -11,7 +11,6 @@ export enum AssignmentStatus {
   COMPLETED = 'complete',
 }
 
-
 export interface SurveyDetail extends Survey {
   assignments: IAssignment[];
 }
@@ -44,7 +43,24 @@ const SurveyDetailsPage: React.FC = () => {
       <h1>Survey Details for survey</h1>
       <p>Details about the survey will be displayed here. {surveyUuid}</p>
       {data?.assignments.map((assignment: IAssignment) => (
-        <p>{assignment.id}</p>
+        <div
+          key={assignment.id}
+          style={{ marginBottom: '20px', padding: '10px', border: '1px solid #ccc' }}
+        >
+          <h2 style={{ fontWeight: 'bold' }}>
+            {' '}
+            {assignment.reviewer.firstName} {assignment.reviewer.lastName}
+          </h2>
+          <p>
+            {' '}
+            <span style={{ fontWeight: 'bold' }}>Youth Name: </span>
+            {`${assignment.youth.firstName} ${assignment.youth.lastName}`}
+          </p>
+          <p>
+            <span style={{ fontWeight: 'bold' }}>Status: </span>
+            {assignment.status}
+          </p>
+        </div>
       ))}
     </div>
   );
