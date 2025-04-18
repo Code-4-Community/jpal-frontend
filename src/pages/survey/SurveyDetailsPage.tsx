@@ -1,45 +1,82 @@
 import React, { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
-import { Button, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import {
+  Badge,
+  Box,
+  Button,
+  Heading,
+  Table,
+  Tbody,
+  Td,
+  Text,
+  Th,
+  Thead,
+  Tr,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import apiClient, { SurveyDetail, IAssignment } from '../../api/apiClient';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
 
-const SurveyDetailsRow: React.FC<IAssignment> = ({ id, reviewer, youth, status, reminderSent }) => (
-  <Tr key={id}>
-    <Td>{id}</Td>
-    <Td>{`${reviewer.firstName} ${reviewer.lastName}`}</Td>
-    <Td>{`${youth.firstName} ${youth.lastName}`}</Td>
-    <Td>{status}</Td>
-    <Td>{reminderSent ? 'Yes' : 'No'}</Td>
-  </Tr>
-);
+const SurveyDetailsRow: React.FC<IAssignment> = ({ id, reviewer, youth, status, reminderSent }) => {
+  // Get badge color based on status using a function instead of nested ternaries
+  const getStatusColorScheme = (curStatus: string) => {
+    if (curStatus === 'incomplete') return 'red';
+    if (curStatus === 'in_progress') return 'orange';
+    return 'green';
+  };
 
-const SurveyDetailsTable: React.FC<SurveyDetail> = ({ data }) => (
-  <Table variant="simple">
-    <Thead>
-      <Tr>
-        <Th>Id</Th>
-        <Th>Reviewer</Th>
-        <Th>Youth</Th>
-        <Th>Status</Th>
-        <Th>Reminder Sent?</Th>
-      </Tr>
-    </Thead>
-    <Tbody>
-      {data.assignments.map((assignment: IAssignment) => (
-        <SurveyDetailsRow
-          key={assignment.id}
-          id={assignment.id}
-          reviewer={assignment.reviewer}
-          youth={assignment.youth}
-          status={assignment.status}
-          reminderSent={assignment.reminderSent}
-        />
-      ))}
-    </Tbody>
-  </Table>
+  const getBadgeForReminder = (reminded: boolean) => {
+    if (reminded) {
+      return <Badge colorScheme="blue">Yes</Badge>;
+    }
+    return <Badge colorScheme="gray">No</Badge>;
+  };
+
+  return (
+    <Tr key={id} _hover={{ bg: useColorModeValue('gray.50', 'gray.900') }}>
+      <Td>{id}</Td>
+      <Td>{`${reviewer.firstName} ${reviewer.lastName}`}</Td>
+      <Td>{`${youth.firstName} ${youth.lastName}`}</Td>
+      <Td>
+        <Badge colorScheme={getStatusColorScheme(status)}>{status}</Badge>
+      </Td>
+      <Td>{getBadgeForReminder(reminderSent)}</Td>
+    </Tr>
+  );
+};
+
+interface SurveyDetailsTableProps {
+  data: SurveyDetail;
+}
+
+const SurveyDetailsTable: React.FC<SurveyDetailsTableProps> = ({ data }) => (
+  <Box overflowX="auto" boxShadow="sm" borderRadius="md" my={4}>
+    <Table variant="simple" size="md">
+      <Thead bg={useColorModeValue('gray.50', 'gray.800')}>
+        <Tr>
+          <Th>ID</Th>
+          <Th>Reviewer</Th>
+          <Th>Youth</Th>
+          <Th>Status</Th>
+          <Th>Reminder Sent?</Th>
+        </Tr>
+      </Thead>
+      <Tbody>
+        {data.assignments.map((assignment: IAssignment) => (
+          <SurveyDetailsRow
+            key={assignment.id}
+            id={assignment.id}
+            reviewer={assignment.reviewer}
+            youth={assignment.youth}
+            status={assignment.status}
+            reminderSent={assignment.reminderSent}
+          />
+        ))}
+      </Tbody>
+    </Table>
+  </Box>
 );
 
 const SurveyDetailsPage: React.FC = () => {
@@ -57,9 +94,12 @@ const SurveyDetailsPage: React.FC = () => {
       {error && <ErrorAlert />}
       {data && (
         <>
-          <h1>
-            Survey Details for <span style={{ fontWeight: 'bold' }}>{data.name}</span>
-          </h1>
+          <Heading size="lg" mb={6}>
+            Survey Details for{' '}
+            <Text as="span" fontWeight="bold" color="blue.500">
+              {data.name}
+            </Text>
+          </Heading>
           <SurveyDetailsTable data={data} />
         </>
       )}
