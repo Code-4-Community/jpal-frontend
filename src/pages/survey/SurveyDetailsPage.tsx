@@ -19,7 +19,7 @@ import apiClient, { SurveyDetail, IAssignment } from '../../api/apiClient';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
 
-const SurveyDetailsRow: React.FC<IAssignment> = ({ id, reviewer, youth, status, reminderSent }) => {
+const SurveyDetailsRow: React.FC<IAssignment> = (assignment) => {
   // Get badge color based on status using a function instead of nested ternaries
   const getStatusColorScheme = (curStatus: string) => {
     if (curStatus === 'incomplete') return 'red';
@@ -33,6 +33,8 @@ const SurveyDetailsRow: React.FC<IAssignment> = ({ id, reviewer, youth, status, 
     }
     return <Badge colorScheme="gray">No</Badge>;
   };
+
+  const { id, reviewer, youth, status, reminderSent } = assignment;
 
   return (
     <Tr key={id} _hover={{ bg: useColorModeValue('gray.50', 'gray.900') }}>
@@ -65,14 +67,7 @@ const SurveyDetailsTable: React.FC<SurveyDetailsTableProps> = ({ data }) => (
       </Thead>
       <Tbody>
         {data.assignments.map((assignment: IAssignment) => (
-          <SurveyDetailsRow
-            key={assignment.id}
-            id={assignment.id}
-            reviewer={assignment.reviewer}
-            youth={assignment.youth}
-            status={assignment.status}
-            reminderSent={assignment.reminderSent}
-          />
+          <SurveyDetailsRow asignment={assignment} />
         ))}
       </Tbody>
     </Table>
