@@ -16,6 +16,32 @@ const SurveyDetailsRow: React.FC<IAssignment> = ({ id, reviewer, youth, status, 
   </Tr>
 );
 
+const SurveyDetailsTable: React.FC<SurveyDetail> = ({ data }) => (
+  <Table variant="simple">
+    <Thead>
+      <Tr>
+        <Th>Id</Th>
+        <Th>Reviewer</Th>
+        <Th>Youth</Th>
+        <Th>Status</Th>
+        <Th>Reminder Sent?</Th>
+      </Tr>
+    </Thead>
+    <Tbody>
+      {data.assignments.map((assignment: IAssignment) => (
+        <SurveyDetailsRow
+          key={assignment.id}
+          id={assignment.id}
+          reviewer={assignment.reviewer}
+          youth={assignment.youth}
+          status={assignment.status}
+          reminderSent={assignment.reminderSent}
+        />
+      ))}
+    </Tbody>
+  </Table>
+);
+
 const SurveyDetailsPage: React.FC = () => {
   const { survey_uuid: surveyUuid } = useParams<{ survey_uuid: string }>();
   const { isLoading, error, data } = useQuery<SurveyDetail, Error>('surveyList', () =>
@@ -34,29 +60,7 @@ const SurveyDetailsPage: React.FC = () => {
           <h1>
             Survey Details for <span style={{ fontWeight: 'bold' }}>{data.name}</span>
           </h1>
-          <Table>
-            <Thead>
-              <Tr>
-                <Th>Id</Th>
-                <Th>Reviewer</Th>
-                <Th>Youth</Th>
-                <Th>Status</Th>
-                <Th>Reminder Sent?</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {data.assignments.map((assignment: IAssignment) => (
-                <SurveyDetailsRow
-                  key={assignment.id}
-                  id={assignment.id}
-                  reviewer={assignment.reviewer}
-                  youth={assignment.youth}
-                  status={assignment.status}
-                  reminderSent={assignment.reminderSent}
-                />
-              ))}
-            </Tbody>
-          </Table>
+          <SurveyDetailsTable data={data} />
         </>
       )}
     </>
