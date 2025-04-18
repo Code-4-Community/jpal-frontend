@@ -18,7 +18,7 @@ const SurveyTableRow: React.FC<SurveyTableRowProps> = ({ name, date, uuid }) => 
   <Tr>
     <Td>
       <a
-        href={`/survey/${uuid}`}
+        href={`private/survey/${uuid}`}
         style={{ textDecoration: 'none' }}
         onClick={() => console.log('poop')}
       >

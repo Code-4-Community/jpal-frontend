@@ -2,9 +2,31 @@ import { Auth } from 'aws-amplify';
 import axios, { AxiosInstance } from 'axios';
 import { Letter } from './dtos/letter';
 import Role from './dtos/role';
-import { Response, Survey, SurveyData, surveysSchema } from './dtos/survey-assignment.dto';
+import { Response, Survey, SurveyData, surveysSchema, Reviewer, Youth } from './dtos/survey-assignment.dto';
 import User from './dtos/user.dto';
-import { SurveyDetail } from '../pages/survey/SurveyDetailsPage';
+
+export enum AssignmentStatus {
+  INCOMPLETE = 'incomplete',
+  IN_PROGRESS = 'in_progress',
+  COMPLETED = 'complete',
+}
+
+export interface SurveyDetail extends Survey {
+  assignments: IAssignment[];
+}
+
+export interface IAssignment {
+  id: number;
+  uuid: string;
+  survey: Survey;
+  reviewer: Reviewer;
+  youth: Youth;
+  status: AssignmentStatus;
+  sent: boolean;
+  responses: Response[];
+  reminderSent: boolean;
+  started: Date;
+}
 
 const defaultBaseUrl = process.env.REACT_APP_API_BASE_URL ?? 'http://localhost:5000';
 // Required to use nock with axios (note: do not use nock, just use jest to mock the apiClient)
