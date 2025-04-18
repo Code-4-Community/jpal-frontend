@@ -17,11 +17,7 @@ export const dateFormatter = (date: Date): string =>
 const SurveyTableRow: React.FC<SurveyTableRowProps> = ({ name, date, uuid }) => (
   <Tr>
     <Td>
-      <a
-        href={`private/survey/${uuid}`}
-        style={{ textDecoration: 'none' }}
-        onClick={() => console.log('poop')}
-      >
+      <a href={`private/survey/${uuid}`} style={{ textDecoration: 'none' }}>
         {name}
       </a>
     </Td>
