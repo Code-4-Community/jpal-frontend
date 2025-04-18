@@ -6,6 +6,16 @@ import apiClient, { SurveyDetail, IAssignment } from '../../api/apiClient';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
 
+const SurveyDetailsRow: React.FC<IAssignment> = ({ id, reviewer, youth, status, reminderSent }) => (
+  <Tr key={id}>
+    <Td>{id}</Td>
+    <Td>{`${reviewer.firstName} ${reviewer.lastName}`}</Td>
+    <Td>{`${youth.firstName} ${youth.lastName}`}</Td>
+    <Td>{status}</Td>
+    <Td>{reminderSent ? 'Yes' : 'No'}</Td>
+  </Tr>
+);
+
 const SurveyDetailsPage: React.FC = () => {
   const { survey_uuid: surveyUuid } = useParams<{ survey_uuid: string }>();
   const { isLoading, error, data } = useQuery<SurveyDetail, Error>('surveyList', () =>
@@ -36,13 +46,14 @@ const SurveyDetailsPage: React.FC = () => {
             </Thead>
             <Tbody>
               {data.assignments.map((assignment: IAssignment) => (
-                <Tr key={assignment.id}>
-                  <Td>{assignment.id}</Td>
-                  <Td>{`${assignment.reviewer.firstName} ${assignment.reviewer.lastName}`}</Td>
-                  <Td>{`${assignment.youth.firstName} ${assignment.youth.lastName}`}</Td>
-                  <Td>{assignment.status}</Td>
-                  <Td>{assignment.reminderSent ? 'Yes' : 'No'}</Td>
-                </Tr>
+                <SurveyDetailsRow
+                  key={assignment.id}
+                  id={assignment.id}
+                  reviewer={assignment.reviewer}
+                  youth={assignment.youth}
+                  status={assignment.status}
+                  reminderSent={assignment.reminderSent}
+                />
               ))}
             </Tbody>
           </Table>
