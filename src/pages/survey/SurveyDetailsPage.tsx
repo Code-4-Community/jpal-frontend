@@ -1,10 +1,11 @@
 import React from 'react';
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import {
   Badge,
   Box,
   Button,
+  Container,
   Heading,
   Table,
   Tbody,
@@ -15,13 +16,15 @@ import {
   Tr,
   useColorModeValue,
 } from '@chakra-ui/react';
-import apiClient, { SurveyDetail, IAssignment } from '../../api/apiClient';
+import apiClient, { SurveyDetail, Assignment } from '../../api/apiClient';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
 
+// we only want to take a single assigment for a single row
 interface SurveyDetailsRowProps {
-  assignment: IAssignment;
+  assignment: Assignment;
 }
+// row for the survey detail table
 const SurveyDetailsRow: React.FC<SurveyDetailsRowProps> = ({ assignment }) => {
   // Get badge color based on status using a function instead of nested ternaries
   const getStatusColorScheme = (curStatus: string) => {
@@ -30,14 +33,15 @@ const SurveyDetailsRow: React.FC<SurveyDetailsRowProps> = ({ assignment }) => {
     return 'green';
   };
 
-  const getBadgeForReminder = (reminded: boolean) => {
-    if (reminded) {
+  // used for both sent and reminder badges
+  const getBadgeForReminder = (bool: boolean) => {
+    if (bool) {
       return <Badge colorScheme="blue">Yes</Badge>;
     }
     return <Badge colorScheme="gray">No</Badge>;
   };
 
-  const { id, reviewer, youth, status, reminderSent } = assignment;
+  const { id, reviewer, youth, status, reminderSent, sent } = assignment;
 
   return (
     <Tr key={id} _hover={{ bg: useColorModeValue('gray.50', 'gray.900') }}>
@@ -47,6 +51,7 @@ const SurveyDetailsRow: React.FC<SurveyDetailsRowProps> = ({ assignment }) => {
       <Td>
         <Badge colorScheme={getStatusColorScheme(status)}>{status}</Badge>
       </Td>
+      <Td>{getBadgeForReminder(sent)}</Td>
       <Td>{getBadgeForReminder(reminderSent)}</Td>
     </Tr>
   );
@@ -65,11 +70,12 @@ const SurveyDetailsTable: React.FC<SurveyDetailsTableProps> = ({ data }) => (
           <Th>Reviewer</Th>
           <Th>Youth</Th>
           <Th>Status</Th>
-          <Th>Reminder Sent?</Th>
+          <Th>Letter Sent</Th>
+          <Th>Reminder Sent</Th>
         </Tr>
       </Thead>
       <Tbody>
-        {data.assignments.map((assignment: IAssignment) => (
+        {data.assignments.map((assignment: Assignment) => (
           <SurveyDetailsRow assignment={assignment} key={assignment.uuid} />
         ))}
       </Tbody>
@@ -79,15 +85,15 @@ const SurveyDetailsTable: React.FC<SurveyDetailsTableProps> = ({ data }) => (
 
 const SurveyDetailsPage: React.FC = () => {
   const { survey_uuid: surveyUuid } = useParams<{ survey_uuid: string }>();
-  const { isLoading, error, data } = useQuery<SurveyDetail, Error>('surveyList', () =>
+  const { isLoading, error, data } = useQuery<SurveyDetail, Error>('surveyDetails', () =>
     apiClient.getSurveyAssignments(surveyUuid),
   );
 
   return (
-    <>
-      <a href="/private">
-        <Button>Back to surveys</Button>
-      </a>
+    <Container maxW="7xl">
+      <Link to="/private">
+        <Button marginBottom="10">Back to surveys</Button>
+      </Link>
       {isLoading && <LoadingSpinner />}
       {error && <ErrorAlert />}
       {data && (
@@ -101,7 +107,7 @@ const SurveyDetailsPage: React.FC = () => {
           <SurveyDetailsTable data={data} />
         </>
       )}
-    </>
+    </Container>
   );
 };
 

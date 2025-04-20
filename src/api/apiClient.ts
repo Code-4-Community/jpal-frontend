@@ -19,10 +19,10 @@ export enum AssignmentStatus {
 }
 
 export interface SurveyDetail extends Survey {
-  assignments: IAssignment[];
+  assignments: Assignment[];
 }
 
-export interface IAssignment {
+export interface Assignment {
   id: number;
   uuid: string;
   survey: Survey;

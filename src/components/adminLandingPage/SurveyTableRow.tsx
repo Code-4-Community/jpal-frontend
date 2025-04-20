@@ -1,5 +1,6 @@
 import { Td, Tr } from '@chakra-ui/react';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export interface SurveyTableRowProps {
   name: string;
@@ -17,9 +18,9 @@ export const dateFormatter = (date: Date): string =>
 const SurveyTableRow: React.FC<SurveyTableRowProps> = ({ name, date, uuid }) => (
   <Tr>
     <Td>
-      <a href={`private/survey/${uuid}`} style={{ textDecoration: 'none' }}>
+      <Link to={`survey/${uuid}`} style={{ textDecoration: 'none' }}>
         {name}
-      </a>
+      </Link>
     </Td>
     <Td>{dateFormatter(date)}</Td>
   </Tr>
