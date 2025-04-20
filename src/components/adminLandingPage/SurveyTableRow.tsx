@@ -1,9 +1,11 @@
 import { Td, Tr } from '@chakra-ui/react';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export interface SurveyTableRowProps {
   name: string;
   date: Date;
+  uuid: string;
 }
 
 /**
@@ -13,9 +15,13 @@ export interface SurveyTableRowProps {
 export const dateFormatter = (date: Date): string =>
   date.toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
-const SurveyTableRow: React.FC<SurveyTableRowProps> = ({ name, date }) => (
+const SurveyTableRow: React.FC<SurveyTableRowProps> = ({ name, date, uuid }) => (
   <Tr>
-    <Td>{name}</Td>
+    <Td>
+      <Link to={`survey/${uuid}`} style={{ textDecoration: 'none' }}>
+        {name}
+      </Link>
+    </Td>
     <Td>{dateFormatter(date)}</Td>
   </Tr>
 );

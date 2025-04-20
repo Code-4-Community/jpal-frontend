@@ -2,8 +2,38 @@ import { Auth } from 'aws-amplify';
 import axios, { AxiosInstance } from 'axios';
 import { Letter } from './dtos/letter';
 import Role from './dtos/role';
-import { Response, Survey, SurveyData, surveysSchema } from './dtos/survey-assignment.dto';
+import {
+  Response,
+  Survey,
+  SurveyData,
+  surveysSchema,
+  Reviewer,
+  Youth,
+} from './dtos/survey-assignment.dto';
 import User from './dtos/user.dto';
+
+export enum AssignmentStatus {
+  INCOMPLETE = 'incomplete',
+  IN_PROGRESS = 'in_progress',
+  COMPLETED = 'complete',
+}
+
+export interface SurveyDetail extends Survey {
+  assignments: Assignment[];
+}
+
+export interface Assignment {
+  id: number;
+  uuid: string;
+  survey: Survey;
+  reviewer: Reviewer;
+  youth: Youth;
+  status: AssignmentStatus;
+  sent: boolean;
+  responses: Response[];
+  reminderSent: boolean;
+  started: Date;
+}
 
 const defaultBaseUrl = process.env.REACT_APP_API_BASE_URL ?? 'http://localhost:5000';
 // Required to use nock with axios (note: do not use nock, just use jest to mock the apiClient)
@@ -96,6 +126,13 @@ export class ApiClient {
     return this.post(`/assignment/preview-letter/${assignmentUuid}`, {
       responses,
     }) as Promise<Letter>;
+  }
+
+  public async getSurveyAssignments(surveyUuid: string | undefined): Promise<SurveyDetail> {
+    if (!surveyUuid) {
+      throw new Error('Survey UUID is required to fetch survey details.');
+    }
+    return this.get(`/survey/${surveyUuid}/assignments`) as Promise<SurveyDetail>;
   }
 }
 

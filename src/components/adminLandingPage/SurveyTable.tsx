@@ -18,7 +18,12 @@ const SurveyTable: React.FC<SurveyTableProps> = ({ data }) => (
       </Thead>
       <Tbody>
         {data.map((survey) => (
-          <SurveyTableRow name={survey.name} date={survey.date} />
+          <SurveyTableRow
+            name={survey.name}
+            date={survey.date}
+            uuid={survey.uuid}
+            key={survey.uuid}
+          />
         ))}
       </Tbody>
     </Table>
