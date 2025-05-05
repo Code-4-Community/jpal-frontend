@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useQuery } from 'react-query';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import {
   Badge,
   Box,
@@ -15,10 +15,14 @@ import {
   Thead,
   Tr,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react';
 import apiClient, { SurveyDetail, Assignment } from '../../api/apiClient';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
+import { ASSIGNMENTS_CREATE_STATE_KEY } from '../createSurveyPage/CreateSurveyPage';
+import { UploadStatus } from '../../components/createSurveyPage/UploadAssignmentsForm';
+import { TOAST_POPUP_DURATION } from '../basicConstants';
 
 // we only want to take a single assigment for a single row
 interface SurveyDetailsRowProps {
@@ -88,6 +92,32 @@ const SurveyDetailsPage: React.FC = () => {
   const { isLoading, error, data } = useQuery<SurveyDetail, Error>('surveyDetails', () =>
     apiClient.getSurveyAssignments(surveyUuid),
   );
+
+  const toast = useToast();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!location.state || !location.state[ASSIGNMENTS_CREATE_STATE_KEY]) return;
+
+    const assignmentsCreateStatus: { success: boolean | null; error: string } =
+      location.state[ASSIGNMENTS_CREATE_STATE_KEY];
+    let toastMessage: string;
+
+    if (assignmentsCreateStatus.success) {
+      toastMessage = 'Survey and assignments created!';
+    } else if (assignmentsCreateStatus.success === null) {
+      toastMessage = 'Survey created!';
+    } else {
+      toastMessage = `Warning: Survey created but failed to create assignments: ${assignmentsCreateStatus.error}`;
+    }
+
+    toast({
+      status: assignmentsCreateStatus.success === false ? 'warning' : 'success',
+      description: toastMessage,
+      duration: TOAST_POPUP_DURATION,
+      isClosable: true,
+    });
+  });
 
   return (
     <Container maxW="7xl">
