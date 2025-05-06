@@ -21,7 +21,6 @@ import apiClient, { SurveyDetail, Assignment } from '../../api/apiClient';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
 import { ASSIGNMENTS_CREATE_STATE_KEY } from '../createSurveyPage/CreateSurveyPage';
-import { UploadStatus } from '../../components/createSurveyPage/UploadAssignmentsForm';
 import { TOAST_POPUP_DURATION } from '../basicConstants';
 
 // we only want to take a single assigment for a single row

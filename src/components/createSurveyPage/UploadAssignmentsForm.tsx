@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import Papa from 'papaparse';
 import {
   Box,
@@ -39,8 +39,6 @@ const EXPECTED_COLUMNS = Object.keys(CSV_COLUMN_MAP) as (keyof typeof CSV_COLUMN
 
 export type UploadStatus = { success: true } | { success: false; error: string };
 
-// const HINT_TEXT =
-
 interface UploadAssignmentsFormProps {
   assignments: AssignmentRow[];
   setAssignments: React.Dispatch<React.SetStateAction<AssignmentRow[]>>;
@@ -52,8 +50,6 @@ const UploadAssignmentsForm: React.FC<UploadAssignmentsFormProps> = ({
   setAssignments,
   setUploadStatus,
 }) => {
-  // const [csvData, setCsvData] = useState<AssignmentRow[]>([]);
-
   const validateCsv = useCallback((parsedData: Papa.ParseResult<unknown>): UploadStatus => {
     if (!parsedData.meta.fields) {
       return { success: false, error: 'Could not process CSV headers' };
@@ -110,7 +106,6 @@ const UploadAssignmentsForm: React.FC<UploadAssignmentsFormProps> = ({
             ),
           );
           setAssignments(mappedData as unknown as AssignmentRow[]);
-          console.log(mappedData);
 
           setUploadStatus({ success: true });
         },

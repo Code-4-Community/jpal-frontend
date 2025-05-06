@@ -1,9 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
-  Box,
   Button,
   Container,
-  FormLabel,
   Heading,
   Input,
   Tab,
@@ -38,7 +36,6 @@ const CreateSurveyPage: React.FC = () => {
       // Create survey with the (only) default template for now
       // TODO: change when custom survey templates are added
       survey = await apiClient.createSurvey(surveyName, 1);
-      console.log(survey);
     } catch (e) {
       let errorMessage = 'Failed to create survey';
       if (e instanceof Error) {
