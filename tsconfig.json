@@ -24,5 +24,6 @@
     "src",
     "cypress",
     "pact",
+    "amplify"
   ]
 }

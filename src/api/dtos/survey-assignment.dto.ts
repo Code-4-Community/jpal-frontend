@@ -44,7 +44,7 @@ export interface Youth extends PersonInfo {
 
 export type Reviewer = PersonInfo;
 
-interface PersonInfo {
+export interface PersonInfo {
   email: string;
   firstName: string;
   lastName: string;
