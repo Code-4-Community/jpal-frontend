@@ -1,99 +1,99 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useParams, Link, useLocation } from 'react-router-dom';
 import {
-  Badge,
-  Box,
   Button,
   Container,
   Heading,
-  Table,
-  Tbody,
-  Td,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Text,
-  Th,
-  Thead,
-  Tr,
-  useColorModeValue,
+  useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import apiClient, { SurveyDetail, Assignment } from '../../api/apiClient';
+import apiClient, { SurveyDetail } from '../../api/apiClient';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
-import { ASSIGNMENTS_CREATE_STATE_KEY } from '../createSurveyPage/CreateSurveyPage';
+import {
+  assignmentRowToDTO,
+  ASSIGNMENTS_CREATE_STATE_KEY,
+} from '../createSurveyPage/CreateSurveyPage';
 import { TOAST_POPUP_DURATION } from '../basicConstants';
+import UploadAssignmentsForm, {
+  AssignmentRow,
+  UploadStatus,
+} from '../../components/createSurveyPage/UploadAssignmentsForm';
+import SurveyDetailsTable from '../../components/survey/SurveyDetailsTable';
 
-// we only want to take a single assigment for a single row
-interface SurveyDetailsRowProps {
-  assignment: Assignment;
+interface AddAssignmentsModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  createAssignments: (assignments: AssignmentRow[]) => void;
 }
-// row for the survey detail table
-const SurveyDetailsRow: React.FC<SurveyDetailsRowProps> = ({ assignment }) => {
-  // Get badge color based on status using a function instead of nested ternaries
-  const getStatusColorScheme = (curStatus: string) => {
-    if (curStatus === 'incomplete') return 'red';
-    if (curStatus === 'in_progress') return 'orange';
-    return 'green';
-  };
 
-  // used for both sent and reminder badges
-  const getBadgeForReminder = (bool: boolean) => {
-    if (bool) {
-      return <Badge colorScheme="blue">Yes</Badge>;
+const AddAssignmentsModal: React.FC<AddAssignmentsModalProps> = ({
+  isOpen,
+  onClose,
+  createAssignments,
+}: AddAssignmentsModalProps) => {
+  const [uploadStatus, setUploadStatus] = useState<UploadStatus | null>(null);
+  const [assignments, setAssignments] = useState<AssignmentRow[]>([]);
+
+  const toast = useToast();
+
+  useEffect(() => {
+    if (uploadStatus !== null) {
+      toast({
+        status: uploadStatus.success ? 'success' : 'error',
+        description: uploadStatus.success ? 'CSV successfully uploaded' : uploadStatus.error,
+        duration: TOAST_POPUP_DURATION,
+        isClosable: true,
+      });
     }
-    return <Badge colorScheme="gray">No</Badge>;
-  };
-
-  const { id, reviewer, youth, status, reminderSent, sent } = assignment;
+  }, [uploadStatus, toast]);
 
   return (
-    <Tr key={id} _hover={{ bg: useColorModeValue('gray.50', 'gray.900') }}>
-      <Td>{id}</Td>
-      <Td>{`${reviewer.firstName} ${reviewer.lastName}`}</Td>
-      <Td>{`${youth.firstName} ${youth.lastName}`}</Td>
-      <Td>
-        <Badge colorScheme={getStatusColorScheme(status)}>{status}</Badge>
-      </Td>
-      <Td>{getBadgeForReminder(sent)}</Td>
-      <Td>{getBadgeForReminder(reminderSent)}</Td>
-    </Tr>
+    <Modal isOpen={isOpen} onClose={onClose} size="full">
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Add Assignments</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <UploadAssignmentsForm
+            assignments={assignments}
+            setAssignments={setAssignments}
+            setUploadStatus={setUploadStatus}
+          />
+        </ModalBody>
+        <ModalFooter>
+          <Button type="submit" colorScheme="teal" onClick={() => createAssignments(assignments)}>
+            Submit
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 };
 
-interface SurveyDetailsTableProps {
-  data: SurveyDetail;
-}
-
-const SurveyDetailsTable: React.FC<SurveyDetailsTableProps> = ({ data }) => (
-  <Box overflowX="auto" boxShadow="sm" borderRadius="md" my={4}>
-    <Table variant="simple" size="md">
-      <Thead bg={useColorModeValue('gray.50', 'gray.800')}>
-        <Tr>
-          <Th>ID</Th>
-          <Th>Reviewer</Th>
-          <Th>Youth</Th>
-          <Th>Status</Th>
-          <Th>Letter Sent</Th>
-          <Th>Reminder Sent</Th>
-        </Tr>
-      </Thead>
-      <Tbody>
-        {data.assignments.map((assignment: Assignment) => (
-          <SurveyDetailsRow assignment={assignment} key={assignment.uuid} />
-        ))}
-      </Tbody>
-    </Table>
-  </Box>
-);
-
 const SurveyDetailsPage: React.FC = () => {
   const { survey_uuid: surveyUuid } = useParams<{ survey_uuid: string }>();
-  const { isLoading, error, data } = useQuery<SurveyDetail, Error>('surveyDetails', () =>
+  const {
+    isLoading,
+    error,
+    data,
+    refetch: refetchDetails,
+  } = useQuery<SurveyDetail, Error>('surveyDetails', () =>
     apiClient.getSurveyAssignments(surveyUuid),
   );
 
   const toast = useToast();
   const location = useLocation();
+  const { isOpen: isModalOpen, onOpen: openModal, onClose: closeModal } = useDisclosure();
 
   useEffect(() => {
     if (!location.state || !location.state[ASSIGNMENTS_CREATE_STATE_KEY]) return;
@@ -118,11 +118,48 @@ const SurveyDetailsPage: React.FC = () => {
     });
   });
 
+  const createAssignments = useCallback(
+    async (assignments: AssignmentRow[]) => {
+      const assignmentPairs = assignmentRowToDTO(assignments);
+
+      try {
+        await apiClient.createBatchAssignments(surveyUuid as string, assignmentPairs);
+        toast({
+          status: 'success',
+          description: 'Successfully added assignments!',
+          duration: TOAST_POPUP_DURATION,
+          isClosable: true,
+        });
+        closeModal();
+        refetchDetails();
+      } catch (e) {
+        let message = 'Failed to add assignemnts';
+        if (e instanceof Error) message += `: ${e.message}`;
+        toast({
+          status: 'error',
+          description: message,
+          duration: TOAST_POPUP_DURATION,
+          isClosable: true,
+        });
+      }
+    },
+    [surveyUuid, toast, closeModal, refetchDetails],
+  );
+
   return (
     <Container maxW="7xl">
       <Link to="/private">
         <Button marginBottom="10">Back to surveys</Button>
       </Link>
+      <Button
+        display="inline"
+        colorScheme="teal"
+        marginLeft={5}
+        marginBottom={10}
+        onClick={openModal}
+      >
+        Add Assignments
+      </Button>
       {isLoading && <LoadingSpinner />}
       {error && <ErrorAlert />}
       {data && (
@@ -136,6 +173,11 @@ const SurveyDetailsPage: React.FC = () => {
           <SurveyDetailsTable data={data} />
         </>
       )}
+      <AddAssignmentsModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        createAssignments={createAssignments}
+      />
     </Container>
   );
 };
