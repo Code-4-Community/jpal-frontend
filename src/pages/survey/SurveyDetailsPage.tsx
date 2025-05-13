@@ -87,9 +87,11 @@ const SurveyDetailsPage: React.FC = () => {
     error,
     data,
     refetch: refetchDetails,
-  } = useQuery<SurveyDetail, Error>('surveyDetails', () =>
-    apiClient.getSurveyAssignments(surveyUuid),
-  );
+  } = useQuery<SurveyDetail, Error>('surveyDetails', async () => {
+    const surveyDetail = await apiClient.getSurveyAssignments(surveyUuid);
+    surveyDetail.assignments.sort((a) => a.id);
+    return surveyDetail;
+  });
 
   const toast = useToast();
   const location = useLocation();
@@ -147,7 +149,7 @@ const SurveyDetailsPage: React.FC = () => {
   );
 
   return (
-    <Container maxW="7xl">
+    <Container maxW="8xl">
       <Link to="/private">
         <Button marginBottom="10">Back to surveys</Button>
       </Link>

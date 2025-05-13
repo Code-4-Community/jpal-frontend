@@ -34,6 +34,7 @@ export interface Assignment {
   responses: Response[];
   reminderSent: boolean;
   started: Date;
+  s3LetterLink: string | null;
 }
 
 const defaultBaseUrl = process.env.REACT_APP_API_BASE_URL ?? 'http://localhost:5000';

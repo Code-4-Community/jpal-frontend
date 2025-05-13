@@ -6,6 +6,7 @@ import {
   Divider,
   Flex,
   IconButton,
+  Link,
   NumberInput,
   NumberInputField,
   Select,
@@ -49,7 +50,7 @@ const SurveyDetailsRow: React.FC<SurveyDetailsRowProps> = ({ assignment }) => {
     return <Badge colorScheme="gray">Control</Badge>;
   };
 
-  const { id, reviewer, youth, status, reminderSent, sent } = assignment;
+  const { id, reviewer, youth, status, reminderSent, sent, s3LetterLink } = assignment;
 
   return (
     <Tr key={id} _hover={{ bg: useColorModeValue('gray.50', 'gray.900') }}>
@@ -60,8 +61,17 @@ const SurveyDetailsRow: React.FC<SurveyDetailsRowProps> = ({ assignment }) => {
       <Td>
         <Badge colorScheme={getStatusColorScheme(status)}>{status}</Badge>
       </Td>
-      <Td>{getBadgeForReminder(sent)}</Td>
       <Td>{getBadgeForReminder(reminderSent)}</Td>
+      <Td>{getBadgeForReminder(sent)}</Td>
+      <Td>
+        {s3LetterLink === null ? (
+          'N/A'
+        ) : (
+          <Link href={s3LetterLink} target="_blank" rel="noreferrer" textDecoration="underline">
+            View Letter
+          </Link>
+        )}
+      </Td>
     </Tr>
   );
 };
@@ -108,8 +118,9 @@ const SurveyDetailsTable: React.FC<SurveyDetailsTableProps> = ({ data }) => {
             <Th>Youth</Th>
             <Th>Treatment Group</Th>
             <Th>Status</Th>
-            <Th>Letter Sent</Th>
             <Th>Reminder Sent</Th>
+            <Th>Letter Sent</Th>
+            <Th>Letter Link</Th>
           </Tr>
         </Thead>
         <Tbody>{tableRows.slice((currentPage - 1) * pageSize, currentPage * pageSize)}</Tbody>
@@ -168,7 +179,7 @@ const SurveyDetailsTable: React.FC<SurveyDetailsTableProps> = ({ data }) => {
             flexGrow={0}
           >
             {PAGE_SIZES.map((size) => (
-              <option value={size}>{`${size} rows per page`}</option>
+              <option key={size} value={size}>{`${size} rows per page`}</option>
             ))}
           </Select>
         </Flex>
