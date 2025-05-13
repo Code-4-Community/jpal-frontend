@@ -14,6 +14,7 @@ interface PreviewLetterProps {
 }
 
 const PreviewLetter: React.FC<PreviewLetterProps> = ({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   savedSurveyResponses,
   goBack,
   confirmAndSaveResponses,

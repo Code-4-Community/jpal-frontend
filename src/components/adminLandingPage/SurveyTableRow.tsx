@@ -18,7 +18,7 @@ export const dateFormatter = (date: Date): string =>
 const SurveyTableRow: React.FC<SurveyTableRowProps> = ({ name, date, uuid }) => (
   <Tr>
     <Td>
-      <Link to={`survey/${uuid}`} style={{ textDecoration: 'none' }}>
+      <Link to={`survey/${uuid}`} style={{ textDecoration: 'underline' }}>
         {name}
       </Link>
     </Td>

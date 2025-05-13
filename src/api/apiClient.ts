@@ -9,6 +9,7 @@ import {
   surveysSchema,
   Reviewer,
   Youth,
+  PersonInfo,
 } from './dtos/survey-assignment.dto';
 import User from './dtos/user.dto';
 
@@ -133,6 +134,20 @@ export class ApiClient {
       throw new Error('Survey UUID is required to fetch survey details.');
     }
     return this.get(`/survey/${surveyUuid}/assignments`) as Promise<SurveyDetail>;
+  }
+
+  public async createSurvey(surveyName: string, templateId: number): Promise<Survey> {
+    return this.post(`/survey`, {
+      name: surveyName,
+      surveyTemplateId: templateId,
+    }) as Promise<Survey>;
+  }
+
+  public async createBatchAssignments(
+    surveyUUID: string,
+    pairs: { youth: PersonInfo; reviewer: PersonInfo }[],
+  ): Promise<void> {
+    return this.patch(`/survey`, { surveyUUID, pairs }) as Promise<void>;
   }
 }
 
