@@ -84,7 +84,7 @@ const PAGE_SIZES = [10, 25, 50];
 
 const SurveyDetailsTable: React.FC<SurveyDetailsTableProps> = ({ data }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(5);
+  const [pageSize, setPageSize] = useState<number>(25);
   const [jumpToPage, setJumpToPage] = useState<string>('');
 
   const totalPages = Math.ceil(data.assignments.length / pageSize);
