@@ -32,7 +32,7 @@ interface AppProps {
 }
 
 // Map with all the roles mapped to their landing pages
-const roleMap = {
+export const roleMap = {
   [Role.ADMIN]: '/private',
   [Role.RESEARCHER]: '/researcher',
 };
