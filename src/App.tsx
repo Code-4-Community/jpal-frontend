@@ -22,6 +22,7 @@ import theme from './theme';
 import LandingPageRedirect from './components/LandingPageRedirect';
 import Footer from './components/footer/Footer';
 import CreateSurveyPage from './pages/createSurveyPage/CreateSurveyPage';
+import { roleMap } from './constants';
 
 const queryClient = new QueryClient();
 
@@ -30,12 +31,6 @@ Amplify.configure(awsconfig);
 interface AppProps {
   history: History<unknown>;
 }
-
-// Map with all the roles mapped to their landing pages
-const roleMap = {
-  [Role.ADMIN]: '/private',
-  [Role.RESEARCHER]: '/researcher',
-};
 
 const App: React.FC<AppProps> = () => (
   <QueryClientProvider client={queryClient}>

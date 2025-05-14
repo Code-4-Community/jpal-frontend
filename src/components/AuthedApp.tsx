@@ -1,4 +1,4 @@
-import { AmplifyAuthenticator, AmplifySignIn, AmplifySignOut } from '@aws-amplify/ui-react';
+import { AmplifyAuthenticator, AmplifySignIn } from '@aws-amplify/ui-react';
 import { Alert, Text, Flex, Center } from '@chakra-ui/react';
 import * as React from 'react';
 import { Outlet } from 'react-router-dom';
@@ -7,6 +7,8 @@ import useAuth from '../hooks/useAuth';
 import FullLogo from './header/FullLogo';
 import LoadingSpinner from './LoadingSpinner';
 import '../styles.css';
+import LandingPageRedirect from './LandingPageRedirect';
+import { roleMap } from '../constants';
 
 interface AuthedAppProps {
   roles: Role[];
@@ -49,7 +51,7 @@ const AuthedApp: React.FC<AuthedAppProps> = ({ roles }) => {
         </Flex>
       </Center>
     );
-  if (!roles.includes(user.role)) return <AmplifySignOut />;
+  if (!roles.includes(user.role)) return <LandingPageRedirect rolesMap={roleMap} />;
   return (
     <>
       <Outlet />

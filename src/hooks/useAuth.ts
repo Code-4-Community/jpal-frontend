@@ -1,7 +1,10 @@
 import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as Sentry from '@sentry/react';
 import { useQuery } from 'react-query';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { CognitoUser } from '@aws-amplify/auth';
+import { Auth } from 'aws-amplify';
 import User from '../api/dtos/user.dto';
 import apiClient from '../api/apiClient';
 
@@ -15,7 +18,22 @@ export default function useAuth(): [boolean, boolean, User | undefined] {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [user, setUser] = React.useState<any>();
 
-  React.useEffect(
+  useEffect(() => {
+    async function checkCurrentUser() {
+      try {
+        const currentUser = (await Auth.currentAuthenticatedUser()) as CognitoUser;
+        setAuthState(AuthState.SignedIn);
+        setUser(currentUser);
+      } catch (e) {
+        setAuthState(AuthState.SignedOut);
+        setUser(null);
+      }
+    }
+
+    checkCurrentUser();
+  }, []);
+
+  useEffect(
     () =>
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onAuthUIStateChange((nextAuthState, authData: any) => {
