@@ -21,7 +21,7 @@ export default function useAuth(): [boolean, boolean, User | undefined] {
   useEffect(() => {
     async function checkCurrentUser() {
       try {
-        const currentUser = await Auth.currentAuthenticatedUser() as CognitoUser;
+        const currentUser = (await Auth.currentAuthenticatedUser()) as CognitoUser;
         setAuthState(AuthState.SignedIn);
         setUser(currentUser);
       } catch (e) {
@@ -29,7 +29,7 @@ export default function useAuth(): [boolean, boolean, User | undefined] {
         setUser(null);
       }
     }
-    
+
     checkCurrentUser();
   }, []);
 

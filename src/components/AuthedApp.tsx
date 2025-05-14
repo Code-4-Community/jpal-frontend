@@ -8,7 +8,7 @@ import FullLogo from './header/FullLogo';
 import LoadingSpinner from './LoadingSpinner';
 import '../styles.css';
 import LandingPageRedirect from './LandingPageRedirect';
-import { roleMap } from '../App';
+import { roleMap } from '../constants';
 
 interface AuthedAppProps {
   roles: Role[];
