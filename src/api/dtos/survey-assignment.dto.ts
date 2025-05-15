@@ -38,8 +38,14 @@ export interface Question {
   options: string[];
 }
 
+export enum YouthRoles {
+  TREATMENT = 'treatment',
+  CONTROL = 'control',
+}
+
 export interface Youth extends PersonInfo {
   assignmentUuid: string;
+  role: YouthRoles;
 }
 
 export type Reviewer = PersonInfo;

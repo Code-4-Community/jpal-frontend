@@ -2,11 +2,30 @@ import { screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { render } from '../../test-utils';
 import ConfirmAssignments from './ConfirmAssignments';
+import { YouthRoles } from '../../api/dtos/survey-assignment.dto';
 
 const YOUTH = [
-  { email: 'one@email.com', firstName: 'Alan', lastName: 'Turing', assignmentUuid: '1' },
-  { email: 'two@email.com', firstName: 'Alonzo', lastName: 'Church', assignmentUuid: '2' },
-  { email: 'three@email.com', firstName: 'Haskell', lastName: 'Curry', assignmentUuid: '3' },
+  {
+    email: 'one@email.com',
+    firstName: 'Alan',
+    lastName: 'Turing',
+    assignmentUuid: '1',
+    role: YouthRoles.TREATMENT,
+  },
+  {
+    email: 'two@email.com',
+    firstName: 'Alonzo',
+    lastName: 'Church',
+    assignmentUuid: '2',
+    role: YouthRoles.TREATMENT,
+  },
+  {
+    email: 'three@email.com',
+    firstName: 'Haskell',
+    lastName: 'Curry',
+    assignmentUuid: '3',
+    role: YouthRoles.TREATMENT,
+  },
 ];
 
 describe('ConfirmAssignments', () => {
