@@ -16,11 +16,28 @@ import UploadAssignmentsForm, {
   AssignmentRow,
   UploadStatus,
 } from '../../components/createSurveyPage/UploadAssignmentsForm';
-import { Survey } from '../../api/dtos/survey-assignment.dto';
+import { PersonInfo, Survey } from '../../api/dtos/survey-assignment.dto';
 import apiClient from '../../api/apiClient';
 import { TOAST_POPUP_DURATION } from '../basicConstants';
 
 export const ASSIGNMENTS_CREATE_STATE_KEY = 'surveyCreateStatus';
+
+export function assignmentRowToDTO(
+  assignments: AssignmentRow[],
+): { youth: PersonInfo; reviewer: PersonInfo }[] {
+  return assignments.map((row) => ({
+    youth: {
+      email: row.youthEmail,
+      firstName: row.youthFirst,
+      lastName: row.youthLast,
+    },
+    reviewer: {
+      email: row.reviewerEmail,
+      firstName: row.reviewerFirst,
+      lastName: row.reviewerLast,
+    },
+  }));
+}
 
 const CreateSurveyPage: React.FC = () => {
   const [uploadStatus, setUploadStatus] = useState<UploadStatus | null>(null);
@@ -63,18 +80,7 @@ const CreateSurveyPage: React.FC = () => {
     // If user didn't upload any assignments, end here
     // Otherwise, create assignments for the new survey
     if (assignments.length > 0) {
-      const assignmentPairs = assignments.map((row) => ({
-        youth: {
-          email: row.youthEmail,
-          firstName: row.youthFirst,
-          lastName: row.youthLast,
-        },
-        reviewer: {
-          email: row.reviewerEmail,
-          firstName: row.reviewerFirst,
-          lastName: row.reviewerLast,
-        },
-      }));
+      const assignmentPairs = assignmentRowToDTO(assignments);
 
       try {
         await apiClient.createBatchAssignments(survey.uuid, assignmentPairs);
