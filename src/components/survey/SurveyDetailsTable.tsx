@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import {
+  Alert,
   Badge,
   Box,
   Button,
@@ -7,9 +8,17 @@ import {
   Flex,
   IconButton,
   Link,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   NumberInput,
   NumberInputField,
   Select,
+  Spinner,
   Table,
   Tbody,
   Td,
@@ -20,14 +29,43 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { Assignment, SurveyDetail } from '../../api/apiClient';
-import { YouthRoles } from '../../api/dtos/survey-assignment.dto';
+import { useQuery } from 'react-query';
+import apiClient, { Assignment, AssignmentStatus, SurveyDetail } from '../../api/apiClient';
+import { ResponseInfo, YouthRoles } from '../../api/dtos/survey-assignment.dto';
+import DisplaySurvey from './DisplaySurvey';
+import ErrorAlert from '../ErrorAlert';
+
+interface ResponseModalProps {
+  assignment: Assignment;
+  onClose: () => void;
+}
+
+const ResponseModal: React.FC<ResponseModalProps> = ({ assignment, onClose }) => {
+  const { isLoading, data } = useQuery<ResponseInfo, Error>('assignmentResponse', async () =>
+    apiClient.getAssignmentResponse(assignment.uuid),
+  );
+
+  return (
+    <Modal isOpen onClose={onClose} size="6xl">
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>{`${assignment.reviewer.firstName}'s Responses`}</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          {/* eslint-disable-next-line no-nested-ternary */}
+          {isLoading ? <Spinner /> : data ? <DisplaySurvey responseInfo={data} /> : <ErrorAlert />}
+        </ModalBody>
+      </ModalContent>
+    </Modal>
+  );
+};
 
 interface SurveyDetailsRowProps {
   assignment: Assignment;
+  setModalAssignment: (assignment: Assignment) => void;
 }
 // row for the survey detail table
-const SurveyDetailsRow: React.FC<SurveyDetailsRowProps> = ({ assignment }) => {
+const SurveyDetailsRow: React.FC<SurveyDetailsRowProps> = ({ assignment, setModalAssignment }) => {
   // Get badge color based on status using a function instead of nested ternaries
   const getStatusColorScheme = (curStatus: string) => {
     if (curStatus === 'incomplete') return 'red';
@@ -72,6 +110,15 @@ const SurveyDetailsRow: React.FC<SurveyDetailsRowProps> = ({ assignment }) => {
           </Link>
         )}
       </Td>
+      <Td>
+        {status === AssignmentStatus.COMPLETED ? (
+          <Button size="sm" onClick={() => setModalAssignment(assignment)}>
+            Responses
+          </Button>
+        ) : (
+          'N/A'
+        )}
+      </Td>
     </Tr>
   );
 };
@@ -86,13 +133,18 @@ const SurveyDetailsTable: React.FC<SurveyDetailsTableProps> = ({ data }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(25);
   const [jumpToPage, setJumpToPage] = useState<string>('');
+  const [modalAssignment, setModalAssignment] = useState<Assignment | null>(null);
 
   const totalPages = Math.ceil(data.assignments.length / pageSize);
 
   const tableRows = useMemo(
     () =>
       data.assignments.map((assignment: Assignment) => (
-        <SurveyDetailsRow assignment={assignment} key={assignment.uuid} />
+        <SurveyDetailsRow
+          assignment={assignment}
+          key={assignment.uuid}
+          setModalAssignment={setModalAssignment}
+        />
       )),
     [data],
   );
@@ -113,14 +165,15 @@ const SurveyDetailsTable: React.FC<SurveyDetailsTableProps> = ({ data }) => {
       <Table variant="simple" size="md" pb={5} borderBottom="2px solid black">
         <Thead bg={useColorModeValue('gray.50', 'gray.800')}>
           <Tr>
-            <Th>ID</Th>
+            <Th>Assignment ID</Th>
             <Th>Reviewer</Th>
             <Th>Youth</Th>
-            <Th>Treatment Group</Th>
+            <Th>Group</Th>
             <Th>Status</Th>
             <Th>Reminder Sent</Th>
             <Th>Letter Sent</Th>
-            <Th>Letter Link</Th>
+            <Th>Letter</Th>
+            <Th>Responses</Th>
           </Tr>
         </Thead>
         <Tbody>{tableRows.slice((currentPage - 1) * pageSize, currentPage * pageSize)}</Tbody>
@@ -143,7 +196,7 @@ const SurveyDetailsTable: React.FC<SurveyDetailsTableProps> = ({ data }) => {
             size="sm"
             ml={4}
             onClick={() => setCurrentPage((page) => page + 1)}
-            isDisabled={currentPage === totalPages}
+            isDisabled={currentPage >= totalPages}
             aria-label="Previous page"
           />
         </Flex>
@@ -184,6 +237,11 @@ const SurveyDetailsTable: React.FC<SurveyDetailsTableProps> = ({ data }) => {
           </Select>
         </Flex>
       </Flex>
+      {modalAssignment !== null ? (
+        <ResponseModal assignment={modalAssignment} onClose={() => setModalAssignment(null)} />
+      ) : (
+        <></>
+      )}
     </Box>
   );
 };
