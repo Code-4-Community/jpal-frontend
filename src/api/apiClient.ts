@@ -10,6 +10,7 @@ import {
   Reviewer,
   Youth,
   PersonInfo,
+  ResponseInfo,
 } from './dtos/survey-assignment.dto';
 import User from './dtos/user.dto';
 
@@ -113,7 +114,6 @@ export class ApiClient {
     return surveysSchema.parse(surveys) as Survey[];
   }
 
-  // Stubbed out for now. Not implemented on the backend.
   public async completeAssignment(assignmentUuid: string, responses: Response[]): Promise<void> {
     this.post(`/assignment/${assignmentUuid}`, { responses }).catch((BadRequestException) => {
       throw BadRequestException;
@@ -128,6 +128,10 @@ export class ApiClient {
     return this.post(`/assignment/preview-letter/${assignmentUuid}`, {
       responses,
     }) as Promise<Letter>;
+  }
+
+  public async getAssignmentResponse(assignmentUuid: string): Promise<ResponseInfo> {
+    return this.get(`/assignment/${assignmentUuid}/responses`) as Promise<ResponseInfo>;
   }
 
   public async getSurveyAssignments(surveyUuid: string | undefined): Promise<SurveyDetail> {

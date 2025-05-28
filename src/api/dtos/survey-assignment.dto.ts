@@ -60,3 +60,12 @@ export interface Response {
   question: string;
   selectedOption: string;
 }
+
+export interface ResponseInfo {
+  youth: PersonInfo;
+  reviewer: PersonInfo;
+  responses: {
+    question: Question;
+    option: string;
+  }[];
+}
