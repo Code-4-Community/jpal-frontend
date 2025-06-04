@@ -125,12 +125,12 @@ const UploadAssignmentsForm: React.FC<UploadAssignmentsFormProps> = ({
             label={
               <Stack>
                 <Text>Required columns:</Text>
-                <Text>{`• Reviewer First (reviewer's first name)`}</Text>
-                <Text>{`• Reviewer Last (reviewer's last name)`}</Text>
-                <Text>{`• Reviewer Email (reviewer's email address)`}</Text>
-                <Text>{`• Youth First (youth's first name)`}</Text>
-                <Text>{`• Youth Last (youth's last name)`}</Text>
-                <Text>{`• Youth Email (youth's email address)`}</Text>
+                <Text>• Reviewer First (reviewer&apos;s first name)</Text>
+                <Text>• Reviewer Last (reviewer&apos;s last name)</Text>
+                <Text>• Reviewer Email (reviewer&apos;s email address)</Text>
+                <Text>• Youth First (youth&apos;s first name)</Text>
+                <Text>• Youth Last (youth&apos;s last name)</Text>
+                <Text>• Youth Email (youth&apos;s email address)</Text>
               </Stack>
             }
             placement="right"
