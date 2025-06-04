@@ -89,7 +89,7 @@ const SurveyDetailsPage: React.FC = () => {
     refetch: refetchDetails,
   } = useQuery<SurveyDetail, Error>('surveyDetails', async () => {
     const surveyDetail = await apiClient.getSurveyAssignments(surveyUuid);
-    surveyDetail.assignments.sort((a) => a.id);
+    surveyDetail.assignments.sort((a1, a2) => a1.id - a2.id); // sort in ascending order
     return surveyDetail;
   });
 
@@ -109,7 +109,8 @@ const SurveyDetailsPage: React.FC = () => {
 
     if (!locationState || !locationState[ASSIGNMENTS_CREATE_STATE_KEY]) return;
 
-    const assignmentsCreateStatus = locationState[ASSIGNMENTS_CREATE_STATE_KEY]!;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const assignmentsCreateStatus = locationState[ASSIGNMENTS_CREATE_STATE_KEY];
 
     let toastMessage: string;
 
@@ -127,7 +128,7 @@ const SurveyDetailsPage: React.FC = () => {
       duration: TOAST_POPUP_DURATION,
       isClosable: true,
     });
-  }, []);
+  }, [location.state, toast]);
 
   const createAssignments = useCallback(
     async (assignments: AssignmentRow[]) => {

@@ -126,13 +126,13 @@ const CreateSurveyPage: React.FC = () => {
       />
       <Tabs mb={4}>
         <TabList>
-          <Tab>Survey Questions</Tab>
+          {/* <Tab>Survey Questions</Tab> */}
           <Tab>Upload Assignments (optional)</Tab>
         </TabList>
         <TabPanels>
-          <TabPanel>
+          {/* <TabPanel>
             <p>TODO: display survey questions</p>
-          </TabPanel>
+          </TabPanel> */}
           <TabPanel>
             <UploadAssignmentsForm
               assignments={assignments}

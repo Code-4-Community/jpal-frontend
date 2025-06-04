@@ -85,6 +85,7 @@ const UploadAssignmentsForm: React.FC<UploadAssignmentsFormProps> = ({
       Papa.parse(file, {
         header: true,
         skipEmptyLines: true,
+        transformHeader: (header) => header.trim(),
         complete: (res: Papa.ParseResult<Record<string, string>>) => {
           const csvValidStatus = validateCsv(res);
           if (!csvValidStatus.success) {
