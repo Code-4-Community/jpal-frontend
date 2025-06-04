@@ -127,7 +127,7 @@ const SurveyDetailsPage: React.FC = () => {
       duration: TOAST_POPUP_DURATION,
       isClosable: true,
     });
-  });
+  }, []);
 
   const createAssignments = useCallback(
     async (assignments: AssignmentRow[]) => {
