@@ -89,7 +89,7 @@ const SurveyDetailsPage: React.FC = () => {
     refetch: refetchDetails,
   } = useQuery<SurveyDetail, Error>('surveyDetails', async () => {
     const surveyDetail = await apiClient.getSurveyAssignments(surveyUuid);
-    surveyDetail.assignments.sort((a) => a.id);
+    surveyDetail.assignments.sort((a1, a2) => a1.id - a2.id); // sort in ascending order
     return surveyDetail;
   });
 
