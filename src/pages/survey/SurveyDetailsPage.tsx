@@ -98,10 +98,19 @@ const SurveyDetailsPage: React.FC = () => {
   const { isOpen: isModalOpen, onOpen: openModal, onClose: closeModal } = useDisclosure();
 
   useEffect(() => {
-    if (!location.state || !location.state[ASSIGNMENTS_CREATE_STATE_KEY]) return;
+    interface LocationState {
+      [ASSIGNMENTS_CREATE_STATE_KEY]?: {
+        success: boolean | null;
+        error: string;
+      };
+    }
 
-    const assignmentsCreateStatus: { success: boolean | null; error: string } =
-      location.state[ASSIGNMENTS_CREATE_STATE_KEY];
+    const locationState = location.state as LocationState | null;
+
+    if (!locationState || !locationState[ASSIGNMENTS_CREATE_STATE_KEY]) return;
+
+    const assignmentsCreateStatus = locationState[ASSIGNMENTS_CREATE_STATE_KEY]!;
+
     let toastMessage: string;
 
     if (assignmentsCreateStatus.success) {
