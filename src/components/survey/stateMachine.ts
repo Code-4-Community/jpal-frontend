@@ -107,13 +107,13 @@ const createSurveyViewMachine = (
             },
             REJECT: 'fillOutSurvey',
           },
-          always: [
-            {
-              target: 'confirmYouth',
-              actions: ['removeYouth', 'clearResponses'],
-              cond: 'isReviewingControlYouth',
-            },
-          ],
+          // always: [
+          //   {
+          //     target: 'confirmYouth',
+          //     actions: ['removeYouth', 'clearResponses'],
+          //     cond: 'isReviewingControlYouth',
+          //   },
+          // ],
         },
 
         repeatWithControl: {
