@@ -146,7 +146,7 @@ export class ApiClient {
       name: surveyName,
       surveyTemplateId: templateId,
       organizationName: 'placeholder',
-      imageBase64: '',
+      imageBase64: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==',
       treatmentPercentage: 50,
     }) as Promise<Survey>;
   }
