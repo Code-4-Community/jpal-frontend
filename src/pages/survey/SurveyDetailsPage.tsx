@@ -11,11 +11,14 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  IconButton,
+  Input,
   ModalOverlay,
   Text,
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
+import { EditIcon } from '@chakra-ui/icons'
 import apiClient, { SurveyDetail } from '../../api/apiClient';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
@@ -29,6 +32,7 @@ import UploadAssignmentsForm, {
   UploadStatus,
 } from '../../components/createSurveyPage/UploadAssignmentsForm';
 import SurveyDetailsTable from '../../components/survey/SurveyDetailsTable';
+
 
 interface AddAssignmentsModalProps {
   isOpen: boolean;
@@ -96,6 +100,14 @@ const SurveyDetailsPage: React.FC = () => {
   const toast = useToast();
   const location = useLocation();
   const { isOpen: isModalOpen, onOpen: openModal, onClose: closeModal } = useDisclosure();
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [surveyName, setSurveyName] = useState(data?.name || '');
+  const [surveyNameLength, setSurveyNameLength] = useState(data?.name.length || 0);
+
+  useEffect(() => {
+    setSurveyName(data?.name || '');
+    setSurveyNameLength(data?.name.length || 0);
+  }, [data]);
 
   useEffect(() => {
     interface LocationState {
@@ -158,6 +170,18 @@ const SurveyDetailsPage: React.FC = () => {
     [surveyUuid, toast, closeModal, refetchDetails],
   );
 
+  const handleSaveName = () => {
+    setIsEditingName(false);
+    apiClient.editSurveyName(surveyUuid, d, surveyName);
+  };
+
+  const handleKeyDown = (e: any) => {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      handleSaveName();
+    }
+  };
+
   return (
     <Container maxW="8xl">
       <Link to="/private">
@@ -178,9 +202,31 @@ const SurveyDetailsPage: React.FC = () => {
         <>
           <Heading size="lg" mb={6}>
             Survey Details for{' '}
-            <Text as="span" fontWeight="bold" color="blue.500">
-              {data.name}
-            </Text>
+            {isEditingName ? (
+              <Input
+                value={surveyName}
+                fontSize="inherit"
+                fontWeight="bold"
+                color="blue.500"
+                variant="unstyled"
+                display="inline"
+                outline="1px solid gray"
+                width={`${surveyNameLength}ch`}
+                onBlur={handleSaveName}
+                onKeyDown={handleKeyDown}
+                onChange={(e) => setSurveyName(e.target.value)}
+              />
+            ) : (
+              <Text as="span" fontWeight="bold" color="blue.500">
+                {surveyName}
+              </Text>
+            )}
+            <IconButton
+              aria-label='Edit survey'
+              style={{ marginLeft: '8px' }}
+              icon={<EditIcon />}
+              onClick={() => setIsEditingName(true)}
+            />
           </Heading>
           <SurveyDetailsTable data={data} />
         </>
