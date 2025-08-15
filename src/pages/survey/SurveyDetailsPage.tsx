@@ -172,7 +172,7 @@ const SurveyDetailsPage: React.FC = () => {
 
   const handleSaveName = () => {
     setIsEditingName(false);
-    apiClient.editSurveyName(surveyUuid, d, surveyName);
+    apiClient.editSurveyName(surveyUuid, surveyName);
   };
 
   const handleKeyDown = (e: any) => {

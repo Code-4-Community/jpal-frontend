@@ -155,8 +155,8 @@ export class ApiClient {
     return this.patch(`/survey`, { surveyUUID, pairs }) as Promise<void>;
   }
 
-  public async editSurveyName(surveyUuid?: string, id?: number, newName?: string): Promise<void> {
-    return this.patch(`/survey/${surveyUuid}`, { id: id, surveyName: newName }) as Promise<void>;
+  public async editSurveyName(surveyUuid?: string, newName?: string): Promise<void> {
+    return this.patch(`/survey/${surveyUuid}`, { uuid: surveyUuid, surveyName: newName }) as Promise<void>;
   }
 }
 
