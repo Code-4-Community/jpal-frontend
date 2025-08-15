@@ -145,6 +145,9 @@ export class ApiClient {
     return this.post(`/survey`, {
       name: surveyName,
       surveyTemplateId: templateId,
+      organizationName: 'placeholder',
+      imageBase64: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==',
+      treatmentPercentage: 50,
     }) as Promise<Survey>;
   }
 

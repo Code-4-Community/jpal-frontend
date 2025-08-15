@@ -110,7 +110,8 @@ const SurveyDetailsPage: React.FC = () => {
     if (!locationState || !locationState[ASSIGNMENTS_CREATE_STATE_KEY]) return;
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const assignmentsCreateStatus = locationState[ASSIGNMENTS_CREATE_STATE_KEY];
+    const assignmentsCreateStatus = locationState![ASSIGNMENTS_CREATE_STATE_KEY]!;
+
 
     let toastMessage: string;
 
