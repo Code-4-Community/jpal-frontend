@@ -18,7 +18,7 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import { EditIcon } from '@chakra-ui/icons'
+import { EditIcon, CheckIcon } from '@chakra-ui/icons'
 import apiClient, { SurveyDetail } from '../../api/apiClient';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
@@ -203,30 +203,40 @@ const SurveyDetailsPage: React.FC = () => {
           <Heading size="lg" mb={6}>
             Survey Details for{' '}
             {isEditingName ? (
-              <Input
-                value={surveyName}
-                fontSize="inherit"
-                fontWeight="bold"
-                color="blue.500"
-                variant="unstyled"
-                display="inline"
-                outline="1px solid gray"
-                width={`${surveyNameLength}ch`}
-                onBlur={handleSaveName}
-                onKeyDown={handleKeyDown}
-                onChange={(e) => setSurveyName(e.target.value)}
-              />
+              <div>
+                <Input
+                  value={surveyName}
+                  fontSize="inherit"
+                  fontWeight="bold"
+                  color="blue.500"
+                  variant="unstyled"
+                  display="inline"
+                  outline="1px solid gray"
+                  width={`${surveyNameLength}ch`}
+                  onBlur={handleSaveName}
+                  onKeyDown={handleKeyDown}
+                  onChange={(e) => setSurveyName(e.target.value)}
+                />
+                <IconButton
+                  aria-label='Edit survey'
+                  style={{ marginLeft: '8px' }}
+                  icon={<CheckIcon />}
+                  onClick={handleSaveName}
+                />
+              </div>
             ) : (
-              <Text as="span" fontWeight="bold" color="blue.500">
-                {surveyName}
-              </Text>
+              <div>
+                <Text as="span" fontWeight="bold" color="blue.500">
+                  {surveyName}
+                </Text>
+                <IconButton
+                  aria-label='Edit survey'
+                  style={{ marginLeft: '8px' }}
+                  icon={<EditIcon />}
+                  onClick={() => setIsEditingName(true)}
+                />
+              </div>
             )}
-            <IconButton
-              aria-label='Edit survey'
-              style={{ marginLeft: '8px' }}
-              icon={<EditIcon />}
-              onClick={() => setIsEditingName(true)}
-            />
           </Heading>
           <SurveyDetailsTable data={data} />
         </>
