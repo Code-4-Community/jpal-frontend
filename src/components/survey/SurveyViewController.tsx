@@ -96,10 +96,13 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
         <SurveyForm
           youthName={`${getCurrentYouth().firstName} ${getCurrentYouth().lastName}`}
           questions={questions}
-          continueAndSaveResponses={(responses: Response[]) =>
+          continueAndSaveResponses={(responses: Response[]) =>{
+            // eslint-disable-next-line no-console
+            console.log("pressing next")
             send('CONFIRM', {
               responses,
             })
+          }
           }
           goBack={() => send('REJECT')}
           savedResponses={state.context.lastSavedResponses}
@@ -107,36 +110,43 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
       )}
 
       {state.matches('confirmLetter') && (
-        <PreviewLetter
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          savedSurveyResponses={state.context.lastSavedResponses!}
-          getPreviewLetter={async () =>
-            apiClient.getPreviewLetter(
-              getCurrentYouth().assignmentUuid,
-              state.context.lastSavedResponses ?? [],
-            )
-          } // TODO: Move this into parent component in SurveyPage
-          confirmAndSaveResponses={async () => {
-            const youth = getCurrentYouth();
-            try {
-              await completeAssignment(
-                youth.assignmentUuid,
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                state.context.lastSavedResponses!,
-              );
-              send('CONFIRM');
-            } catch (error) {
-              toast({
-                title: 'Error submitting review.',
-                description: `Failed to submit a review for ${youth.firstName} ${youth.lastName}. Please try again. If this problem persists, please contact an administrator.`,
-                status: 'error',
-                duration: TOAST_POPUP_DURATION,
-                isClosable: true,
-              });
-            }
-          }}
-          goBack={() => send('REJECT')}
-        />
+        <>
+          {
+            // eslint-disable-next-line no-console
+            console.log("rendering letter preview")}
+          <PreviewLetter
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            savedSurveyResponses={state.context.lastSavedResponses!}
+            getPreviewLetter={async () =>
+              apiClient.getPreviewLetter(
+                getCurrentYouth().assignmentUuid,
+                state.context.lastSavedResponses ?? [],
+              )
+            } // TODO: Move this into parent component in SurveyPage
+            confirmAndSaveResponses={async () => {
+              const youth = getCurrentYouth();
+              try {
+                // eslint-disable-next-line no-console
+                console.log("submitting")
+                await completeAssignment(
+                  youth.assignmentUuid,
+                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                  state.context.lastSavedResponses!,
+                );
+                send('CONFIRM');
+              } catch (error) {
+                toast({
+                  title: 'Error submitting review.',
+                  description: `Failed to submit a review for ${youth.firstName} ${youth.lastName}. Please try again. If this problem persists, please contact an administrator.`,
+                  status: 'error',
+                  duration: TOAST_POPUP_DURATION,
+                  isClosable: true,
+                });
+              }
+            }}
+            goBack={() => send('REJECT')}
+          />
+        </>
       )}
 
       {state.matches('repeatWithControl') && (

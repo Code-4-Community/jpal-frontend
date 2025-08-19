@@ -145,6 +145,9 @@ export class ApiClient {
     return this.post(`/survey`, {
       name: surveyName,
       surveyTemplateId: templateId,
+      organizationName: 'placeholder',
+      imageBase64: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==',
+      treatmentPercentage: 50,
     }) as Promise<Survey>;
   }
 
@@ -153,6 +156,10 @@ export class ApiClient {
     pairs: { youth: PersonInfo; reviewer: PersonInfo }[],
   ): Promise<void> {
     return this.patch(`/survey`, { surveyUUID, pairs }) as Promise<void>;
+  }
+
+  public async editSurveyName(surveyUuid?: string, newName?: string): Promise<void> {
+    return this.patch(`/survey/${surveyUuid}`, { surveyName: newName }) as Promise<void>;
   }
 }
 
