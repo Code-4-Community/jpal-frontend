@@ -10,6 +10,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
+import apiClient from '../../api/apiClient';
 
 export interface ContactFormValues {
   email: string;
@@ -18,6 +19,7 @@ export interface ContactFormValues {
 
 interface ContactFormProps {
   onSubmit: () => void;
+  reviewerUUID: string;
 }
 
 const validateEmail = (value: string) => {
@@ -38,7 +40,7 @@ const validatePhoneNumber = (value: string) => {
   return error;
 };
 
-const ContactInfoCollect: React.FC<ContactFormProps> = ({ onSubmit }) => {
+const ContactInfoCollect: React.FC<ContactFormProps> = ({ onSubmit, reviewerUUID }) => {
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const toast = useToast();
@@ -70,6 +72,9 @@ const ContactInfoCollect: React.FC<ContactFormProps> = ({ onSubmit }) => {
       return;
     }
     // TODO: Send email and phone number to the backend
+
+    apiClient.updateReviewerContact(reviewerUUID, email, phoneNumber)
+
     onSubmit();
   };
 

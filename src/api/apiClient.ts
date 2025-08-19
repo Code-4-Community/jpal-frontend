@@ -91,6 +91,8 @@ export class ApiClient {
     return this.get('/auth/me') as Promise<User>;
   }
 
+ 
+
   public async createUser(
     firstName: string,
     lastName: string,
@@ -160,6 +162,10 @@ export class ApiClient {
 
   public async editSurveyName(surveyUuid?: string, newName?: string): Promise<void> {
     return this.patch(`/survey/${surveyUuid}`, { surveyName: newName }) as Promise<void>;
+  }
+
+  public async updateReviewerContact(reviewerUuid: string, email?: string, phoneNumber?: string): Promise<void> {
+    return this.patch(`/review/${reviewerUuid}`, { secondaryEmail: email, phone: phoneNumber }) as Promise<void>;
   }
 }
 
