@@ -38,7 +38,7 @@ export interface Assignment {
   s3LetterLink: string | null;
 }
 
-const defaultBaseUrl = process.env.REACT_APP_API_BASE_URL ?? 'http://localhost:5000';
+const defaultBaseUrl = process.env.REACT_APP_API_BASE_URL ?? 'http://localhost:5001';
 // Required to use nock with axios (note: do not use nock, just use jest to mock the apiClient)
 axios.defaults.adapter = require('axios/lib/adapters/http');
 
