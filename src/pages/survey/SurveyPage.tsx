@@ -47,7 +47,7 @@ const SurveyPage: React.FC = () => {
           treatmentYouth={data.treatmentYouth}
           controlYouth={data.controlYouth}
           completeAssignment={handleCompleteAssignment}
-          reviewerUUID={reviewerUuid ? reviewerUuid : ""}
+          reviewerUUID={reviewerUuid as string}
         />
       )}
     </Container>
