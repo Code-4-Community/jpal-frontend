@@ -33,6 +33,11 @@ export interface SurveyTemplate {
   questions: Question[];
 }
 
+export interface SurveyTemplateData {
+  id: number;
+  name: string;
+}
+
 export interface Question {
   question: string;
   options: string[];

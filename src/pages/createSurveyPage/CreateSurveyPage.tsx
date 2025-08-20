@@ -16,6 +16,7 @@ import UploadAssignmentsForm, {
   AssignmentRow,
   UploadStatus,
 } from '../../components/createSurveyPage/UploadAssignmentsForm';
+import UploadHeaderImage from '../../components/createSurveyPage/UploadHeaderImage'
 import { PersonInfo, Survey } from '../../api/dtos/survey-assignment.dto';
 import apiClient from '../../api/apiClient';
 import { TOAST_POPUP_DURATION } from '../basicConstants';
@@ -43,6 +44,7 @@ const CreateSurveyPage: React.FC = () => {
   const [uploadStatus, setUploadStatus] = useState<UploadStatus | null>(null);
   const [assignments, setAssignments] = useState<AssignmentRow[]>([]);
   const [surveyName, setSurveyName] = useState<string>('');
+  const [imageURL, setImageURL] = useState<string>('');
 
   const toast = useToast();
   const navigate = useNavigate();
@@ -127,12 +129,17 @@ const CreateSurveyPage: React.FC = () => {
       <Tabs mb={4}>
         <TabList>
           {/* <Tab>Survey Questions</Tab> */}
+          <Tab>Name, Image, Percentage (required)</Tab>
           <Tab>Upload Assignments (optional)</Tab>
         </TabList>
         <TabPanels>
           {/* <TabPanel>
             <p>TODO: display survey questions</p>
           </TabPanel> */}
+          <TabPanel>
+            <UploadHeaderImage
+            image=''/>
+          </TabPanel>
           <TabPanel>
             <UploadAssignmentsForm
               assignments={assignments}

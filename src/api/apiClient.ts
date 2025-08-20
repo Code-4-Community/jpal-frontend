@@ -11,6 +11,8 @@ import {
   Youth,
   PersonInfo,
   ResponseInfo,
+  SurveyTemplate,
+  SurveyTemplateData,
 } from './dtos/survey-assignment.dto';
 import User from './dtos/user.dto';
 
@@ -114,6 +116,11 @@ export class ApiClient {
     return surveysSchema.parse(surveys) as Survey[];
   }
 
+  public async getMySurveyTemplates(): Promise<SurveyTemplateData[]> {
+    const surveytemplates = await this.get('/survey-template');
+    return surveytemplates as Promise<SurveyTemplateData[]>;
+  }
+
   public async completeAssignment(assignmentUuid: string, responses: Response[]): Promise<void> {
     this.post(`/assignment/${assignmentUuid}`, { responses }).catch((BadRequestException) => {
       throw BadRequestException;
@@ -141,13 +148,19 @@ export class ApiClient {
     return this.get(`/survey/${surveyUuid}/assignments`) as Promise<SurveyDetail>;
   }
 
-  public async createSurvey(surveyName: string, templateId: number): Promise<Survey> {
+  public async createSurvey(
+    name: string,
+    surveyTemplateId: number,
+    organizationName: string,
+    imageBase64: string,
+    treatmentPercentage: number,
+  ): Promise<Survey> {
     return this.post(`/survey`, {
-      name: surveyName,
-      surveyTemplateId: templateId,
-      organizationName: 'placeholder',
-      imageBase64: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==',
-      treatmentPercentage: 50,
+      name,
+      surveyTemplateId,
+      organizationName,
+      imageBase64,
+      treatmentPercentage,
     }) as Promise<Survey>;
   }
 
