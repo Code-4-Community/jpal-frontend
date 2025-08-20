@@ -91,8 +91,6 @@ export class ApiClient {
     return this.get('/auth/me') as Promise<User>;
   }
 
- 
-
   public async createUser(
     firstName: string,
     lastName: string,
@@ -148,7 +146,8 @@ export class ApiClient {
       name: surveyName,
       surveyTemplateId: templateId,
       organizationName: 'placeholder',
-      imageBase64: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==',
+      imageBase64:
+        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==',
       treatmentPercentage: 50,
     }) as Promise<Survey>;
   }
@@ -164,8 +163,15 @@ export class ApiClient {
     return this.patch(`/survey/${surveyUuid}`, { surveyName: newName }) as Promise<void>;
   }
 
-  public async updateReviewerContact(reviewerUuid: string, email?: string, phoneNumber?: string): Promise<void> {
-    return this.patch(`/reviewer/${reviewerUuid}`, { secondaryEmail: email, phone: phoneNumber }) as Promise<void>;
+  public async updateReviewerContact(
+    reviewerUuid: string,
+    email?: string,
+    phoneNumber?: string,
+  ): Promise<void> {
+    return this.patch(`/reviewer/${reviewerUuid}`, {
+      secondaryEmail: email,
+      phone: phoneNumber,
+    }) as Promise<void>;
   }
 }
 
