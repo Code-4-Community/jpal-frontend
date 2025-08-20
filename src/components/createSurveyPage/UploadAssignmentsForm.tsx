@@ -121,7 +121,7 @@ const UploadAssignmentsForm: React.FC<UploadAssignmentsFormProps> = ({
     <>
       <FormControl>
         <FormLabel display="flex">
-          <b>Upload Assignments CSV: <a href="https://jpal-example-csv.s3.us-east-2.amazonaws.com/example-assignment.csv" download>Example CSV</a></b>
+          <b>Upload Assignments CSV: <a style={{ color: '#0080FF' }} href="https://jpal-example-csv.s3.us-east-2.amazonaws.com/example-assignment.csv" download>Example CSV</a></b>
           <Tooltip
             label={
               <Stack>
