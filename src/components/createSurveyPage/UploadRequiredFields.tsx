@@ -1,64 +1,54 @@
 import React, { useCallback } from 'react';
-import Papa from 'papaparse';
-import {
-  Box,
-  FormControl,
-  FormLabel,
-  Input,
-  Stack,
-  Table,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tooltip,
-  Tr,
-} from '@chakra-ui/react';
-import { QuestionIcon } from '@chakra-ui/icons';
+import { FormControl, FormLabel, Input } from '@chakra-ui/react';
 
 export type UploadStatus = { success: true } | { success: false; error: string };
 
-interface UploadHeaderImageFormProps {
-  image: string;
+interface UploadRequiredFieldsFormProps {
   setImage: React.Dispatch<React.SetStateAction<string>>;
   setUploadStatus: (status: UploadStatus) => void;
 }
 
-const UploadHeaderImage: React.FC<UploadHeaderImageFormProps> = ({
-  image,
+const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
   setImage,
   setUploadStatus,
 }) => {
-  const validateImage = useCallback((parsedData: Papa.ParseResult<unknown>): UploadStatus => {
-    // could not process image
-    if (!parsedData.meta.fields) {
-      return { success: false, error: 'Could not process image' };
-    }
-
-    return { success: true };
-  }, []);
-
   const onFormUpload = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (event.target.files === null) {
+      const file = event.target.files?.[0];
+
+      // no image file uploaded
+      if (file === null || file === undefined) {
         setUploadStatus({ success: false, error: 'No image given' });
         return;
       }
 
-      const file = event.target.files[0];
-
-      // file does not match extension criteria
-      /*
+      // image file does not match extension criteria
       if (!/\.(?:jpe?g|png|gif)$/i.test(file.name)) {
         setUploadStatus({ success: false, error: 'Image must be jpg, jpeg, png, or gif' });
         return;
-      }*/
+      }
 
       const reader = new FileReader();
+
+      // image file succesfully read
+      reader.onload = () => {
+        const base64Str = reader.result as string;
+        setImage(base64Str);
+        setUploadStatus({ success: true });
+      };
+
+      // handle errors
+      reader.onerror = () => {
+        setUploadStatus({
+          success: false,
+          error: 'Error while reading image file, try again with a different image.',
+        });
+      };
+
+      // read image as base64 string
       reader.readAsDataURL(file);
     },
-    [setUploadStatus, validateCsv, setAssignments],
+    [setUploadStatus, setImage],
   );
 
   return (
@@ -71,4 +61,4 @@ const UploadHeaderImage: React.FC<UploadHeaderImageFormProps> = ({
   );
 };
 
-export default UploadHeaderImage;
+export default UploadRequiredFields;

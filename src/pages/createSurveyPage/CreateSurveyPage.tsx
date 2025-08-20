@@ -16,7 +16,7 @@ import UploadAssignmentsForm, {
   AssignmentRow,
   UploadStatus,
 } from '../../components/createSurveyPage/UploadAssignmentsForm';
-import UploadHeaderImage from '../../components/createSurveyPage/UploadHeaderImage'
+import UploadRequiredFields from '../../components/createSurveyPage/UploadRequiredFields';
 import { PersonInfo, Survey } from '../../api/dtos/survey-assignment.dto';
 import apiClient from '../../api/apiClient';
 import { TOAST_POPUP_DURATION } from '../basicConstants';
@@ -43,8 +43,12 @@ export function assignmentRowToDTO(
 const CreateSurveyPage: React.FC = () => {
   const [uploadStatus, setUploadStatus] = useState<UploadStatus | null>(null);
   const [assignments, setAssignments] = useState<AssignmentRow[]>([]);
+  const [image, setImage] = useState<string>('');
+  const [organizationName, setOrganizationName] = useState<string>('');
+  const [splitPercentage, setSplitPercentage] = useState<number>(-1);
+
+  const [uploadImageStatus, setUploadImageStatus] = useState<UploadStatus | null>(null);
   const [surveyName, setSurveyName] = useState<string>('');
-  const [imageURL, setImageURL] = useState<string>('');
 
   const toast = useToast();
   const navigate = useNavigate();
@@ -109,6 +113,19 @@ const CreateSurveyPage: React.FC = () => {
     }
   }, [uploadStatus, toast]);
 
+  useEffect(() => {
+    if (uploadImageStatus !== null) {
+      toast({
+        status: uploadImageStatus.success ? 'success' : 'error',
+        description: uploadImageStatus.success
+          ? 'Image successfully uploaded'
+          : uploadImageStatus.error,
+        duration: TOAST_POPUP_DURATION,
+        isClosable: true,
+      });
+    }
+  }, [uploadImageStatus, toast]);
+
   return (
     <Container maxW="7xl">
       <Link to="/private">
@@ -137,8 +154,7 @@ const CreateSurveyPage: React.FC = () => {
             <p>TODO: display survey questions</p>
           </TabPanel> */}
           <TabPanel>
-            <UploadHeaderImage
-            image=''/>
+            <UploadRequiredFields setImage={setImage} setUploadStatus={setUploadImageStatus} />
           </TabPanel>
           <TabPanel>
             <UploadAssignmentsForm
@@ -153,7 +169,11 @@ const CreateSurveyPage: React.FC = () => {
         type="submit"
         colorScheme="teal"
         onClick={() => createSurvey()}
-        disabled={(uploadStatus !== null && !uploadStatus.success) || surveyName.length === 0}
+        disabled={
+          (uploadStatus !== null && !uploadStatus.success) ||
+          surveyName.length === 0 ||
+          (uploadImageStatus !== null && !uploadImageStatus.success)
+        }
       >
         Create Survey
       </Button>
