@@ -1,24 +1,23 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { 
-  Tooltip, 
-  Text, 
-  FormControl, 
-  FormLabel, 
-  Input, 
-  Code, 
-  Slider, 
-  Stack, 
-  useSlider, 
-  SliderTrack, 
-  SliderFilledTrack, 
+import {
+  Tooltip,
+  Text,
+  FormControl,
+  FormLabel,
+  Input,
+  Code,
+  Slider,
+  Stack,
+  useSlider,
+  SliderTrack,
+  SliderFilledTrack,
   SliderThumb,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
-  Button
-} 
-from '@chakra-ui/react';
+  Button,
+} from '@chakra-ui/react';
 import { QuestionIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import apiClient from '../../api/apiClient';
 import { SurveyTemplateData } from '../../api/dtos/survey-assignment.dto';
@@ -44,19 +43,17 @@ const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
   setImage,
   setUploadStatus,
   surveyTemplateData,
-  setSurveyTemplateData
-
-}) => {  
+  setSurveyTemplateData,
+}) => {
   const [surveyTemplates, setSurveyTemplates] = useState<SurveyTemplateData[]>([]);
 
   useEffect(() => {
-    const fetchSurveyTemplates = async() => {
+    const fetchSurveyTemplates = async () => {
       try {
         const mySurveyTemplates = await apiClient.getMySurveyTemplates();
         setSurveyTemplates(mySurveyTemplates);
-      }
-      catch (e) {
-        console.log("Failed to load survey templates: ", e.message);
+      } catch (e) {
+        console.error('Failed to load survey templates: ', e);
       }
     };
 
@@ -84,6 +81,7 @@ const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
       // image file succesfully read
       reader.onload = () => {
         const base64Str = reader.result as string;
+        setImage(base64Str);
         setUploadStatus({ success: true });
       };
 
@@ -106,17 +104,21 @@ const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
       <FormControl style={{ marginBottom: '1rem' }}>
         <FormLabel display="flex">
           <b>Organization Name</b>
-             <Tooltip
-                label="This is the name of the organization that will be displayed to survey respondents."
-                placement="right"
-                hasArrow
-              >
-              <QuestionIcon alignSelf="center" ml={2} />
-              </Tooltip>
+          <Tooltip
+            label="This is the name of the organization that will be displayed to survey respondents."
+            placement="right"
+            hasArrow
+          >
+            <QuestionIcon alignSelf="center" ml={2} />
+          </Tooltip>
         </FormLabel>
-        <Input placeholder="e.g. Accelerate Academy" onChange={(e) => setOrganizationName(e.target.value)} required />
+        <Input
+          placeholder="e.g. Accelerate Academy"
+          onChange={(e) => setOrganizationName(e.target.value)}
+          required
+        />
       </FormControl>
-      <FormControl  style={{ marginBottom: '1rem' }}>
+      <FormControl style={{ marginBottom: '1rem' }}>
         <FormLabel display="flex">
           <b>Upload Header Image</b>
           <Tooltip
@@ -124,7 +126,7 @@ const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
             placement="right"
             hasArrow
           >
-          <QuestionIcon alignSelf="center" ml={2} />
+            <QuestionIcon alignSelf="center" ml={2} />
           </Tooltip>
         </FormLabel>
         <Input type="file" accept="image/*" onChange={onFormUpload} required />
@@ -137,31 +139,38 @@ const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
             placement="right"
             hasArrow
           >
-          <QuestionIcon alignSelf="center" ml={2} />
+            <QuestionIcon alignSelf="center" ml={2} />
           </Tooltip>
         </FormLabel>
-            <Stack align="flex-start">
-              <div style={{alignItems: "center", display: "flex", flexDirection: 'column'}}>
-              <Slider
-                aria-label="split-percentage-slider"
-                value={splitPercentage}
-                onChange={(e) => setSplitPercentage(e)}
-                min={0}
-                max={100}
-                width="300px"
-              >
-                <SliderTrack>
-                  <SliderFilledTrack />
-                </SliderTrack>
-                <SliderThumb />
-              </Slider>
-              <Code style={{backgroundColor: 'transparent', fontFamily: 'Inter', fontWeight: 'bold', color: '#4A90E2'}}>
-                {splitPercentage}%
-                </Code>
-              </div>
-            </Stack>
+        <Stack align="flex-start">
+          <div style={{ alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
+            <Slider
+              aria-label="split-percentage-slider"
+              value={splitPercentage}
+              onChange={(e) => setSplitPercentage(e)}
+              min={0}
+              max={100}
+              width="300px"
+            >
+              <SliderTrack>
+                <SliderFilledTrack />
+              </SliderTrack>
+              <SliderThumb />
+            </Slider>
+            <Code
+              style={{
+                backgroundColor: 'transparent',
+                fontFamily: 'Inter',
+                fontWeight: 'bold',
+                color: '#4A90E2',
+              }}
+            >
+              {splitPercentage}%
+            </Code>
+          </div>
+        </Stack>
       </FormControl>
-      <FormControl  style={{ marginBottom: '1rem' }}>
+      <FormControl style={{ marginBottom: '1rem' }}>
         <FormLabel display="flex">
           <b>Survey Template</b>
           <Tooltip
@@ -169,18 +178,21 @@ const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
             placement="right"
             hasArrow
           >
-          <QuestionIcon alignSelf="center" ml={2} />
+            <QuestionIcon alignSelf="center" ml={2} />
           </Tooltip>
         </FormLabel>
         <Menu>
-          <MenuButton as={Button} width="200px" colorScheme="gray" rightIcon={<ChevronDownIcon  />}>
-            {surveyTemplateData ? surveyTemplateData.name : 'Select a template'} 
+          <MenuButton as={Button} width="200px" colorScheme="gray" rightIcon={<ChevronDownIcon />}>
+            {surveyTemplateData ? surveyTemplateData.name : 'Select a template'}
           </MenuButton>
           <MenuList>
             {surveyTemplates.map((template: SurveyTemplateData) => (
               <MenuItem
                 key={template.id}
-                onClick={() => setSurveyTemplateData(template)}
+                onClick={() => {
+                  setSurveyTemplateData(template);
+                  console.log('selected: ', template);
+                }}
               >
                 {template.name}
               </MenuItem>
@@ -188,7 +200,6 @@ const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
           </MenuList>
         </Menu>
       </FormControl>
-
     </div>
   );
 };
