@@ -38,12 +38,10 @@ export interface SurveyTemplateData {
   name: string;
 }
 
-
 export const surveyTemplateSchema = z.object({
   id: z.number(),
   name: z.string(),
 });
-
 
 export const surveyTemplatesSchema = z.array(surveyTemplateSchema);
 
