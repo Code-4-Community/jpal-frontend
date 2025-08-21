@@ -32,6 +32,7 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
   completeAssignment,
   reviewer,
   questions,
+  reviewerUUID,
 }) => {
   // See state machine visualization in `stateMachine.ts` for the entire state machine flow.
   const [state, send] = useMachine(createSurveyViewMachine(treatmentYouth, controlYouth));
@@ -73,7 +74,7 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
       )}
 
       {state.matches('provideContactInfo') && (
-        <CollectContactPage confirm={() => send('CONFIRM')} />
+        <CollectContactPage confirm={() => send('CONFIRM')} reviewerUUID={reviewerUUID} />
       )}
 
       {state.matches('confirmAssignments') && (

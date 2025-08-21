@@ -8,6 +8,7 @@ export interface SurveyData {
   controlYouth: Youth[];
   treatmentYouth: Youth[];
   questions: Question[];
+  reviewerUUID: string;
 }
 
 export const surveySchema = z.object({

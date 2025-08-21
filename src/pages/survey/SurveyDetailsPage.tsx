@@ -203,8 +203,8 @@ const SurveyDetailsPage: React.FC = () => {
         <>
           <Heading size="lg" mb={6}>
             Survey Details for{' '}
-            {isEditingName ? (
-              <div>
+{isEditingName ? (
+              <span>
                 <Input
                   value={surveyName}
                   fontSize="inherit"
@@ -224,9 +224,9 @@ const SurveyDetailsPage: React.FC = () => {
                   icon={<CheckIcon />}
                   onClick={handleSaveName}
                 />
-              </div>
+              </span>
             ) : (
-              <div>
+              <span>
                 <Text as="span" fontWeight="bold" color="blue.500">
                   {surveyName}
                 </Text>
@@ -236,7 +236,7 @@ const SurveyDetailsPage: React.FC = () => {
                   icon={<EditIcon />}
                   onClick={() => setIsEditingName(true)}
                 />
-              </div>
+              </span>
             )}
           </Heading>
           <SurveyDetailsTable data={data} />
