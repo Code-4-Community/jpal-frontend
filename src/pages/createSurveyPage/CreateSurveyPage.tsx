@@ -17,7 +17,7 @@ import UploadAssignmentsForm, {
   UploadStatus,
 } from '../../components/createSurveyPage/UploadAssignmentsForm';
 import UploadRequiredFields from '../../components/createSurveyPage/UploadRequiredFields';
-import { PersonInfo, Survey } from '../../api/dtos/survey-assignment.dto';
+import { PersonInfo, Survey, SurveyTemplateData } from '../../api/dtos/survey-assignment.dto';
 import apiClient from '../../api/apiClient';
 import { TOAST_POPUP_DURATION } from '../basicConstants';
 
@@ -45,7 +45,8 @@ const CreateSurveyPage: React.FC = () => {
   const [assignments, setAssignments] = useState<AssignmentRow[]>([]);
   const [image, setImage] = useState<string>('');
   const [organizationName, setOrganizationName] = useState<string>('');
-  const [splitPercentage, setSplitPercentage] = useState<number>(-1);
+  const [splitPercentage, setSplitPercentage] = useState<number>(0);
+  const [surveyTemplateData, setSurveyTemplateData] = useState<SurveyTemplateData | null>(null);
 
   const [uploadImageStatus, setUploadImageStatus] = useState<UploadStatus | null>(null);
   const [surveyName, setSurveyName] = useState<string>('');
@@ -55,24 +56,36 @@ const CreateSurveyPage: React.FC = () => {
 
   const createSurvey = useCallback(async () => {
     let survey: Survey;
-    try {
-      // Create survey with the (only) default template for now
-      // TODO: change when custom survey templates are added
-      survey = await apiClient.createSurvey(surveyName, 1);
-    } catch (e) {
-      let errorMessage = 'Failed to create survey';
-      if (e instanceof Error) {
-        errorMessage += `: ${e.message}`;
-      }
 
+    if (!surveyTemplateData) {
       toast({
         status: 'error',
-        description: errorMessage,
+        description: 'No survey template selected',
         duration: TOAST_POPUP_DURATION,
         isClosable: true,
       });
       return;
     }
+
+    try {
+        // Create survey with the (only) default template for now
+        // TODO: change when custom survey templates are added
+        survey = await apiClient.createSurvey(surveyName, surveyTemplateData?.id, organizationName, image, splitPercentage);
+      } catch (e) {
+        let errorMessage = 'Failed to create survey';
+        if (e instanceof Error) {
+          errorMessage += `: ${e.message}`;
+        }
+
+        toast({
+          status: 'error',
+          description: errorMessage,
+          duration: TOAST_POPUP_DURATION,
+          isClosable: true,
+        });
+        return;
+      }
+  
 
     // 3-way boolean for assignment creation:
     // - null: no assignments were given
@@ -154,7 +167,15 @@ const CreateSurveyPage: React.FC = () => {
             <p>TODO: display survey questions</p>
           </TabPanel> */}
           <TabPanel>
-            <UploadRequiredFields setImage={setImage} setUploadStatus={setUploadImageStatus} />
+            <UploadRequiredFields 
+              setOrganizationName = {setOrganizationName} 
+              organizationName = {organizationName}
+              setSplitPercentage={setSplitPercentage} 
+              splitPercentage={splitPercentage}
+              setImage={setImage} 
+              setUploadStatus={setUploadImageStatus}
+              surveyTemplateData={surveyTemplateData}
+              setSurveyTemplateData={setSurveyTemplateData} />
           </TabPanel>
           <TabPanel>
             <UploadAssignmentsForm
@@ -172,7 +193,10 @@ const CreateSurveyPage: React.FC = () => {
         disabled={
           (uploadStatus !== null && !uploadStatus.success) ||
           surveyName.length === 0 ||
-          (uploadImageStatus !== null && !uploadImageStatus.success)
+          (uploadImageStatus !== null && !uploadImageStatus.success) ||
+          organizationName.length === 0 ||
+          splitPercentage === 0 ||
+          !surveyTemplateData || !surveyTemplateData.id
         }
       >
         Create Survey

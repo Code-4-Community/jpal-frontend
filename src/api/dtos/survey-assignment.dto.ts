@@ -38,6 +38,11 @@ export interface SurveyTemplateData {
   name: string;
 }
 
+export const surveyTemplateSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+});
+
 export interface Question {
   question: string;
   options: string[];

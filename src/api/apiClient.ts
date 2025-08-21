@@ -12,7 +12,8 @@ import {
   PersonInfo,
   ResponseInfo,
   SurveyTemplate,
-  SurveyTemplateData,
+  surveyTemplateSchema,
+  SurveyTemplateData
 } from './dtos/survey-assignment.dto';
 import User from './dtos/user.dto';
 
@@ -118,7 +119,7 @@ export class ApiClient {
 
   public async getMySurveyTemplates(): Promise<SurveyTemplateData[]> {
     const surveytemplates = await this.get('/survey-template');
-    return surveytemplates as Promise<SurveyTemplateData[]>;
+    return surveyTemplateSchema.parse(surveytemplates) as SurveyTemplateData[];
   }
 
   public async completeAssignment(assignmentUuid: string, responses: Response[]): Promise<void> {
