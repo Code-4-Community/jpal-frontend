@@ -26,7 +26,6 @@ export type UploadStatus = { success: true } | { success: false; error: string }
 
 interface UploadRequiredFieldsFormProps {
   setOrganizationName: React.Dispatch<React.SetStateAction<string>>;
-  organizationName: string;
   setSplitPercentage: React.Dispatch<React.SetStateAction<number>>;
   splitPercentage: number;
   setImage: React.Dispatch<React.SetStateAction<string>>;
@@ -37,7 +36,6 @@ interface UploadRequiredFieldsFormProps {
 
 const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
   setOrganizationName,
-  organizationName,
   setSplitPercentage,
   splitPercentage,
   setImage,
@@ -53,7 +51,7 @@ const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
         const mySurveyTemplates = await apiClient.getMySurveyTemplates();
         setSurveyTemplates(mySurveyTemplates);
       } catch (e) {
-        console.error('Failed to load survey templates: ', e);
+        setSurveyTemplateData([]);
       }
     };
 
@@ -191,7 +189,6 @@ const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
                 key={template.id}
                 onClick={() => {
                   setSurveyTemplateData(template);
-                  console.log('selected: ', template);
                 }}
               >
                 {template.name}

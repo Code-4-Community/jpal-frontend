@@ -56,10 +56,6 @@ const CreateSurveyPage: React.FC = () => {
   const toast = useToast();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log(surveyTemplateData);
-  }, [surveyTemplateData]);
-
   const createSurvey = useCallback(async () => {
     let survey: Survey;
 
@@ -193,7 +189,6 @@ const CreateSurveyPage: React.FC = () => {
           <TabPanel>
             <UploadRequiredFields
               setOrganizationName={setOrganizationName}
-              organizationName={organizationName}
               setSplitPercentage={setSplitPercentage}
               splitPercentage={splitPercentage}
               setImage={setImage}
