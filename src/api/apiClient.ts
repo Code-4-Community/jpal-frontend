@@ -176,6 +176,17 @@ export class ApiClient {
   public async editSurveyName(surveyUuid?: string, newName?: string): Promise<void> {
     return this.patch(`/survey/${surveyUuid}`, { surveyName: newName }) as Promise<void>;
   }
+
+  public async updateReviewerContact(
+    reviewerUuid: string,
+    email?: string,
+    phoneNumber?: string,
+  ): Promise<void> {
+    return this.patch(`/reviewer/${reviewerUuid}`, {
+      secondaryEmail: email,
+      phone: phoneNumber,
+    }) as Promise<void>;
+  }
 }
 
 export default new ApiClient();
