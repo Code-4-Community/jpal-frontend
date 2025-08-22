@@ -97,10 +97,10 @@ const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
           const { width, height } = img;
 
           // set max dimensions here
-          if (width > 500 || height > 250) {
+          if (width > 250 || height > 150) {
             setUploadStatus({
               success: false,
-              error: `Image is too large. Maximum size is 500x250px (got ${width}x${height}).`,
+              error: `Image is too large. Maximum size is 250x150px (got ${width}x${height}).`,
             });
             return;
           }
