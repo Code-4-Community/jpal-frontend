@@ -18,7 +18,7 @@ import {
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
-import { EditIcon, CheckIcon } from '@chakra-ui/icons'
+import { EditIcon, CheckIcon } from '@chakra-ui/icons';
 import apiClient, { SurveyDetail } from '../../api/apiClient';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
@@ -32,7 +32,6 @@ import UploadAssignmentsForm, {
   UploadStatus,
 } from '../../components/createSurveyPage/UploadAssignmentsForm';
 import SurveyDetailsTable from '../../components/survey/SurveyDetailsTable';
-
 
 interface AddAssignmentsModalProps {
   isOpen: boolean;
@@ -124,7 +123,6 @@ const SurveyDetailsPage: React.FC = () => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const assignmentsCreateStatus = locationState![ASSIGNMENTS_CREATE_STATE_KEY]!;
 
-
     let toastMessage: string;
 
     if (assignmentsCreateStatus.success) {
@@ -178,7 +176,7 @@ const SurveyDetailsPage: React.FC = () => {
 
   const handleKeyDown = (e: any) => {
     if (e.key === 'Enter') {
-      e.preventDefault()
+      e.preventDefault();
       handleSaveName();
     }
   };
@@ -203,7 +201,7 @@ const SurveyDetailsPage: React.FC = () => {
         <>
           <Heading size="lg" mb={6}>
             Survey Details for{' '}
-{isEditingName ? (
+            {isEditingName ? (
               <span>
                 <Input
                   value={surveyName}
@@ -219,7 +217,7 @@ const SurveyDetailsPage: React.FC = () => {
                   onChange={(e) => setSurveyName(e.target.value)}
                 />
                 <IconButton
-                  aria-label='Edit survey'
+                  aria-label="Edit survey"
                   style={{ marginLeft: '8px' }}
                   icon={<CheckIcon />}
                   onClick={handleSaveName}
@@ -231,7 +229,7 @@ const SurveyDetailsPage: React.FC = () => {
                   {surveyName}
                 </Text>
                 <IconButton
-                  aria-label='Edit survey'
+                  aria-label="Edit survey"
                   style={{ marginLeft: '8px' }}
                   icon={<EditIcon />}
                   onClick={() => setIsEditingName(true)}

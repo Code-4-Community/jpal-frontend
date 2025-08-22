@@ -32,9 +32,9 @@ const SurveyPage: React.FC = () => {
 
   const handleCompleteAssignment = (assignmentUuid: string, responses: Response[]) => {
     // eslint-disable-next-line no-console
-    console.log("handle complete assignment!")
+    console.log('handle complete assignment!');
     return apiClient.completeAssignment(assignmentUuid, responses);
-  }
+  };
 
   return (
     <Container maxW="4xl" marginY="4">

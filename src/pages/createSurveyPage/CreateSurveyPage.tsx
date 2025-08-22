@@ -16,7 +16,8 @@ import UploadAssignmentsForm, {
   AssignmentRow,
   UploadStatus,
 } from '../../components/createSurveyPage/UploadAssignmentsForm';
-import { PersonInfo, Survey } from '../../api/dtos/survey-assignment.dto';
+import UploadRequiredFields from '../../components/createSurveyPage/UploadRequiredFields';
+import { PersonInfo, Survey, SurveyTemplateData } from '../../api/dtos/survey-assignment.dto';
 import apiClient from '../../api/apiClient';
 import { TOAST_POPUP_DURATION } from '../basicConstants';
 
@@ -42,6 +43,14 @@ export function assignmentRowToDTO(
 const CreateSurveyPage: React.FC = () => {
   const [uploadStatus, setUploadStatus] = useState<UploadStatus | null>(null);
   const [assignments, setAssignments] = useState<AssignmentRow[]>([]);
+  const [image, setImage] = useState<string>('');
+  const [organizationName, setOrganizationName] = useState<string>('');
+  const [splitPercentage, setSplitPercentage] = useState<number>(0);
+  const [surveyTemplateData, setSurveyTemplateData] = useState<SurveyTemplateData | null>(null);
+  const [tabIndex, setTabIndex] = useState<number>(0);
+  const [disableUploadTab, setDisableUploadTab] = useState<boolean>(true);
+
+  const [uploadImageStatus, setUploadImageStatus] = useState<UploadStatus | null>(null);
   const [surveyName, setSurveyName] = useState<string>('');
 
   const toast = useToast();
@@ -49,10 +58,27 @@ const CreateSurveyPage: React.FC = () => {
 
   const createSurvey = useCallback(async () => {
     let survey: Survey;
+
+    if (!surveyTemplateData) {
+      toast({
+        status: 'error',
+        description: 'No survey template selected',
+        duration: TOAST_POPUP_DURATION,
+        isClosable: true,
+      });
+      return;
+    }
+
     try {
       // Create survey with the (only) default template for now
       // TODO: change when custom survey templates are added
-      survey = await apiClient.createSurvey(surveyName, 1);
+      survey = await apiClient.createSurvey(
+        surveyName,
+        surveyTemplateData?.id,
+        organizationName,
+        image,
+        splitPercentage,
+      );
     } catch (e) {
       let errorMessage = 'Failed to create survey';
       if (e instanceof Error) {
@@ -107,6 +133,19 @@ const CreateSurveyPage: React.FC = () => {
     }
   }, [uploadStatus, toast]);
 
+  useEffect(() => {
+    if (uploadImageStatus !== null) {
+      toast({
+        status: uploadImageStatus.success ? 'success' : 'error',
+        description: uploadImageStatus.success
+          ? 'Image successfully uploaded'
+          : uploadImageStatus.error,
+        duration: TOAST_POPUP_DURATION,
+        isClosable: true,
+      });
+    }
+  }, [uploadImageStatus, toast]);
+
   return (
     <Container maxW="7xl">
       <Link to="/private">
@@ -124,15 +163,40 @@ const CreateSurveyPage: React.FC = () => {
         mb={8}
         isInvalid={surveyName.length === 0}
       />
-      <Tabs mb={4}>
+      <Tabs mb={4} index={tabIndex} onChange={setTabIndex}>
         <TabList>
           {/* <Tab>Survey Questions</Tab> */}
-          <Tab>Upload Assignments (optional)</Tab>
+          <Tab>Name, Image, Percentage</Tab>
+          <Tab
+            isDisabled={
+              disableUploadTab ||
+              surveyName.length === 0 ||
+              (uploadImageStatus !== null && !uploadImageStatus.success) ||
+              organizationName.length === 0 ||
+              splitPercentage === 0 ||
+              !surveyTemplateData ||
+              !surveyTemplateData.id ||
+              !uploadImageStatus
+            }
+          >
+            Upload Assignments
+          </Tab>
         </TabList>
         <TabPanels>
           {/* <TabPanel>
             <p>TODO: display survey questions</p>
           </TabPanel> */}
+          <TabPanel>
+            <UploadRequiredFields
+              setOrganizationName={setOrganizationName}
+              setSplitPercentage={setSplitPercentage}
+              splitPercentage={splitPercentage}
+              setImage={setImage}
+              setUploadStatus={setUploadImageStatus}
+              surveyTemplateData={surveyTemplateData}
+              setSurveyTemplateData={setSurveyTemplateData}
+            />
+          </TabPanel>
           <TabPanel>
             <UploadAssignmentsForm
               assignments={assignments}
@@ -145,8 +209,39 @@ const CreateSurveyPage: React.FC = () => {
       <Button
         type="submit"
         colorScheme="teal"
+        onClick={() => {
+          setTabIndex(1);
+          setDisableUploadTab(false);
+        }}
+        disabled={
+          surveyName.length === 0 ||
+          (uploadImageStatus !== null && !uploadImageStatus.success) ||
+          organizationName.length === 0 ||
+          splitPercentage === 0 ||
+          !surveyTemplateData ||
+          !surveyTemplateData.id ||
+          !uploadImageStatus
+        }
+        hidden={tabIndex !== 0}
+      >
+        Next
+      </Button>
+      <Button
+        type="submit"
+        colorScheme="teal"
         onClick={() => createSurvey()}
-        disabled={(uploadStatus !== null && !uploadStatus.success) || surveyName.length === 0}
+        disabled={
+          !uploadStatus ||
+          (uploadStatus !== null && !uploadStatus.success) ||
+          surveyName.length === 0 ||
+          (uploadImageStatus !== null && !uploadImageStatus.success) ||
+          organizationName.length === 0 ||
+          splitPercentage === 0 ||
+          !surveyTemplateData ||
+          !surveyTemplateData.id ||
+          !uploadImageStatus
+        }
+        hidden={tabIndex !== 1}
       >
         Create Survey
       </Button>

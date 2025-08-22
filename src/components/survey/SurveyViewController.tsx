@@ -97,14 +97,13 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
         <SurveyForm
           youthName={`${getCurrentYouth().firstName} ${getCurrentYouth().lastName}`}
           questions={questions}
-          continueAndSaveResponses={(responses: Response[]) =>{
+          continueAndSaveResponses={(responses: Response[]) => {
             // eslint-disable-next-line no-console
-            console.log("pressing next")
+            console.log('pressing next');
             send('CONFIRM', {
               responses,
-            })
-          }
-          }
+            });
+          }}
           goBack={() => send('REJECT')}
           savedResponses={state.context.lastSavedResponses}
         />
@@ -114,7 +113,8 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
         <>
           {
             // eslint-disable-next-line no-console
-            console.log("rendering letter preview")}
+            console.log('rendering letter preview')
+          }
           <PreviewLetter
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             savedSurveyResponses={state.context.lastSavedResponses!}
@@ -128,7 +128,7 @@ const SurveyViewController: React.FC<SurveyViewControllerProps> = ({
               const youth = getCurrentYouth();
               try {
                 // eslint-disable-next-line no-console
-                console.log("submitting")
+                console.log('submitting');
                 await completeAssignment(
                   youth.assignmentUuid,
                   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
