@@ -201,7 +201,7 @@ const SurveyDetailsPage: React.FC = () => {
         <>
           <Heading size="lg" mb={6}>
             Survey Details for{' '}
-{isEditingName ? (
+            {isEditingName ? (
               <span>
                 <Input
                   value={surveyName}

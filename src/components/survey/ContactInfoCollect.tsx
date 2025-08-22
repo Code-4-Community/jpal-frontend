@@ -73,7 +73,7 @@ const ContactInfoCollect: React.FC<ContactFormProps> = ({ onSubmit, reviewerUUID
     }
     // TODO: Send email and phone number to the backend
 
-    apiClient.updateReviewerContact(reviewerUUID, email, phoneNumber)
+    apiClient.updateReviewerContact(reviewerUUID, email, phoneNumber);
 
     onSubmit();
   };

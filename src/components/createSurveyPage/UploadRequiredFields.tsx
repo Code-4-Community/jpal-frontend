@@ -22,6 +22,17 @@ import { QuestionIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import apiClient from '../../api/apiClient';
 import { SurveyTemplateData } from '../../api/dtos/survey-assignment.dto';
 
+  interface TooltipProps {
+      message: string;
+    }
+
+    const CustomTooltip: React.FC<TooltipProps> = ({ message }) => (
+      <Tooltip label={message} placement="right" hasArrow>
+        <QuestionIcon alignSelf="center" ml={2} />
+      </Tooltip>
+    );
+
+
 export type UploadStatus = { success: true } | { success: false; error: string };
 
 interface UploadRequiredFieldsFormProps {
@@ -51,7 +62,7 @@ const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
         const mySurveyTemplates = await apiClient.getMySurveyTemplates();
         setSurveyTemplates(mySurveyTemplates);
       } catch (e) {
-        setSurveyTemplateData([]);
+        setSurveyTemplateData(null);
       }
     };
 
@@ -79,8 +90,33 @@ const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
       // image file succesfully read
       reader.onload = () => {
         const base64Str = reader.result as string;
-        setImage(base64Str);
-        setUploadStatus({ success: true });
+
+        // test image size
+        const img = new Image();
+        img.onload = () => {
+          const { width, height } = img;
+
+          // set max dimensions here
+          if (width > 500 || height > 250) {
+            setUploadStatus({
+              success: false,
+              error: `Image is too large. Maximum size is 500x250px (got ${width}x${height}).`,
+            });
+            return;
+          }
+
+          setImage(base64Str);
+          setUploadStatus({ success: true });
+        };
+
+        img.onerror = () => {
+          setUploadStatus({
+            success: false,
+            error: 'Could not load image to check dimensions.',
+          });
+        };
+
+        img.src = base64Str;
       };
 
       // handle errors
@@ -97,18 +133,13 @@ const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
     [setUploadStatus, setImage],
   );
 
+
   return (
     <div>
       <FormControl style={{ marginBottom: '1rem' }}>
         <FormLabel display="flex">
           <b>Organization Name</b>
-          <Tooltip
-            label="This is the name of the organization that will be displayed to survey respondents."
-            placement="right"
-            hasArrow
-          >
-            <QuestionIcon alignSelf="center" ml={2} />
-          </Tooltip>
+          <CustomTooltip message="This is the name of the organization that will be displayed to survey respondents." />
         </FormLabel>
         <Input
           placeholder="e.g. Accelerate Academy"
@@ -119,26 +150,14 @@ const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
       <FormControl style={{ marginBottom: '1rem' }}>
         <FormLabel display="flex">
           <b>Upload Header Image</b>
-          <Tooltip
-            label="This is the logo of the organization that will be displayed to survey respondents."
-            placement="right"
-            hasArrow
-          >
-            <QuestionIcon alignSelf="center" ml={2} />
-          </Tooltip>
+          <CustomTooltip message="This is the logo of the organization that will be displayed to survey respondents." />
         </FormLabel>
         <Input type="file" accept="image/*" onChange={onFormUpload} required />
       </FormControl>
       <FormControl style={{ marginBottom: '1rem' }}>
         <FormLabel display="flex">
           <b>Input Split Percentage</b>
-          <Tooltip
-            label="This is the percentage of youth that will receive letters (percentage in treatment group)."
-            placement="right"
-            hasArrow
-          >
-            <QuestionIcon alignSelf="center" ml={2} />
-          </Tooltip>
+          <CustomTooltip message="This is the percentage of youth that will receive letters (percentage in treatment group)."/>
         </FormLabel>
         <Stack align="flex-start">
           <div style={{ alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
@@ -163,7 +182,7 @@ const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
                 color: '#4A90E2',
               }}
             >
-              {splitPercentage}%
+              {splitPercentage}% in treatment group
             </Code>
           </div>
         </Stack>
@@ -171,16 +190,10 @@ const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
       <FormControl style={{ marginBottom: '1rem' }}>
         <FormLabel display="flex">
           <b>Survey Template</b>
-          <Tooltip
-            label="This is the survey template with the questions that will be given to participants."
-            placement="right"
-            hasArrow
-          >
-            <QuestionIcon alignSelf="center" ml={2} />
-          </Tooltip>
+          <CustomTooltip message="This is the survey template with the questions that will be given to participants."/>
         </FormLabel>
         <Menu>
-          <MenuButton as={Button} width="200px" colorScheme="gray" rightIcon={<ChevronDownIcon />}>
+          <MenuButton as={Button} min-width="200px" colorScheme="gray" width="fit-content" rightIcon={<ChevronDownIcon />}>
             {surveyTemplateData ? surveyTemplateData.name : 'Select a template'}
           </MenuButton>
           <MenuList>
