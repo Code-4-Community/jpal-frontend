@@ -20,7 +20,7 @@ const SurveyPage: React.FC = () => {
     ['survey', surveyUuid, reviewerUuid],
     () => {
       if (!surveyUuid || !reviewerUuid) throw new Error();
-      return apiClient.getSurvey(surveyUuid, reviewerUuid);
+      return apiClient.getSurveyData(surveyUuid, reviewerUuid);
     },
     {
       staleTime: TWENTY_FOUR_HOURS,

@@ -33,6 +33,7 @@ import UploadAssignmentsForm, {
 } from '../../components/createSurveyPage/UploadAssignmentsForm';
 import SurveyDetailsTable from '../../components/survey/SurveyDetailsTable';
 import UploadRequiredFields from '../../components/createSurveyPage/UploadRequiredFields';
+import { Survey } from '../../api/dtos/survey-assignment.dto';
 
 interface AddAssignmentsModalProps {
   isOpen: boolean;
@@ -170,23 +171,35 @@ const SurveyDetailsPage: React.FC = () => {
     error,
     data,
     refetch: refetchDetails,
-  } = useQuery<SurveyDetail, Error>('surveyDetails', async () => {
-    const surveyDetail = await apiClient.getSurveyAssignments(surveyUuid);
-    surveyDetail.assignments.sort((a1, a2) => a1.id - a2.id); // sort in ascending order
-    return surveyDetail;
+  } = useQuery<Survey, Error>('survey', async () => {
+    const { assignments } = await apiClient.getSurveyAssignments(surveyUuid);
+    const survey = { ...(await apiClient.getSurvey(surveyUuid)), assignments };
+    return survey;
   });
-
+  const [name, setName] = useState('');
+  const [orgName, setOrgName] = useState('');
+  const [headerImage, setHeaderImage] = useState('');
+  const [percentage, setPercentage] = useState(0);
   const toast = useToast();
   const location = useLocation();
   const { isOpen: isModalOpen, onOpen: openModal, onClose: closeModal } = useDisclosure();
-  const { isOpen: isEditModalOpen, onOpen: openEditModal, onClose: closeEditModal } = useDisclosure();
+  const {
+    isOpen: isEditModalOpen,
+    onOpen: openEditModal,
+    onClose: closeEditModal,
+  } = useDisclosure();
   const [isEditingName, setIsEditingName] = useState(false);
   const [surveyName, setSurveyName] = useState(data?.name || '');
   const [surveyNameLength, setSurveyNameLength] = useState(data?.name.length || 0);
 
   useEffect(() => {
+    data?.assignments.sort((a1, a2) => a1.id - a2.id); // sort in ascending order
     setSurveyName(data?.name || '');
     setSurveyNameLength(data?.name.length || 0);
+    setHeaderImage(data?.imageURL || '');
+    setName(data?.name || '');
+    setPercentage(data?.treatmentPercentage || 0);
+    setOrgName(data?.organizationName || '');
   }, [data]);
 
   useEffect(() => {
@@ -281,7 +294,7 @@ const SurveyDetailsPage: React.FC = () => {
       {data && (
         <>
           <Heading size="lg" mb={6}>
-            Survey Details for {' '}
+            Survey Details for{' '}
             {isEditingName ? (
               <span>
                 <Input
@@ -313,12 +326,12 @@ const SurveyDetailsPage: React.FC = () => {
                   aria-label="Edit survey"
                   style={{ marginLeft: '8px' }}
                   icon={<EditIcon />}
-                  onClick={() => setIsEditingName(true)}
+                  onClick={() => openEditModal()}
                 />
               </span>
             )}
           </Heading>
-          <SurveyDetailsTable data={data} />
+          <SurveyDetailsTable assignments={data?.assignments || []} />
         </>
       )}
       <AddAssignmentsModal
@@ -326,14 +339,15 @@ const SurveyDetailsPage: React.FC = () => {
         onClose={closeModal}
         createAssignments={createAssignments}
       />
-      <EditSurveyModal  isOpen={isEditModalOpen}
-  onClose={closeEditModal}
-  surveyUUID={}
-  currentName={}
-  currentOrgName=
-  currentHeaderImage=
-  currentPercentage=
-  />
+      <EditSurveyModal
+        isOpen={isEditModalOpen}
+        onClose={closeEditModal}
+        surveyUUID={surveyUuid || ''}
+        currentName={name}
+        currentOrgName={orgName}
+        currentHeaderImage={headerImage}
+        currentPercentage={percentage}
+      />
     </Container>
   );
 };

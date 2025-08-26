@@ -2,6 +2,7 @@
 
 import { z } from 'zod';
 import User from './user.dto';
+import { Assignment } from '../apiClient';
 
 export interface SurveyData {
   reviewer: Reviewer;
@@ -27,6 +28,10 @@ export interface Survey {
   uuid: string;
   surveyTemplate: SurveyTemplate;
   date: Date;
+  organizationName: string;
+  imageURL: string;
+  treatmentPercentage: number;
+  assignments: Assignment[];
 }
 
 export interface SurveyTemplate {

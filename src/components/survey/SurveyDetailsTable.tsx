@@ -28,7 +28,7 @@ import {
 } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { useQuery } from 'react-query';
-import apiClient, { Assignment, AssignmentStatus, SurveyDetail } from '../../api/apiClient';
+import apiClient, { Assignment, AssignmentStatus } from '../../api/apiClient';
 import { ResponseInfo, YouthRoles } from '../../api/dtos/survey-assignment.dto';
 import DisplaySurvey from './DisplaySurvey';
 import ErrorAlert from '../ErrorAlert';
@@ -122,29 +122,29 @@ const SurveyDetailsRow: React.FC<SurveyDetailsRowProps> = ({ assignment, setModa
 };
 
 interface SurveyDetailsTableProps {
-  data: SurveyDetail;
+  assignments: Assignment[];
 }
 
 const PAGE_SIZES = [10, 25, 50];
 
-const SurveyDetailsTable: React.FC<SurveyDetailsTableProps> = ({ data }) => {
+const SurveyDetailsTable: React.FC<SurveyDetailsTableProps> = ({ assignments }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(25);
   const [jumpToPage, setJumpToPage] = useState<string>('');
   const [modalAssignment, setModalAssignment] = useState<Assignment | null>(null);
 
-  const totalPages = Math.ceil(data.assignments.length / pageSize);
+  const totalPages = Math.ceil(assignments.length / pageSize);
 
   const tableRows = useMemo(
     () =>
-      data.assignments.map((assignment: Assignment) => (
+      assignments.map((assignment: Assignment) => (
         <SurveyDetailsRow
           assignment={assignment}
           key={assignment.uuid}
           setModalAssignment={setModalAssignment}
         />
       )),
-    [data],
+    [assignments],
   );
 
   const pageJump = useCallback(() => {

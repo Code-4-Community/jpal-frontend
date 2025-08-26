@@ -107,8 +107,15 @@ export class ApiClient {
     return this.get('/user') as Promise<User[]>;
   }
 
-  public async getSurvey(surveyUuid: string, reviewerUuid: string): Promise<SurveyData> {
+  public async getSurveyData(surveyUuid: string, reviewerUuid: string): Promise<SurveyData> {
     return this.get(`/survey/${surveyUuid}/${reviewerUuid}`) as Promise<SurveyData>;
+  }
+
+  public async getSurvey(surveyUuid: string | undefined): Promise<Survey> {
+    if (!surveyUuid) {
+      throw new Error('Survey UUID is required to fetch survey.');
+    }
+    return this.get(`/survey/${surveyUuid}`) as Promise<Survey>;
   }
 
   public async getMySurveys(): Promise<Survey[]> {
