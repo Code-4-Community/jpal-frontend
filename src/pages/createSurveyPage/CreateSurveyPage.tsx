@@ -217,7 +217,6 @@ const CreateSurveyPage: React.FC = () => {
           surveyName.length === 0 ||
           (uploadImageStatus !== null && !uploadImageStatus.success) ||
           organizationName.length === 0 ||
-          splitPercentage === 0 ||
           !surveyTemplateData ||
           !surveyTemplateData.id ||
           !uploadImageStatus
