@@ -152,9 +152,7 @@ const EditSurveyModal: React.FC<EditSurveyProps> = ({
             colorScheme="teal"
             onClick={() => editSurvey()}
             disabled={
-              currentName.length === 0 ||
-              currentOrgName.length === 0 ||
-              currentPercentage === 0 ||
+              currentName.length === 0 || currentOrgName.length === 0 || currentPercentage === 0
             }
           >
             Submit
@@ -181,7 +179,7 @@ const SurveyDetailsPage: React.FC = () => {
   const toast = useToast();
   const location = useLocation();
   const { isOpen: isModalOpen, onOpen: openModal, onClose: closeModal } = useDisclosure();
-    const { isOpen: isEModalOpen, onOpen: openEditModal, onClose: closeEditModal } = useDisclosure();
+  const { isOpen: isEditModalOpen, onOpen: openEditModal, onClose: closeEditModal } = useDisclosure();
   const [isEditingName, setIsEditingName] = useState(false);
   const [surveyName, setSurveyName] = useState(data?.name || '');
   const [surveyNameLength, setSurveyNameLength] = useState(data?.name.length || 0);
@@ -283,7 +281,42 @@ const SurveyDetailsPage: React.FC = () => {
       {data && (
         <>
           <Heading size="lg" mb={6}>
-            Survey Details for{' '}{surveyName}
+            Survey Details for {' '}
+            {isEditingName ? (
+              <span>
+                <Input
+                  value={surveyName}
+                  fontSize="inherit"
+                  fontWeight="bold"
+                  color="blue.500"
+                  variant="unstyled"
+                  display="inline"
+                  outline="1px solid gray"
+                  width={`${surveyNameLength}ch`}
+                  onBlur={handleSaveName}
+                  onKeyDown={handleKeyDown}
+                  onChange={(e) => setSurveyName(e.target.value)}
+                />
+                <IconButton
+                  aria-label="Edit survey"
+                  style={{ marginLeft: '8px' }}
+                  icon={<CheckIcon />}
+                  onClick={handleSaveName}
+                />
+              </span>
+            ) : (
+              <span>
+                <Text as="span" fontWeight="bold" color="blue.500">
+                  {surveyName}
+                </Text>
+                <IconButton
+                  aria-label="Edit survey"
+                  style={{ marginLeft: '8px' }}
+                  icon={<EditIcon />}
+                  onClick={() => setIsEditingName(true)}
+                />
+              </span>
+            )}
           </Heading>
           <SurveyDetailsTable data={data} />
         </>
@@ -293,9 +326,14 @@ const SurveyDetailsPage: React.FC = () => {
         onClose={closeModal}
         createAssignments={createAssignments}
       />
-      <EditSurveyModal 
-      isOpen={isEditModalOpen}
-      onClose={closeEditModa/>
+      <EditSurveyModal  isOpen={isEditModalOpen}
+  onClose={closeEditModal}
+  surveyUUID={}
+  currentName={}
+  currentOrgName=
+  currentHeaderImage=
+  currentPercentage=
+  />
     </Container>
   );
 };
