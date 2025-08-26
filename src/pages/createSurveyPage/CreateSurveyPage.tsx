@@ -72,7 +72,7 @@ const CreateSurveyPage: React.FC = () => {
     try {
       // Create survey with the (only) default template for now
       // TODO: change when custom survey templates are added
-      survey = await apiClient.createSurvey(
+      survey = await apiClient.ed(
         surveyName,
         surveyTemplateData?.id,
         organizationName,

@@ -22,30 +22,31 @@ import { QuestionIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import apiClient from '../../api/apiClient';
 import { SurveyTemplateData } from '../../api/dtos/survey-assignment.dto';
 
-  interface TooltipProps {
-      message: string;
-    }
+interface TooltipProps {
+  message: string;
+}
 
-    const CustomTooltip: React.FC<TooltipProps> = ({ message }) => (
-      <Tooltip label={message} placement="right" hasArrow>
-        <QuestionIcon alignSelf="center" ml={2} />
-      </Tooltip>
-    );
-
+const CustomTooltip: React.FC<TooltipProps> = ({ message }) => (
+  <Tooltip label={message} placement="right" hasArrow>
+    <QuestionIcon alignSelf="center" ml={2} />
+  </Tooltip>
+);
 
 export type UploadStatus = { success: true } | { success: false; error: string };
 
 interface UploadRequiredFieldsFormProps {
+  setSurveyName?: React.Dispatch<React.SetStateAction<string>>;
   setOrganizationName: React.Dispatch<React.SetStateAction<string>>;
   setSplitPercentage: React.Dispatch<React.SetStateAction<number>>;
   splitPercentage: number;
   setImage: React.Dispatch<React.SetStateAction<string>>;
   setUploadStatus: (status: UploadStatus) => void;
-  surveyTemplateData: SurveyTemplateData | null;
-  setSurveyTemplateData: React.Dispatch<React.SetStateAction<SurveyTemplateData | null>>;
+  surveyTemplateData?: SurveyTemplateData | null;
+  setSurveyTemplateData?: React.Dispatch<React.SetStateAction<SurveyTemplateData | null>>;
 }
 
 const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
+  setSurveyName,
   setOrganizationName,
   setSplitPercentage,
   splitPercentage,
@@ -133,9 +134,21 @@ const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
     [setUploadStatus, setImage],
   );
 
-
   return (
     <div>
+      {setSurveyName && (
+        <FormControl style={{ marginBottom: '1rem' }}>
+          <FormLabel display="flex">
+            <b>Survey Name</b>
+            <CustomTooltip message="This is the name of the survey that will be displayed to survey respondents." />
+          </FormLabel>
+          <Input
+            placeholder="e.g. Default Survey Name"
+            onChange={(e) => setSurveyName(e.target.value)}
+            required
+          />
+        </FormControl>
+      )}
       <FormControl style={{ marginBottom: '1rem' }}>
         <FormLabel display="flex">
           <b>Organization Name</b>
@@ -157,7 +170,7 @@ const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
       <FormControl style={{ marginBottom: '1rem' }}>
         <FormLabel display="flex">
           <b>Input Split Percentage</b>
-          <CustomTooltip message="This is the percentage of youth that will receive letters (percentage in treatment group)."/>
+          <CustomTooltip message="This is the percentage of youth that will receive letters (percentage in treatment group)." />
         </FormLabel>
         <Stack align="flex-start">
           <div style={{ alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
@@ -187,29 +200,37 @@ const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
           </div>
         </Stack>
       </FormControl>
-      <FormControl style={{ marginBottom: '1rem' }}>
-        <FormLabel display="flex">
-          <b>Survey Template</b>
-          <CustomTooltip message="This is the survey template with the questions that will be given to participants."/>
-        </FormLabel>
-        <Menu>
-          <MenuButton as={Button} min-width="200px" colorScheme="gray" width="fit-content" rightIcon={<ChevronDownIcon />}>
-            {surveyTemplateData ? surveyTemplateData.name : 'Select a template'}
-          </MenuButton>
-          <MenuList>
-            {surveyTemplates.map((template: SurveyTemplateData) => (
-              <MenuItem
-                key={template.id}
-                onClick={() => {
-                  setSurveyTemplateData(template);
-                }}
-              >
-                {template.name}
-              </MenuItem>
-            ))}
-          </MenuList>
-        </Menu>
-      </FormControl>
+      {setSurveyTemplateData && (
+        <FormControl style={{ marginBottom: '1rem' }}>
+          <FormLabel display="flex">
+            <b>Survey Template</b>
+            <CustomTooltip message="This is the survey template with the questions that will be given to participants." />
+          </FormLabel>
+          <Menu>
+            <MenuButton
+              as={Button}
+              min-width="200px"
+              colorScheme="gray"
+              width="fit-content"
+              rightIcon={<ChevronDownIcon />}
+            >
+              {surveyTemplateData ? surveyTemplateData.name : 'Select a template'}
+            </MenuButton>
+            <MenuList>
+              {surveyTemplates.map((template: SurveyTemplateData) => (
+                <MenuItem
+                  key={template.id}
+                  onClick={() => {
+                    setSurveyTemplateData(template);
+                  }}
+                >
+                  {template.name}
+                </MenuItem>
+              ))}
+            </MenuList>
+          </Menu>
+        </FormControl>
+      )}
     </div>
   );
 };

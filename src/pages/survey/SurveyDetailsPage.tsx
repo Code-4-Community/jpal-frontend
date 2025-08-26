@@ -32,6 +32,7 @@ import UploadAssignmentsForm, {
   UploadStatus,
 } from '../../components/createSurveyPage/UploadAssignmentsForm';
 import SurveyDetailsTable from '../../components/survey/SurveyDetailsTable';
+import UploadRequiredFields from '../../components/createSurveyPage/UploadRequiredFields';
 
 interface AddAssignmentsModalProps {
   isOpen: boolean;
@@ -61,7 +62,7 @@ const AddAssignmentsModal: React.FC<AddAssignmentsModalProps> = ({
   }, [uploadStatus, toast]);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="full">
+    <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Add Assignments</ModalHeader>
@@ -75,6 +76,87 @@ const AddAssignmentsModal: React.FC<AddAssignmentsModalProps> = ({
         </ModalBody>
         <ModalFooter>
           <Button type="submit" colorScheme="teal" onClick={() => createAssignments(assignments)}>
+            Submit
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+  );
+};
+
+interface EditSurveyProps {
+  isOpen: boolean;
+  onClose: () => void;
+  surveyUUID: string;
+  currentName: string;
+  currentOrgName: string;
+  currentHeaderImage: string;
+  currentPercentage: number;
+}
+
+const EditSurveyModal: React.FC<EditSurveyProps> = ({
+  isOpen,
+  onClose,
+  surveyUUID,
+  currentName,
+  currentOrgName,
+  currentHeaderImage,
+  currentPercentage,
+}: EditSurveyProps) => {
+  const [image, setImage] = useState<string>(currentHeaderImage);
+  const [organizationName, setOrganizationName] = useState<string>(currentOrgName);
+  const [splitPercentage, setSplitPercentage] = useState<number>(currentPercentage);
+  const [uploadImageStatus, setUploadImageStatus] = useState<UploadStatus | null>(null);
+  const [surveyName, setSurveyName] = useState<string>(currentName);
+
+  const toast = useToast();
+
+  const editSurvey = async () => {
+    try {
+      // Edit survey
+      await apiClient.editSurvey(surveyUUID, surveyName, organizationName, image, splitPercentage);
+    } catch (e) {
+      let errorMessage = 'Failed to edit survey';
+      if (e instanceof Error) {
+        errorMessage += `: ${e.message}`;
+      }
+
+      toast({
+        status: 'error',
+        description: errorMessage,
+        duration: TOAST_POPUP_DURATION,
+        isClosable: true,
+      });
+    }
+  };
+
+  return (
+    <Modal isOpen={isOpen} onClose={onClose} size="xl">
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Update Survey</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <UploadRequiredFields
+            setSurveyName={setSurveyName}
+            setOrganizationName={setOrganizationName}
+            setSplitPercentage={setSplitPercentage}
+            splitPercentage={splitPercentage}
+            setImage={setImage}
+            setUploadStatus={setUploadImageStatus}
+          />
+        </ModalBody>
+        <ModalFooter>
+          <Button
+            type="submit"
+            colorScheme="teal"
+            onClick={() => editSurvey()}
+            disabled={
+              currentName.length === 0 ||
+              currentOrgName.length === 0 ||
+              currentPercentage === 0 ||
+            }
+          >
             Submit
           </Button>
         </ModalFooter>
@@ -99,6 +181,7 @@ const SurveyDetailsPage: React.FC = () => {
   const toast = useToast();
   const location = useLocation();
   const { isOpen: isModalOpen, onOpen: openModal, onClose: closeModal } = useDisclosure();
+    const { isOpen: isEModalOpen, onOpen: openEditModal, onClose: closeEditModal } = useDisclosure();
   const [isEditingName, setIsEditingName] = useState(false);
   const [surveyName, setSurveyName] = useState(data?.name || '');
   const [surveyNameLength, setSurveyNameLength] = useState(data?.name.length || 0);
@@ -200,42 +283,7 @@ const SurveyDetailsPage: React.FC = () => {
       {data && (
         <>
           <Heading size="lg" mb={6}>
-            Survey Details for{' '}
-            {isEditingName ? (
-              <span>
-                <Input
-                  value={surveyName}
-                  fontSize="inherit"
-                  fontWeight="bold"
-                  color="blue.500"
-                  variant="unstyled"
-                  display="inline"
-                  outline="1px solid gray"
-                  width={`${surveyNameLength}ch`}
-                  onBlur={handleSaveName}
-                  onKeyDown={handleKeyDown}
-                  onChange={(e) => setSurveyName(e.target.value)}
-                />
-                <IconButton
-                  aria-label="Edit survey"
-                  style={{ marginLeft: '8px' }}
-                  icon={<CheckIcon />}
-                  onClick={handleSaveName}
-                />
-              </span>
-            ) : (
-              <span>
-                <Text as="span" fontWeight="bold" color="blue.500">
-                  {surveyName}
-                </Text>
-                <IconButton
-                  aria-label="Edit survey"
-                  style={{ marginLeft: '8px' }}
-                  icon={<EditIcon />}
-                  onClick={() => setIsEditingName(true)}
-                />
-              </span>
-            )}
+            Survey Details for{' '}{surveyName}
           </Heading>
           <SurveyDetailsTable data={data} />
         </>
@@ -245,6 +293,9 @@ const SurveyDetailsPage: React.FC = () => {
         onClose={closeModal}
         createAssignments={createAssignments}
       />
+      <EditSurveyModal 
+      isOpen={isEditModalOpen}
+      onClose={closeEditModa/>
     </Container>
   );
 };

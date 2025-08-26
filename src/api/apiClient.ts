@@ -11,9 +11,7 @@ import {
   Youth,
   PersonInfo,
   ResponseInfo,
-  SurveyTemplate,
   SurveyTemplateData,
-  surveyTemplateSchema,
   surveyTemplatesSchema,
 } from './dtos/survey-assignment.dto';
 import User from './dtos/user.dto';
@@ -175,6 +173,21 @@ export class ApiClient {
 
   public async editSurveyName(surveyUuid?: string, newName?: string): Promise<void> {
     return this.patch(`/survey/${surveyUuid}`, { surveyName: newName }) as Promise<void>;
+  }
+
+  public async editSurvey(
+    surveyUuid?: string,
+    newName?: string,
+    newOrgName?: string,
+    newImage?: string,
+    newPercentage?: number,
+  ): Promise<void> {
+    return this.patch(`/survey/${surveyUuid}`, {
+      surveyName: newName,
+      organizationName: newOrgName,
+      imageData: newImage,
+      treatmentPercentage: newPercentage,
+    }) as Promise<void>;
   }
 
   public async updateReviewerContact(
