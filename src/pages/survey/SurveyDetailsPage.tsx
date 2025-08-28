@@ -205,8 +205,6 @@ const EditSurveyModal: React.FC<EditSurveyProps> = ({
 };
 
 const SurveyDetailsPage: React.FC = () => {
-  console.log('survey details page reload');
-
   const { survey_uuid: surveyUuid } = useParams<{ survey_uuid: string }>();
   const {
     isLoading,
@@ -230,14 +228,11 @@ const SurveyDetailsPage: React.FC = () => {
     onOpen: openEditModal,
     onClose: closeEditModal,
   } = useDisclosure();
-  const [isEditingName, setIsEditingName] = useState(false);
   const [surveyName, setSurveyName] = useState(data?.name || '');
-  const [surveyNameLength, setSurveyNameLength] = useState(data?.name.length || 0);
 
   useEffect(() => {
     data?.assignments.sort((a1, a2) => a1.id - a2.id); // sort in ascending order
     setSurveyName(data?.name || '');
-    setSurveyNameLength(data?.name.length || 0);
     setHeaderImage(data?.imageURL || '');
     setName(data?.name || '');
     setPercentage(data?.treatmentPercentage || 0);
@@ -308,18 +303,6 @@ const SurveyDetailsPage: React.FC = () => {
     [surveyUuid, toast, closeModal, refetchDetails],
   );
 
-  const handleSaveName = () => {
-    setIsEditingName(false);
-    apiClient.editSurveyName(surveyUuid, surveyName);
-  };
-
-  const handleKeyDown = (e: any) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleSaveName();
-    }
-  };
-
   return (
     <Container maxW="8xl">
       <Link to="/private">
@@ -336,49 +319,19 @@ const SurveyDetailsPage: React.FC = () => {
       </Button>
       {isLoading && <LoadingSpinner />}
       {error && <ErrorAlert />}
-      {data && (
-        <>
-          <Heading size="lg" mb={6}>
-            Survey Details for{' '}
-            {isEditingName ? (
-              <span>
-                <Input
-                  value={surveyName}
-                  fontSize="inherit"
-                  fontWeight="bold"
-                  color="blue.500"
-                  variant="unstyled"
-                  display="inline"
-                  outline="1px solid gray"
-                  width={`${surveyNameLength}ch`}
-                  onBlur={handleSaveName}
-                  onKeyDown={handleKeyDown}
-                  onChange={(e) => setSurveyName(e.target.value)}
-                />
-                <IconButton
-                  aria-label="Edit survey"
-                  style={{ marginLeft: '8px' }}
-                  icon={<CheckIcon />}
-                  onClick={handleSaveName}
-                />
-              </span>
-            ) : (
-              <span>
-                <Text as="span" fontWeight="bold" color="blue.500">
-                  {surveyName}
-                </Text>
-                <IconButton
-                  aria-label="Edit survey"
-                  style={{ marginLeft: '8px' }}
-                  icon={<EditIcon />}
-                  onClick={() => openEditModal()}
-                />
-              </span>
-            )}
-          </Heading>
-          <SurveyDetailsTable assignments={data?.assignments || []} />
-        </>
-      )}
+      <Heading size="lg" mb={6}>
+        Survey Details for{' '}
+        <Text as="span" fontWeight="bold" color="blue.500">
+          {surveyName}
+        </Text>
+        <IconButton
+          aria-label="Edit survey"
+          style={{ marginLeft: '8px' }}
+          icon={<EditIcon />}
+          onClick={() => openEditModal()}
+        />
+      </Heading>
+      <SurveyDetailsTable assignments={data?.assignments || []} />
       <AddAssignmentsModal
         isOpen={isModalOpen}
         onClose={closeModal}
