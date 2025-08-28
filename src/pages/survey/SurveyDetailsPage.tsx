@@ -104,8 +104,6 @@ const EditSurveyModal: React.FC<EditSurveyProps> = ({
   currentHeaderImage,
   currentPercentage,
 }: EditSurveyProps) => {
-  console.log('edit survey modal reload');
-
   const [image, setImage] = useState<string>(currentHeaderImage);
   const [organizationName, setOrganizationName] = useState<string>(currentOrgName);
   const [splitPercentage, setSplitPercentage] = useState<number>(currentPercentage);
@@ -119,13 +117,6 @@ const EditSurveyModal: React.FC<EditSurveyProps> = ({
     treatmentPercentage: currentPercentage,
     imageURL: currentHeaderImage,
   };
-
-  useEffect(() => {
-    setSurveyName(currentName);
-    setOrganizationName(currentOrgName);
-    setImage(currentHeaderImage);
-    setSplitPercentage(currentPercentage || 0);
-  }, [surveyUUID, currentName, currentOrgName, currentHeaderImage, currentPercentage]);
 
   useEffect(() => {
     if (uploadImageStatus !== null) {
@@ -145,21 +136,25 @@ const EditSurveyModal: React.FC<EditSurveyProps> = ({
     const finalName = surveyName.trim().length === 0 ? currentName : surveyName;
     const finalOrgName = organizationName.trim().length === 0 ? currentOrgName : organizationName;
     const finalImage = uploadImageStatus === null ? currentHeaderImage : image;
-    const finalPercentage = splitPercentage === 0 ? currentPercentage : splitPercentage;
 
     try {
-      console.log('survey name: ', finalName);
-      console.log('org name: ', finalOrgName);
-      console.log('image: ', finalImage);
-      console.log('percentage: ', finalPercentage);
-
-      await apiClient.editSurvey(surveyUUID, finalName, finalOrgName, finalImage, finalPercentage);
+      if (finalImage === currentHeaderImage) {
+        // do not pass current header image since it is not base64 string
+        await apiClient.editSurvey(surveyUUID, finalName, finalOrgName, undefined, splitPercentage);
+      } else {
+        await apiClient.editSurvey(
+          surveyUUID,
+          finalName,
+          finalOrgName,
+          finalImage,
+          splitPercentage,
+        );
+      }
     } catch (e) {
       let errorMessage = 'Failed to edit survey';
       if (e instanceof Error) {
         errorMessage += `: ${e.message}`;
       }
-      console.log(e);
 
       toast({
         status: 'error',
@@ -261,7 +256,6 @@ const SurveyDetailsPage: React.FC = () => {
 
     if (!locationState || !locationState[ASSIGNMENTS_CREATE_STATE_KEY]) return;
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const assignmentsCreateStatus = locationState![ASSIGNMENTS_CREATE_STATE_KEY]!;
 
     let toastMessage: string;
