@@ -19,7 +19,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { EditIcon, CheckIcon } from '@chakra-ui/icons';
-import apiClient, { SurveyDetail } from '../../api/apiClient';
+import apiClient from '../../api/apiClient';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
 import {
@@ -33,7 +33,7 @@ import UploadAssignmentsForm, {
 } from '../../components/createSurveyPage/UploadAssignmentsForm';
 import SurveyDetailsTable from '../../components/survey/SurveyDetailsTable';
 import UploadRequiredFields from '../../components/createSurveyPage/UploadRequiredFields';
-import { Survey } from '../../api/dtos/survey-assignment.dto';
+import { Survey, SurveyEditData } from '../../api/dtos/survey-assignment.dto';
 
 interface AddAssignmentsModalProps {
   isOpen: boolean;
@@ -104,23 +104,62 @@ const EditSurveyModal: React.FC<EditSurveyProps> = ({
   currentHeaderImage,
   currentPercentage,
 }: EditSurveyProps) => {
+  console.log('edit survey modal reload');
+
   const [image, setImage] = useState<string>(currentHeaderImage);
   const [organizationName, setOrganizationName] = useState<string>(currentOrgName);
   const [splitPercentage, setSplitPercentage] = useState<number>(currentPercentage);
   const [uploadImageStatus, setUploadImageStatus] = useState<UploadStatus | null>(null);
   const [surveyName, setSurveyName] = useState<string>(currentName);
-
   const toast = useToast();
 
+  const surveyDetails: SurveyEditData = {
+    name: currentName,
+    organizationName: currentOrgName,
+    treatmentPercentage: currentPercentage,
+    imageURL: currentHeaderImage,
+  };
+
+  useEffect(() => {
+    setSurveyName(currentName);
+    setOrganizationName(currentOrgName);
+    setImage(currentHeaderImage);
+    setSplitPercentage(currentPercentage || 0);
+  }, [surveyUUID, currentName, currentOrgName, currentHeaderImage, currentPercentage]);
+
+  useEffect(() => {
+    if (uploadImageStatus !== null) {
+      toast({
+        status: uploadImageStatus.success ? 'success' : 'error',
+        description: uploadImageStatus.success
+          ? 'Image successfully uploaded'
+          : uploadImageStatus.error,
+        duration: TOAST_POPUP_DURATION,
+        isClosable: true,
+      });
+    }
+  }, [uploadImageStatus, toast]);
+
   const editSurvey = async () => {
+    // set to original values if empty or failed input
+    const finalName = surveyName.trim().length === 0 ? currentName : surveyName;
+    const finalOrgName = organizationName.trim().length === 0 ? currentOrgName : organizationName;
+    const finalImage = uploadImageStatus === null ? currentHeaderImage : image;
+    const finalPercentage = splitPercentage === 0 ? currentPercentage : splitPercentage;
+
     try {
-      // Edit survey
-      await apiClient.editSurvey(surveyUUID, surveyName, organizationName, image, splitPercentage);
+      console.log('survey name: ', finalName);
+      console.log('org name: ', finalOrgName);
+      console.log('image: ', finalImage);
+      console.log('percentage: ', finalPercentage);
+
+      await apiClient.editSurvey(surveyUUID, finalName, finalOrgName, finalImage, finalPercentage);
     } catch (e) {
       let errorMessage = 'Failed to edit survey';
       if (e instanceof Error) {
         errorMessage += `: ${e.message}`;
       }
+      console.log(e);
 
       toast({
         status: 'error',
@@ -128,7 +167,19 @@ const EditSurveyModal: React.FC<EditSurveyProps> = ({
         duration: TOAST_POPUP_DURATION,
         isClosable: true,
       });
+
+      onClose();
+
+      return;
     }
+
+    toast({
+      status: 'success',
+      description: 'Successfully updated survey!',
+      duration: TOAST_POPUP_DURATION,
+      isClosable: true,
+    });
+    onClose();
   };
 
   return (
@@ -145,17 +196,11 @@ const EditSurveyModal: React.FC<EditSurveyProps> = ({
             splitPercentage={splitPercentage}
             setImage={setImage}
             setUploadStatus={setUploadImageStatus}
+            surveyDetails={surveyDetails}
           />
         </ModalBody>
         <ModalFooter>
-          <Button
-            type="submit"
-            colorScheme="teal"
-            onClick={() => editSurvey()}
-            disabled={
-              currentName.length === 0 || currentOrgName.length === 0 || currentPercentage === 0
-            }
-          >
+          <Button type="submit" colorScheme="teal" onClick={() => editSurvey()}>
             Submit
           </Button>
         </ModalFooter>
@@ -165,6 +210,8 @@ const EditSurveyModal: React.FC<EditSurveyProps> = ({
 };
 
 const SurveyDetailsPage: React.FC = () => {
+  console.log('survey details page reload');
+
   const { survey_uuid: surveyUuid } = useParams<{ survey_uuid: string }>();
   const {
     isLoading,
@@ -234,6 +281,10 @@ const SurveyDetailsPage: React.FC = () => {
       isClosable: true,
     });
   }, [location.state, toast]);
+
+  useEffect(() => {
+    refetchDetails();
+  }, [isModalOpen, isEditModalOpen]);
 
   const createAssignments = useCallback(
     async (assignments: AssignmentRow[]) => {

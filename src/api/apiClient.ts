@@ -7,38 +7,13 @@ import {
   Survey,
   SurveyData,
   surveysSchema,
-  Reviewer,
-  Youth,
   PersonInfo,
   ResponseInfo,
   SurveyTemplateData,
   surveyTemplatesSchema,
+  SurveyDetail,
 } from './dtos/survey-assignment.dto';
 import User from './dtos/user.dto';
-
-export enum AssignmentStatus {
-  INCOMPLETE = 'incomplete',
-  IN_PROGRESS = 'in_progress',
-  COMPLETED = 'complete',
-}
-
-export interface SurveyDetail extends Survey {
-  assignments: Assignment[];
-}
-
-export interface Assignment {
-  id: number;
-  uuid: string;
-  survey: Survey;
-  reviewer: Reviewer;
-  youth: Youth;
-  status: AssignmentStatus;
-  sent: boolean;
-  responses: Response[];
-  reminderSent: boolean;
-  started: Date;
-  s3LetterLink: string | null;
-}
 
 const defaultBaseUrl = process.env.REACT_APP_API_BASE_URL ?? 'http://localhost:5000';
 // Required to use nock with axios (note: do not use nock, just use jest to mock the apiClient)

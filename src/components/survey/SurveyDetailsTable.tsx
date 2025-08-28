@@ -28,8 +28,13 @@ import {
 } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { useQuery } from 'react-query';
-import apiClient, { Assignment, AssignmentStatus } from '../../api/apiClient';
-import { ResponseInfo, YouthRoles } from '../../api/dtos/survey-assignment.dto';
+import apiClient from '../../api/apiClient';
+import {
+  ResponseInfo,
+  YouthRoles,
+  Assignment,
+  AssignmentStatus,
+} from '../../api/dtos/survey-assignment.dto';
 import DisplaySurvey from './DisplaySurvey';
 import ErrorAlert from '../ErrorAlert';
 

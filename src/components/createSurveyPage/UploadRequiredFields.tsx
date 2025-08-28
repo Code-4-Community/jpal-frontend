@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
+  Image as ChakraImage,
   Tooltip,
   Text,
   FormControl,
@@ -20,7 +21,7 @@ import {
 } from '@chakra-ui/react';
 import { QuestionIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import apiClient from '../../api/apiClient';
-import { SurveyTemplateData } from '../../api/dtos/survey-assignment.dto';
+import { SurveyTemplateData, SurveyEditData } from '../../api/dtos/survey-assignment.dto';
 
 interface TooltipProps {
   message: string;
@@ -43,6 +44,7 @@ interface UploadRequiredFieldsFormProps {
   setUploadStatus: (status: UploadStatus) => void;
   surveyTemplateData?: SurveyTemplateData | null;
   setSurveyTemplateData?: React.Dispatch<React.SetStateAction<SurveyTemplateData | null>>;
+  surveyDetails?: SurveyEditData;
 }
 
 const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
@@ -54,8 +56,10 @@ const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
   setUploadStatus,
   surveyTemplateData,
   setSurveyTemplateData,
+  surveyDetails,
 }) => {
   const [surveyTemplates, setSurveyTemplates] = useState<SurveyTemplateData[]>([]);
+  const [imageUrl, setImageUrl] = useState<string | undefined>(surveyDetails?.imageURL);
 
   useEffect(() => {
     const fetchSurveyTemplates = async () => {
@@ -63,7 +67,7 @@ const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
         const mySurveyTemplates = await apiClient.getMySurveyTemplates();
         setSurveyTemplates(mySurveyTemplates);
       } catch (e) {
-        setSurveyTemplateData(null);
+        setSurveyTemplates([]);
       }
     };
 
@@ -108,6 +112,7 @@ const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
 
           setImage(base64Str);
           setUploadStatus({ success: true });
+          setImageUrl(base64Str);
         };
 
         img.onerror = () => {
@@ -143,7 +148,7 @@ const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
             <CustomTooltip message="This is the name of the survey that will be displayed to survey respondents." />
           </FormLabel>
           <Input
-            placeholder="e.g. Default Survey Name"
+            placeholder={surveyDetails?.name ? surveyDetails.name : 'e.g. Default Survey Name'}
             onChange={(e) => setSurveyName(e.target.value)}
             required
           />
@@ -155,7 +160,11 @@ const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
           <CustomTooltip message="This is the name of the organization that will be displayed to survey respondents." />
         </FormLabel>
         <Input
-          placeholder="e.g. Accelerate Academy"
+          placeholder={
+            surveyDetails?.organizationName
+              ? surveyDetails.organizationName
+              : 'e.g. Accelerate Academy'
+          }
           onChange={(e) => setOrganizationName(e.target.value)}
           required
         />
@@ -166,6 +175,16 @@ const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
           <CustomTooltip message="This is the logo of the organization that will be displayed to survey respondents." />
         </FormLabel>
         <Input type="file" accept="image/*" onChange={onFormUpload} required />
+        {imageUrl && (
+          <ChakraImage
+            src={imageUrl}
+            alt="Survey Image"
+            h="250px"
+            w="150px"
+            fit="contain"
+            borderRadius="md"
+          />
+        )}
       </FormControl>
       <FormControl style={{ marginBottom: '1rem' }}>
         <FormLabel display="flex">
