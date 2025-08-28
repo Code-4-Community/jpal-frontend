@@ -177,8 +177,8 @@ const UploadRequiredFields: React.FC<UploadRequiredFieldsFormProps> = ({
           <ChakraImage
             src={imageUrl}
             alt="Survey Image"
-            h="250px"
-            w="150px"
+            h="125px"
+            w="75px"
             fit="contain"
             borderRadius="md"
           />
