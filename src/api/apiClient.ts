@@ -7,40 +7,13 @@ import {
   Survey,
   SurveyData,
   surveysSchema,
-  Reviewer,
-  Youth,
   PersonInfo,
   ResponseInfo,
-  SurveyTemplate,
   SurveyTemplateData,
-  surveyTemplateSchema,
   surveyTemplatesSchema,
+  SurveyDetail,
 } from './dtos/survey-assignment.dto';
 import User from './dtos/user.dto';
-
-export enum AssignmentStatus {
-  INCOMPLETE = 'incomplete',
-  IN_PROGRESS = 'in_progress',
-  COMPLETED = 'complete',
-}
-
-export interface SurveyDetail extends Survey {
-  assignments: Assignment[];
-}
-
-export interface Assignment {
-  id: number;
-  uuid: string;
-  survey: Survey;
-  reviewer: Reviewer;
-  youth: Youth;
-  status: AssignmentStatus;
-  sent: boolean;
-  responses: Response[];
-  reminderSent: boolean;
-  started: Date;
-  s3LetterLink: string | null;
-}
 
 const defaultBaseUrl = process.env.REACT_APP_API_BASE_URL ?? 'http://localhost:5000';
 // Required to use nock with axios (note: do not use nock, just use jest to mock the apiClient)
@@ -109,8 +82,15 @@ export class ApiClient {
     return this.get('/user') as Promise<User[]>;
   }
 
-  public async getSurvey(surveyUuid: string, reviewerUuid: string): Promise<SurveyData> {
+  public async getSurveyData(surveyUuid: string, reviewerUuid: string): Promise<SurveyData> {
     return this.get(`/survey/${surveyUuid}/${reviewerUuid}`) as Promise<SurveyData>;
+  }
+
+  public async getSurvey(surveyUuid: string | undefined): Promise<Survey> {
+    if (!surveyUuid) {
+      throw new Error('Survey UUID is required to fetch survey.');
+    }
+    return this.get(`/survey/${surveyUuid}`) as Promise<Survey>;
   }
 
   public async getMySurveys(): Promise<Survey[]> {
@@ -175,6 +155,21 @@ export class ApiClient {
 
   public async editSurveyName(surveyUuid?: string, newName?: string): Promise<void> {
     return this.patch(`/survey/${surveyUuid}`, { surveyName: newName }) as Promise<void>;
+  }
+
+  public async editSurvey(
+    surveyUuid?: string,
+    newName?: string,
+    newOrgName?: string,
+    newImage?: string,
+    newPercentage?: number,
+  ): Promise<void> {
+    return this.patch(`/survey/${surveyUuid}`, {
+      surveyName: newName,
+      organizationName: newOrgName,
+      imageData: newImage,
+      treatmentPercentage: newPercentage,
+    }) as Promise<void>;
   }
 
   public async updateReviewerContact(

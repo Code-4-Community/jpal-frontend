@@ -170,10 +170,9 @@ const CreateSurveyPage: React.FC = () => {
           <Tab
             isDisabled={
               disableUploadTab ||
-              surveyName.length === 0 ||
+              surveyName.trim().length === 0 ||
               (uploadImageStatus !== null && !uploadImageStatus.success) ||
-              organizationName.length === 0 ||
-              splitPercentage === 0 ||
+              organizationName.trim().length === 0 ||
               !surveyTemplateData ||
               !surveyTemplateData.id ||
               !uploadImageStatus
@@ -214,9 +213,9 @@ const CreateSurveyPage: React.FC = () => {
           setDisableUploadTab(false);
         }}
         disabled={
-          surveyName.length === 0 ||
+          surveyName.trim().length === 0 ||
           (uploadImageStatus !== null && !uploadImageStatus.success) ||
-          organizationName.length === 0 ||
+          organizationName.trim().length === 0 ||
           !surveyTemplateData ||
           !surveyTemplateData.id ||
           !uploadImageStatus
@@ -235,7 +234,6 @@ const CreateSurveyPage: React.FC = () => {
           surveyName.length === 0 ||
           (uploadImageStatus !== null && !uploadImageStatus.success) ||
           organizationName.length === 0 ||
-          splitPercentage === 0 ||
           !surveyTemplateData ||
           !surveyTemplateData.id ||
           !uploadImageStatus

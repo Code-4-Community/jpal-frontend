@@ -3,6 +3,29 @@
 import { z } from 'zod';
 import User from './user.dto';
 
+export enum AssignmentStatus {
+  INCOMPLETE = 'incomplete',
+  IN_PROGRESS = 'in_progress',
+  COMPLETED = 'complete',
+}
+
+export interface SurveyDetail extends Survey {
+  assignments: Assignment[];
+}
+
+export interface Assignment {
+  id: number;
+  uuid: string;
+  survey: Survey;
+  reviewer: Reviewer;
+  youth: Youth;
+  status: AssignmentStatus;
+  sent: boolean;
+  responses: Response[];
+  reminderSent: boolean;
+  started: Date;
+  s3LetterLink: string | null;
+}
 export interface SurveyData {
   reviewer: Reviewer;
   controlYouth: Youth[];
@@ -27,6 +50,10 @@ export interface Survey {
   uuid: string;
   surveyTemplate: SurveyTemplate;
   date: Date;
+  organizationName: string;
+  imageURL: string;
+  treatmentPercentage: number;
+  assignments: Assignment[];
 }
 
 export interface SurveyTemplate {
@@ -37,6 +64,13 @@ export interface SurveyTemplate {
 export interface SurveyTemplateData {
   id: number;
   name: string;
+}
+
+export interface SurveyEditData {
+  name: string;
+  organizationName: string;
+  treatmentPercentage: number;
+  imageURL: string;
 }
 
 export const surveyTemplateSchema = z.object({
